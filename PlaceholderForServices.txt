@@ -1,0 +1,9 @@
+This is a placeholder file for services.
+
+In order to add a new service:
+- Open a terminal in the base solution directory.
+- Run the command: `dotnet new install .' to install the service template.
+- Run the command: `dotnet new service-template -n <ServiceName> --SolutionName=<SolutionName>'
+
+It should create a new service project with the necessary structure and files.
+Please verify the project references and dependencies after creation.

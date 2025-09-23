@@ -1,0 +1,56 @@
+.NET Microservices: Architecture for Containerized .NET Applications
+
+
+/HomeLifeApp/
+│
+├── /src/
+│   ├── /Services/
+│   │   ├── /Recipes/                            <-- Service A (Recipe Tracker)
+│   │   │   ├── Recipes.API/                     <-- Presentation layer
+│   │   │   │   ├── Controllers/                 <-- REST endpoints
+│   │   │   │   ├── DTOs/                        <-- API request/response models
+│   │   │   │   ├── Filters/                     <-- Exception filters, validation
+│   │   │   │   └── Program.cs / Startup.cs
+│   │   │   │
+│   │   │   ├── Recipes.Application/             <-- Application layer (use cases)
+│   │   │   │   ├── Commands/                    <-- CQRS commands (e.g., AddRecipe)
+│   │   │   │   ├── Queries/                     <-- CQRS queries (e.g., GetRecipeById)
+│   │   │   │   ├── Services/                    <-- Orchestrators / facades
+│   │   │   │   ├── Interfaces/                  <-- IRecipeService, IUnitOfWork, etc.
+│   │   │   │   └── DTOs/                        <-- Internal DTOs (app use, not API)
+│   │   │   │
+│   │   │   ├── Recipes.Domain/                  <-- Domain layer (core business logic)
+│   │   │   │   ├── Entities/                    <-- Recipe, Ingredient, Step
+│   │   │   │   ├── ValueObjects/                <-- Quantity, MeasurementUnit
+│   │   │   │   ├── Aggregates/                  <-- RecipeAggregate
+│   │   │   │   ├── Events/                      <-- Domain events (RecipeCreatedEvent)
+│   │   │   │   ├── Exceptions/                  <-- Domain-specific exceptions
+│   │   │   │   └── Interfaces/                  <-- IRepository<T>, IDomainEvent
+│   │   │   │
+│   │   │   ├── Recipes.Infrastructure/          <-- Infra & data access
+│   │   │   │   ├── Persistence/                 <-- EF Core DbContext, configs
+│   │   │   │   ├── Repositories/                <-- EF implementations of IRepository
+│   │   │   │   ├── Services/                    <-- External integrations (APIs, Email)
+│   │   │   │   └── Migrations/                  <-- EF migrations
+│   │   │   │
+│   │   │   └── Recipes.Tests/                   <-- Unit & integration tests
+│   │   │       ├── Domain.Tests/                <-- Pure domain tests
+│   │   │       ├── Application.Tests/           <-- Use case tests
+│   │   │       └── API.Tests/                   <-- Web API/integration tests
+│   │   │
+│   │   ├── /Chores/                             <-- Service B (future, similar layout)
+│   │   │   └── ...
+│   │
+│   ├── /BuildingBlocks/                         <-- Shared abstractions
+│   │   ├── SharedKernel/                        <-- BaseEntity, ValueObject, Result<T>
+│   │   ├── EventBus/                            <-- Integration event contracts
+│   │   └── CrossCutting/                        <-- Logging, caching, middleware
+│   │
+│   └── /Clients/                                <-- Optional UIs (Web/Mobile)
+│       └── WebApp/
+│
+├── /tests/                                      <-- Cross-service integration tests
+│
+├── /deploy/                                     <-- Docker/K8s manifests
+│
+└── README.md

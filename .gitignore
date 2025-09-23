@@ -1,0 +1,28 @@
+# Visual Studio / IDE
+.vs/
+*.user
+*.suo
+*.vscode/
+
+# Build artifacts
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Rider / ReSharper
+.idea/
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log

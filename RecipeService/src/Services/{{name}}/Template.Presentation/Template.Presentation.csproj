@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<UserSecretsId>2e9b9198-122a-4ad5-9498-25c4d6bdf631</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Template.Application\Template.Application.csproj" />
+		<ProjectReference Include="..\Template.Infrastructure\Template.Infrastructure.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Sean Tank",
+  "classifications": [ "WebService", "Microservice" ],
+  "identity": "Tank.ServiceTemplate",
+  "name": "Multi-Project Service Template",
+  "shortName": "service-template",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "Template",
+  "preferNameDirectory": false,
+  "symbols": {
+    "SolutionName": {
+      "type": "parameter",
+      "datatype": "string",
+      "defaultValue": "DDDMicroserviceTemplate",
+      "description": "The name of the solution file to add projects to"
+    }
+  },
+  "sources": [
+    {
+      "source": "src/Template",
+      "target": "src/Services",
+      "include": [ "**/*" ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "src/Services/Template/Template.Application/Template.Application.csproj" },
+    { "path": "src/Services/Template/Template.Domain/Template.Domain.csproj" },
+    { "path": "src/Services/Template/Template.Infrastructure/Template.Infrastructure.csproj" },
+    { "path": "src/Services/Template/Template.Presentation/Template.Presentation.csproj" },
+    { "path": "src/Services/Template/Template.Tests/Template.Tests.csproj" }
+  ],
+  "postActions": [
+    {
+      "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+      "args": {
+        "solutionFile": "${SolutionName}.sln",
+        "projectFiles": [
+          "src/Services/Template/Template.Application/Template.Application.csproj",
+          "src/Services/Template/Template.Domain/Template.Domain.csproj",
+          "src/Services/Template/Template.Infrastructure/Template.Infrastructure.csproj",
+          "src/Services/Template/Template.Presentation/Template.Presentation.csproj",
+          "src/Services/Template/Template.Tests/Template.Tests.csproj"
+        ]
+      },
+      "continueOnError": false,
+      "description": "Adds all generated service projects to the solution",
+      "manualInstructions": [
+        { "text": "Run 'dotnet sln ${SolutionName}.sln add <each .csproj>' manually if this step fails." }
+      ]
+    },
+    {
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "args": {
+        "executable": "dotnet",
+        "args": "restore ${SolutionName}.sln"
+      },
+      "continueOnError": false,
+      "description": "Restores NuGet packages for the solution",
+      "manualInstructions": [
+        { "text": "Ensure the solution file '${SolutionName}.sln' exists in the root directory." },
+        { "text": "Run 'dotnet restore ${SolutionName}.sln' manually if this step fails." }
+      ]
+    }
+  ]
+}
