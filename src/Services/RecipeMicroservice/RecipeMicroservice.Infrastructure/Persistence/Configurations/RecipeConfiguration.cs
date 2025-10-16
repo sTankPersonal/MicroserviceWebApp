@@ -1,9 +1,9 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RecipeService.Domain.Aggregates;
+using RecipeMicroservice.Domain.Aggregates;
 
-namespace RecipeService.Infrastructure.Persistence.Configurations
+namespace RecipeMicroservice.Infrastructure.Persistence.Configurations
 {
     public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
     {

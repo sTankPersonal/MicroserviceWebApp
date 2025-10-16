@@ -1,7 +1,7 @@
 ﻿
 using BuildingBlocks.SharedKernel.Events;
 
-namespace RecipeService.Domain.Events
+namespace RecipeMicroservice.Domain.Events
 {
     public class ExampleEvent(Guid id) : IDomainEvent
     {

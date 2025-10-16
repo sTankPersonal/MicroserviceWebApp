@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.SharedKernel.Exceptions;
 
-namespace RecipeService.Domain.Exceptions
+namespace RecipeMicroservice.Domain.Exceptions
 {
     public class ExampleException : BaseDomainException
     {

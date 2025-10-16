@@ -7,6 +7,7 @@ namespace Template.Presentation.Controllers.Api
     [ApiController]
     public class ExampleApiController (IDomainService domainService): ControllerBase
     {
+        private IDomainService _domainService = domainService;
         public IActionResult Index()
         {
             //return View();

@@ -1,6 +1,8 @@
 using BuildingBlocks.CrossCutting.Extensions;
 using BuildingBlocks.CrossCutting.Middleware;
 using BuildingBlocks.CrossCutting.Validation;
+using Microsoft.EntityFrameworkCore;
+using RecipeMicroservice.Infrastructure.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -11,16 +13,9 @@ builder.Services.AddControllersWithViews(options =>
 });
 ServiceCollectionExtensions.AddCrossCutting(builder.Services, builder.Configuration);
 
-builder.Services.AddAuthentication(options =>
+builder.Services.AddDbContext<RecipeMicroserviceDbContext>(options =>
 {
-    options.DefaultScheme = "Cookies";
-    options.DefaultChallengeScheme = "Google";
-})
-.AddCookie("Cookies")
-.AddGoogle("Google", options =>
-{
-    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? string.Empty;
-    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") ?? string.Empty;
+    options.UseNpgsql(Environment.GetEnvironmentVariable("NEON_CONNECTION"));
 });
 
 builder.Services.AddAuthorization();

@@ -1,9 +1,9 @@
 ﻿
 using BuildingBlocks.SharedKernel.Repositories;
-using RecipeService.Domain.Entities;
-using RecipeService.Domain.Interfaces;
+using RecipeMicroservice.Domain.Entities;
+using RecipeMicroservice.Domain.Interfaces;
 
-namespace RecipeService.Infrastructure.Repositories
+namespace RecipeMicroservice.Infrastructure.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {

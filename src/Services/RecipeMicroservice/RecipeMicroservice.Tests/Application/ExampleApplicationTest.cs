@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace RecipeService.Tests.Application
+namespace RecipeMicroservice.Tests.Application
 {
     // This is where you can test your application logic
     public class ExampleApplicationTest

@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.CrossCutting.Correlation;
 
-namespace RecipeService.Infrastructure.Services
+namespace RecipeMicroservice.Infrastructure.Services
 {
     internal class CustomCorrelationIdAccessor : ICorrelationIdAccessor
     {

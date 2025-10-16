@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace RecipeService.Tests.Presentation
+namespace RecipeMicroservice.Tests.Presentation
 {
     // This is where you can test your presentation layer, such as controllers or API endpoints
     public class ExamplePresentationTests

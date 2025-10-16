@@ -1,8 +1,8 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
-using RecipeService.Application.DTOs.Recipe;
-using RecipeService.Application.Interfaces.Services;
+using RecipeMicroservice.Application.DTOs.Recipe;
+using RecipeMicroservice.Application.Interfaces.Services;
 
-namespace RecipeService.Application.Services
+namespace RecipeMicroservice.Application.Services
 {
     public class RecipeService : IRecipeService
     {

@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.CrossCutting\BuildingBlocks.CrossCutting.csproj" />
-    <ProjectReference Include="..\RecipeService.Domain\RecipeMicroservice.Domain.csproj" />
+    <ProjectReference Include="..\RecipeMicroservice.Domain\RecipeMicroservice.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

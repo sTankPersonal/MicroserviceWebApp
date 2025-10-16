@@ -1,8 +1,8 @@
-﻿using RecipeService.Application.DTOs.RecipeCategory;
-using RecipeService.Application.DTOs.Instruction;
-using RecipeService.Application.DTOs.RecipeIngredient;
+﻿using RecipeMicroservice.Application.DTOs.Instruction;
+using RecipeMicroservice.Application.DTOs.RecipeCategory;
+using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 
-namespace RecipeService.Application.DTOs.Recipe
+namespace RecipeMicroservice.Application.DTOs.Recipe
 {
     public class RecipeDto
     {

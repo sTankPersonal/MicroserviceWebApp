@@ -2,7 +2,7 @@
 
 using BuildingBlocks.SharedKernel.ValueObjects;
 
-namespace RecipeService.Domain.ValueObjects
+namespace RecipeMicroservice.Domain.ValueObjects
 {
     public sealed class ExampleValueObject : BaseValueObject
     {

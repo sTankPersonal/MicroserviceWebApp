@@ -1,4 +1,4 @@
-﻿namespace RecipeService.Application.DTOs.Ingredient
+﻿namespace RecipeMicroservice.Application.DTOs.Ingredient
 {
     public class IngredientDto
     {

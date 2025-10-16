@@ -1,4 +1,4 @@
-﻿namespace RecipeService.Application.DTOs.RecipeCategory
+﻿namespace RecipeMicroservice.Application.DTOs.RecipeCategory
 {
     public class RecipeCategoryDto
     {

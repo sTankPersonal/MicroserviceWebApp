@@ -1,9 +1,9 @@
 ﻿using BuildingBlocks.SharedKernel.DomainServices;
 using BuildingBlocks.SharedKernel.Repositories;
-using RecipeService.Application.DTOs.Ingredient;
-using RecipeService.Application.Interfaces.Services;
+using RecipeMicroservice.Application.DTOs.Ingredient;
+using RecipeMicroservice.Application.Interfaces.Services;
 
-namespace RecipeService.Application.Services
+namespace RecipeMicroservice.Application.Services
 {
     public class IngredientService : IIngredientService
     {

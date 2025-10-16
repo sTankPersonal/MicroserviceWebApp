@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.SharedKernel.Entities;
 
-namespace RecipeService.Domain.Entities
+namespace RecipeMicroservice.Domain.Entities
 {
     public class Ingredient : BaseEntity<Guid>
     {

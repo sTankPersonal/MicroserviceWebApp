@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Entities;
-using RecipeService.Domain.Entities;
+using RecipeMicroservice.Domain.Entities;
 
-namespace RecipeService.Domain.Aggregates
+namespace RecipeMicroservice.Domain.Aggregates
 {
     public class Recipe : BaseEntity<Guid>
     {

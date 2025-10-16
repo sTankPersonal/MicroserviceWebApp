@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 
-namespace RecipeService.Application.DTOs.Ingredient
+namespace RecipeMicroservice.Application.DTOs.Ingredient
 {
     public class FilterIngredientDto(string? searchName, int pageNumber = 1, int pageSize = 10) : PagedQuery(pageNumber, pageSize)
     {

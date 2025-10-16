@@ -1,8 +1,8 @@
 ﻿using BuildingBlocks.SharedKernel.DomainServices;
 using BuildingBlocks.SharedKernel.Repositories;
-using RecipeService.Application.DTOs.Category;
+using RecipeMicroservice.Application.DTOs.Category;
 
-namespace RecipeService.Application.Interfaces.Services
+namespace RecipeMicroservice.Application.Interfaces.Services
 {
     public interface ICategoryService : IBasicCrudService<Guid, CategoryDto, CreateCategoryDto, UpdateCategoryDto>
     {

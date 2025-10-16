@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using RecipeService.Domain.Entities;
+using RecipeMicroservice.Domain.Entities;
 
-namespace RecipeService.Infrastructure.Persistence.Configurations
+namespace RecipeMicroservice.Infrastructure.Persistence.Configurations
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {

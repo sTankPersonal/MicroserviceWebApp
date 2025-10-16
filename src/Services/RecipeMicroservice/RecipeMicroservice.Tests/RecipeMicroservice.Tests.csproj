@@ -18,9 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RecipeService.Application\RecipeMicroservice.Application.csproj" />
-    <ProjectReference Include="..\RecipeService.Domain\RecipeMicroservice.Domain.csproj" />
-    <ProjectReference Include="..\RecipeService.Presentation\RecipeMicroservice.Presentation.csproj" />
+    <ProjectReference Include="..\RecipeMicroservice.Application\RecipeMicroservice.Application.csproj" />
+    <ProjectReference Include="..\RecipeMicroservice.Domain\RecipeMicroservice.Domain.csproj" />
+    <ProjectReference Include="..\RecipeMicroservice.Presentation\RecipeMicroservice.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

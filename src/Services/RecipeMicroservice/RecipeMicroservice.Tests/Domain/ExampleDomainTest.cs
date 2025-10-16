@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace RecipeService.Tests.Domain
+namespace RecipeMicroservice.Tests.Domain
 {
     //This is where you can test your domain logic
     public class ExampleDomainTest

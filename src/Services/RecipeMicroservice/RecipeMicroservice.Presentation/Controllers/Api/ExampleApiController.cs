@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.DomainServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RecipeService.Presentation.Controllers.Api
+namespace RecipeMicroservice.Presentation.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]

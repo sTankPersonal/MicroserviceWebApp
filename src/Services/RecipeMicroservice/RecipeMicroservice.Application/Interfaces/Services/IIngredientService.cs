@@ -1,8 +1,8 @@
 ﻿using BuildingBlocks.SharedKernel.DomainServices;
 using BuildingBlocks.SharedKernel.Repositories;
-using RecipeService.Application.DTOs.Ingredient;
+using RecipeMicroservice.Application.DTOs.Ingredient;
 
-namespace RecipeService.Application.Interfaces.Services
+namespace RecipeMicroservice.Application.Interfaces.Services
 {
     public interface IIngredientService : IBasicCrudService<Guid, IngredientDto, CreateIngredientDto, UpdateIngredientDto>
     {

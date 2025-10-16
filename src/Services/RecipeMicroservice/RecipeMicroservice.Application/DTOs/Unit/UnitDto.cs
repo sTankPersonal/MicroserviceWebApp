@@ -1,4 +1,4 @@
-﻿namespace RecipeService.Application.DTOs.Unit
+﻿namespace RecipeMicroservice.Application.DTOs.Unit
 {
     public class UnitDto
     {
