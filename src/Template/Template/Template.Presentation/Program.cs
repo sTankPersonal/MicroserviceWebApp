@@ -11,18 +11,6 @@ builder.Services.AddControllersWithViews(options =>
 });
 ServiceCollectionExtensions.AddCrossCutting(builder.Services, builder.Configuration);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = "Cookies";
-    options.DefaultChallengeScheme = "Google";
-})
-.AddCookie("Cookies")
-.AddGoogle("Google", options =>
-{
-    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? string.Empty;
-    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") ?? string.Empty;
-});
-
 builder.Services.AddAuthorization();
 
 WebApplication app = builder.Build();

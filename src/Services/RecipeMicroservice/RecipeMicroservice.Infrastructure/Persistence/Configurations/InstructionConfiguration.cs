@@ -1,0 +1,25 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RecipeService.Domain.Entities;
+
+namespace RecipeService.Infrastructure.Persistence.Configurations
+{
+    public class InstructionConfiguration : IEntityTypeConfiguration<Instruction>
+    {
+        public void Configure(EntityTypeBuilder<Instruction> builder)
+        {
+            builder.HasKey(i => i.Id);
+
+            builder.Property(i => i.StepNumber)
+                .IsRequired();
+            builder.Property(i => i.Description)
+                .IsRequired()
+                .HasMaxLength(2000);
+
+            builder.HasOne(i => i.Recipe)
+                .WithMany(r => r.Instructions)
+                .HasForeignKey(i => i.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+}

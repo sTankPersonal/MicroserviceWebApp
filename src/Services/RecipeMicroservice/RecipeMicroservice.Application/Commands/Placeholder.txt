@@ -1,0 +1,4 @@
+If you wish an additional layer of abstractions, commands can be created here.
+A command is a request for an action to be performed, often encapsulating all necessary information for that action and receiving a void or status response(bool).
+The Service layer will call the correct command to perform the action.
+However, if the action is simple enough, it can be performed directly in the Service layer without needing a separate command.
