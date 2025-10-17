@@ -10,7 +10,6 @@ namespace RecipeMicroservice.Infrastructure.Persistence
         public DbSet<Recipe> Recipes => Set<Recipe>();
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Ingredient> Ingredients => Set<Ingredient>();
-        public DbSet<Instruction> Instructions => Set<Instruction>();
         public DbSet<Unit> Units => Set<Unit>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -18,6 +17,7 @@ namespace RecipeMicroservice.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new RecipeConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new IngredientConfiguration());
+            modelBuilder.ApplyConfiguration(new InstructionConfiguration());
             modelBuilder.ApplyConfiguration(new RecipeCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new RecipeIngredientConfiguration());
             modelBuilder.ApplyConfiguration(new UnitConfiguration());

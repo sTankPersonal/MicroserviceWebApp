@@ -1,40 +1,83 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Category;
 using RecipeMicroservice.Application.Interfaces.Services;
+using RecipeMicroservice.Domain.Entities;
+using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RecipeMicroservice.Application.Services
 {
-    public class CategoryService() : ICategoryService
+    public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService
     {
-        public Task<Guid> CreateAsync(CreateCategoryDto dto)
+        private readonly ICategoryRepository _categoryRepository = categoryRepository;
+        public async Task<Guid> CreateAsync(CreateCategoryDto dto)
         {
-            throw new NotImplementedException();
+            Category category = new()
+            {
+                Name = dto.Name
+            };
+            await _categoryRepository.AddAsync(category);
+            return category.Id;
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Category with id {id} not found.");
+            await _categoryRepository.DeleteAsync(category);
         }
 
-        public Task<PagedResult<CategoryDto>> GetAllAsync(FilterCategory query)
+        public async Task<PagedResult<CategoryDto>> GetAllAsync(FilterCategory query)
         {
-            throw new NotImplementedException();
+            PagedResult<Category> pagedCategories =  await _categoryRepository.GetAllAsync(query);
+            List<CategoryDto> categoryDtos = [.. pagedCategories.Items
+                .Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })];
+            return new PagedResult<CategoryDto>(
+                categoryDtos,
+                pagedCategories.TotalItems,
+                pagedCategories.PageNumber,
+                pagedCategories.PageSize);
         }
 
-        public Task<PagedResult<CategoryDto>> GetAllAsync(BuildingBlocks.SharedKernel.Repositories.PagedQuery query)
+        public async Task<PagedResult<CategoryDto>> GetAllAsync(PagedQuery query)
         {
-            throw new NotImplementedException();
+            PagedResult<Category> pagedCategories =  await _categoryRepository.GetAllAsync(query);
+            List<CategoryDto> categoryDtos = [.. pagedCategories.Items
+                .Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })];
+            return new PagedResult<CategoryDto>(
+                categoryDtos,
+                pagedCategories.TotalItems,
+                pagedCategories.PageNumber,
+                pagedCategories.PageSize);
         }
 
-        public Task<CategoryDto?> GetByIdAsync(Guid id)
+        public async Task<CategoryDto?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            Category? category = await _categoryRepository.GetByIdAsync(id);
+            if (category is null)
+            {
+                return null;
+            }
+            return new CategoryDto
+            {
+                Id = category.Id,
+                Name =  category.Name
+            };
         }
 
-        public Task UpdateAsync(Guid id, UpdateCategoryDto dto)
+        public async Task UpdateAsync(Guid id, UpdateCategoryDto dto)
         {
-            throw new NotImplementedException();
+            Category? category = await _categoryRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Category with id {id} not found.");
+            category.Name = dto.Name;
+            await _categoryRepository.UpdateAsync(category);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using Microsoft.EntityFrameworkCore;
 using RecipeMicroservice.Domain.Aggregates;
+using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Infrastructure.Persistence;
@@ -25,33 +26,35 @@ namespace RecipeMicroservice.Infrastructure.Repositories
 
         public async Task<PagedResult<Recipe>> GetAllAsync(FilterRecipe query)
         {
-            IQueryable<Recipe> recipes = _dbContext.Recipes.AsQueryable();
-            if (!string.IsNullOrWhiteSpace(query.SearchName))
-            {
-                recipes = recipes.Where(r => r.Name.Contains(query.SearchName));
-            }
-            if (query.SearchPrepTimeInMinutes.HasValue)
-            {
-                recipes = recipes.Where(r => r.PrepTimeInMinutes == query.SearchPrepTimeInMinutes.Value);
-            }
-            if (query.SearchCookTimeInMinutes.HasValue)
-            {
-                recipes = recipes.Where(r => r.CookTimeInMinutes == query.SearchCookTimeInMinutes.Value);
-            }
-            if (query.SearchServings.HasValue)
-            {
-                recipes = recipes.Where(r => r.Servings == query.SearchServings.Value);
-            }
+            IQueryable<Recipe> recipes = _dbContext.Recipes.AsQueryable()
+                .Where(r => string.IsNullOrWhiteSpace(query.SearchName) || r.Name.Contains(query.SearchName))
+                .Where(r => !query.SearchPrepTimeInMinutes.HasValue || r.PrepTimeInMinutes == query.SearchPrepTimeInMinutes.Value)
+                .Where(r => !query.SearchCookTimeInMinutes.HasValue || r.CookTimeInMinutes == query.SearchCookTimeInMinutes.Value)
+                .Where(r => !query.SearchServings.HasValue || r.Servings == query.SearchServings.Value);
+
             int totalItems = await recipes.CountAsync();
-            List<Recipe> items = await recipes.OrderBy(r => r.Name).ThenBy(r => r.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
+            List<Recipe> items = await recipes
+                .OrderBy(r => r.Name)
+                .ThenBy(r => r.Id)
+                .Skip(query.Skip)
+                .Take(query.Take)
+                .ToListAsync();
+
             return new PagedResult<Recipe>(items, totalItems, query.PageNumber, query.PageSize);
         }
 
         public async Task<PagedResult<Recipe>> GetAllAsync(PagedQuery query)
         {
             IQueryable<Recipe> recipes = _dbContext.Recipes.AsQueryable();
+
             int totalItems = await recipes.CountAsync();
-            List<Recipe> items = await recipes.OrderBy(r => r.Name).ThenBy(r => r.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
+            List<Recipe> items = await recipes
+                .OrderBy(r => r.Name)
+                .ThenBy(r => r.Id)
+                .Skip(query.Skip)
+                .Take(query.Take)
+                .ToListAsync();
+
             return new PagedResult<Recipe>(items, totalItems, query.PageNumber, query.PageSize);
         }
 
@@ -63,6 +66,46 @@ namespace RecipeMicroservice.Infrastructure.Repositories
         public async Task UpdateAsync(Recipe entity)
         {
             _dbContext.Recipes.Update(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        // Instruction related methods
+        public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query)
+        {
+            IQueryable<Instruction> instructions = _dbContext.Recipes
+                .Include(r => r.Instructions)
+                .Where(i => i.Id == recipe.Id);
+
+            int totalItems = await instructions.CountAsync();
+            List<Instruction> items = await instructions
+                .OrderBy(i => i.StepNumber)
+                .ThenBy(i => i.Id)
+                .Skip(query.Skip)
+                .Take(query.Take)
+                .ToListAsync();
+            return new PagedResult<Instruction>(items, totalItems, query.PageNumber, query.PageSize);
+        }
+        public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter);
+        public async Task<Instruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId)
+        {
+            return await _dbContext.Recipes
+                .Include(r => r.Instructions)
+                .Where(r => r.Id == recipe.Id)
+                .SelectMany(r => r.Instructions)
+                .FirstOrDefaultAsync(i => i.Id == instructionId);
+        }
+        public async Task AddInstructionAsync(Recipe recipe, Instruction instruction)
+        {
+            recipe.Instructions.Add(instruction);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task UpdateInstructionAsync(Recipe recipe, Instruction instruction)
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task DeleteInstructionByIdAsync(Recipe recipe, Instruction instruction)
+        {
+            recipe.Instructions.Remove(instruction);
             await _dbContext.SaveChangesAsync();
         }
     }

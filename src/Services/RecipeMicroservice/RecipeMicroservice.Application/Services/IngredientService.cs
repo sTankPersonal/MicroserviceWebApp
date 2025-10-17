@@ -2,40 +2,82 @@
 using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Ingredient;
 using RecipeMicroservice.Application.Interfaces.Services;
+using RecipeMicroservice.Domain.Entities;
+using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Application.Services
 {
-    public class IngredientService : IIngredientService
+    public class IngredientService(IIngredientRepository ingredientRepository) : IIngredientService
     {
-        public Task<Guid> CreateAsync(CreateIngredientDto dto)
+        private readonly IIngredientRepository _ingredientRepository = ingredientRepository;
+        public async Task<Guid> CreateAsync(CreateIngredientDto dto)
         {
-            throw new NotImplementedException();
+            Ingredient ingredient = new()
+            {
+                Name = dto.Name
+            };
+            await _ingredientRepository.AddAsync(ingredient);
+            return ingredient.Id;
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            Ingredient? ingredient = await _ingredientRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Ingredient with id {id} not found.");
+            await _ingredientRepository.DeleteAsync(ingredient);
         }
 
-        public Task<PagedResult<IngredientDto>> GetAllAsync(FilterIngredient filter)
+        public async Task<PagedResult<IngredientDto>> GetAllAsync(FilterIngredient filter)
         {
-            throw new NotImplementedException();
+            PagedResult<Ingredient> pagedIngredients =  await _ingredientRepository.GetAllAsync(filter);
+            List<IngredientDto> ingredientDtos = [.. pagedIngredients.Items
+                .Select(i => new IngredientDto
+                {
+                    Id = i.Id,
+                    Name = i.Name
+                })];
+            return new PagedResult<IngredientDto>(
+                ingredientDtos,
+                pagedIngredients.TotalItems,
+                pagedIngredients.PageNumber,
+                pagedIngredients.PageSize);
         }
 
-        public Task<PagedResult<IngredientDto>> GetAllAsync(PagedQuery query)
+        public async Task<PagedResult<IngredientDto>> GetAllAsync(PagedQuery query)
         {
-            throw new NotImplementedException();
+            PagedResult<Ingredient> pagedIngredients =  await _ingredientRepository.GetAllAsync(query);
+            List<IngredientDto> ingredientDtos = [.. pagedIngredients.Items
+                .Select(i => new IngredientDto
+                {
+                    Id = i.Id,
+                    Name = i.Name
+                })];
+            return new PagedResult<IngredientDto>(
+                ingredientDtos,
+                pagedIngredients.TotalItems,
+                pagedIngredients.PageNumber,
+                pagedIngredients.PageSize);
         }
 
-        public Task<IngredientDto?> GetByIdAsync(Guid id)
+        public async Task<IngredientDto?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            Ingredient? ingredient = await _ingredientRepository.GetByIdAsync(id);
+            if (ingredient == null)
+            {
+                return null;
+            }
+            return new IngredientDto
+            {
+                Id = ingredient.Id,
+                Name = ingredient.Name
+            };
         }
 
-        public Task UpdateAsync(Guid id, UpdateIngredientDto dto)
+        public async Task UpdateAsync(Guid id, UpdateIngredientDto dto)
         {
-            throw new NotImplementedException();
+            Ingredient? ingredient = await _ingredientRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Ingredient with id {id} not found.");
+            ingredient.Name = dto.Name;
+            await _ingredientRepository.UpdateAsync(ingredient);
         }
     }
 }
