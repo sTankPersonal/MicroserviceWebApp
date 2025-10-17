@@ -13,7 +13,6 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<DefaultValidationFilter>();
 });
 
-
 builder.Services.AddCrossCutting(builder.Configuration);
 
 builder.Services.AddDbContext<ExampleDbContext>(options =>

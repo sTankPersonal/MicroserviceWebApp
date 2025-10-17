@@ -2,7 +2,7 @@
 
 namespace BuildingBlocks.SharedKernel.Repositories
 {
-    public abstract class PagedQuery
+    public abstract record PagedQuery
     {
         public int PageNumber { get; }
         public int PageSize { get; }

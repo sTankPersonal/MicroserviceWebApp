@@ -2,6 +2,7 @@
 using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Ingredient;
 using RecipeMicroservice.Application.Interfaces.Services;
+using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Application.Services
 {
@@ -17,7 +18,7 @@ namespace RecipeMicroservice.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<PagedResult<IngredientDto>> GetAllAsync(FilterIngredientDto filter)
+        public Task<PagedResult<IngredientDto>> GetAllAsync(FilterIngredient filter)
         {
             throw new NotImplementedException();
         }

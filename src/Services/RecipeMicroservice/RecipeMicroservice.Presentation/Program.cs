@@ -1,8 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+
 using BuildingBlocks.CrossCutting.Extensions;
 using BuildingBlocks.CrossCutting.Middleware;
 using BuildingBlocks.CrossCutting.Validation;
-using Microsoft.EntityFrameworkCore;
 using RecipeMicroservice.Infrastructure.Persistence;
+using RecipeMicroservice.Application;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +13,8 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<DefaultValidationFilter>();
 });
-ServiceCollectionExtensions.AddCrossCutting(builder.Services, builder.Configuration);
-
+builder.Services.AddCrossCutting(builder.Configuration);    //BuildingBlocks CrossCutting
+builder.Services.AddApplicationServices();                  //RecipeMicroservice Application Layer
 builder.Services.AddDbContext<RecipeMicroserviceDbContext>(options =>
 {
     options.UseNpgsql(Environment.GetEnvironmentVariable("NEON_CONNECTION"));

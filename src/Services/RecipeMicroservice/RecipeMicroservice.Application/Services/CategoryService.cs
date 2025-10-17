@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Category;
 using RecipeMicroservice.Application.Interfaces.Services;
+using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Application.Services
 {
@@ -16,12 +17,12 @@ namespace RecipeMicroservice.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<PagedResult<CategoryDto>> GetAllAsync(FilterCategoryDto query)
+        public Task<PagedResult<CategoryDto>> GetAllAsync(FilterCategory query)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PagedResult<CategoryDto>> GetAllAsync(PagedQuery query)
+        public Task<PagedResult<CategoryDto>> GetAllAsync(BuildingBlocks.SharedKernel.Repositories.PagedQuery query)
         {
             throw new NotImplementedException();
         }
