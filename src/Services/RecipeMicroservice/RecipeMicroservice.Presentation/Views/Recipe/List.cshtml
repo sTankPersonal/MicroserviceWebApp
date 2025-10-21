@@ -1,64 +1,16 @@
 ﻿@using RecipeMicroservice.Presentation.Models.Recipe
-@using RecipeMicroservice.Presentation.Models.RecipeCategory
 @model RecipeListViewModel
 @{
-    ViewData["Title"] = "Recipe List";
+    ViewData["Title"] = "Recipes";
+    ViewBag.PartialView = "_RecipeListPartial";
+    ViewBag.PartialUrl = "/Recipe/PartialRecipes";
+    ViewBag.CreateUrl = Url.Action("Create", "Recipe");
+    ViewBag.CreateLabel = "Create New Recipe";
+    ViewBag.ListId = "recipeList";
+    ViewBag.SearchFormId = "recipeSearchForm";
+	ViewBag.SearchFieldsPartial = "_RecipeSearchFields";
 }
 
-<h2>Recipe List</h2>
+<h2>@ViewData["Title"]</h2>
 
-<form method="get" asp-action="Index" class="mb-3">
-    <div class="row g-2">
-        <div class="col">
-            <input type="text" name="searchName" value="@Model.SearchName" class="form-control" placeholder="Recipe Name" />
-        </div>
-        <div class="col">
-            <input type="text" name="searchIngredient" value="@Model.SearchIngredient" class="form-control" placeholder="Ingredient" />
-        </div>
-        <div class="col">
-            <input type="text" name="searchCategory" value="@Model.SearchCategory" class="form-control" placeholder="Category" />
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </div>
-</form>
-
-<a asp-controller="Recipe" asp-action="Create" class="btn btn-primary mb-3">
-    Create New Recipe
-</a>
-
-<div id="recipeListContainer">
-    @await Html.PartialAsync("_RecipeListPartial", Model)
-</div>
-
-@section Scripts {
-    <script>
-        async function loadRecipes(params) {
-            const response = await fetch(`/Recipe/PartialRecipes?${params}`, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            });
-            const html = await response.text();
-            document.getElementById("recipeListContainer").innerHTML = html;
-        }
-
-        // Handle search form
-        document.getElementById("searchForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const params = new URLSearchParams(new FormData(this)).toString();
-            loadRecipes(params);
-        });
-
-        // Delegate pagination clicks
-        document.addEventListener("click", function (e) {
-            if (e.target.classList.contains("page-btn")) {
-                e.preventDefault();
-                const page = e.target.dataset.page;
-                const formData = new FormData(document.getElementById("searchForm"));
-                formData.append("pageNumber", page);
-                const params = new URLSearchParams(formData).toString();
-                loadRecipes(params);
-            }
-        });
-    </script>
-}
+@await Html.PartialAsync("_AjaxListContainer", Model)

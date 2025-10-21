@@ -10,10 +10,9 @@ using RecipeMicroservice.Presentation.Models.Recipe;
 namespace RecipeMicroservice.Presentation.Controllers.Mvc
 {
     [Route("[controller]")]
-    public class RecipeController(IRecipeService recipeService, ICategoryService categoryService) : Controller
+    public class RecipeController(IRecipeService recipeService) : Controller
     {
         private readonly IRecipeService _recipeService = recipeService;
-        private readonly ICategoryService _categoryService = categoryService;
 
         // GET: /Recipe/{id}
         [HttpGet("{id}")]
@@ -36,7 +35,7 @@ namespace RecipeMicroservice.Presentation.Controllers.Mvc
             return View("List", RecipeListViewModel.FromPagedResult(recipes));
         }
         [HttpGet("PartialRecipes")]
-        public async Task<IActionResult> GetPartialRecipeList(string searchName, string searchIngredient, string searchCategory, int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetPartialRecipeList(string? searchName = null, string? searchIngredient = null, string? searchCategory = null, int pageNumber = 1, int pageSize = 10)
         {
             FilterRecipe filterRecipe = new(searchName, searchIngredient, searchCategory, pageNumber, pageSize);
             PagedResult<RecipeDto> recipes = await _recipeService.GetAllAsync(filterRecipe);

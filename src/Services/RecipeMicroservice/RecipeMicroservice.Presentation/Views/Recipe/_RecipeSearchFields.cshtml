@@ -1,0 +1,23 @@
+﻿@using RecipeMicroservice.Presentation.Models.Recipe
+@model RecipeListViewModel
+<div class="col">
+    <input type="text" name="searchName" value="@Model.SearchName" class="form-control" placeholder="Recipe Name" />
+</div>
+<div class="col">
+    <select name="searchIngredient"
+            class="form-select select2-field"
+            data-placeholder="Ingredient"
+            data-ajax-url="/api/Ingredient"
+            data-ajax-text-field="name"
+            data-ajax-id-field="id">
+    </select>
+</div>
+<div class="col">
+    <select name="searchCategory"
+            class="form-select select2-field"
+            data-placeholder="Category"
+            data-ajax-url="/api/Category"
+            data-ajax-text-field="name"
+            data-ajax-id-field="id">
+    </select>
+</div>

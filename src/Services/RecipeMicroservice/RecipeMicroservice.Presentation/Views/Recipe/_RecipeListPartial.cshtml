@@ -13,9 +13,10 @@ else
         <thead>
             <tr>
                 <th>Recipe</th>
-                <th>Tags</th>
+                <th>Categories</th>
                 <th>Prep Time</th>
                 <th>Cook Time</th>
+                <th>Servings</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,20 +26,14 @@ else
                 <tr>
                     <td>@recipe.Name</td>
                     <td>
-                        @if (recipe.Categories != null && recipe.Categories.Count() > 0)
+                        @if (recipe.HasCategories())
                         {
-                            foreach (RecipeCategoryViewModel rc in recipe.Categories)
-                            {
-                                @rc.CategoryName
-                                if (rc != recipe.Categories.Last())
-                                {
-                                    @:,
-                                }
-                            }
+                            @string.Join(", ", recipe.Categories.Select(c => c.CategoryName))
                         }
                     </td>
                     <td>@(recipe.PrepTimeInMinutes / 60)h @(recipe.PrepTimeInMinutes % 60)min</td>
                     <td>@(recipe.CookTimeInMinutes / 60)h @(recipe.CookTimeInMinutes % 60)min</td>
+                    <td>@(recipe.Servings)</td>
                     <td>
                         <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-info">View</a>
                         <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-warning">Edit</a>
@@ -53,28 +48,12 @@ else
         <ul class="pagination">
             @if (Model.HasPreviousPage)
             {
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-searchName="@Model.SearchName"
-                       asp-route-searchIngredient="@Model.SearchIngredient"
-                       asp-route-searchCategory="@Model.SearchCategory"
-                       asp-route-pageNumber="@(Model.PageNumber - 1)"
-                       asp-route-pageSize="@Model.PageSize">Previous</a>
-                </li>
+                <li class="page-item"><a href="#" class="page-link page-btn" data-page="@(Model.PageNumber - 1)">Previous</a></li>
             }
             <li class="page-item active"><span class="page-link">@Model.PageNumber</span></li>
             @if (Model.HasNextPage)
             {
-                <li class="page-item">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-searchName="@Model.SearchName"
-                       asp-route-searchIngredient="@Model.SearchIngredient"
-                       asp-route-searchCategory="@Model.SearchCategory"
-                       asp-route-pageNumber="@(Model.PageNumber + 1)"
-                       asp-route-pageSize="@Model.PageSize">Next</a>
-                </li>
+                <li class="page-item"><a href="#" class="page-link page-btn" data-page="@(Model.PageNumber + 1)">Next</a></li>
             }
         </ul>
     </nav>
