@@ -5,7 +5,7 @@ using RecipeMicroservice.Infrastructure.Persistence.Configurations;
 
 namespace RecipeMicroservice.Infrastructure.Persistence
 {
-    public class RecipeMicroserviceDbContext : DbContext
+    public class RecipeMicroserviceDbContext(DbContextOptions<RecipeMicroserviceDbContext> options) : DbContext(options)
     {
         public DbSet<Recipe> Recipes => Set<Recipe>();
         public DbSet<Category> Categories => Set<Category>();

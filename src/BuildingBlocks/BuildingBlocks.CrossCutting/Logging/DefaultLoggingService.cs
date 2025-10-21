@@ -5,11 +5,11 @@ using Microsoft.Extensions.Options;
 
 namespace BuildingBlocks.CrossCutting.Logging
 {
-    public class DefaultLoggingService(ILogger<DefaultLoggingService> logger, CorrelationIdAccessor correlationIdAccessor, IOptions<LoggingOptions> loggingOptions) : ILoggingService
+    public class DefaultLoggingService(ILogger<DefaultLoggingService> logger, ICorrelationIdAccessor correlationIdAccessor, IOptions<LoggingOptions> loggingOptions) : ILoggingService
     {
         private readonly LoggingOptions _loggingOptions = loggingOptions.Value;
         private readonly ILogger<DefaultLoggingService> _logger = logger;
-        private readonly CorrelationIdAccessor _correlationIdAccessor = correlationIdAccessor;
+        private readonly ICorrelationIdAccessor _correlationIdAccessor = correlationIdAccessor;
 
         public Task LogRequestAsync(HttpContext context)
         {

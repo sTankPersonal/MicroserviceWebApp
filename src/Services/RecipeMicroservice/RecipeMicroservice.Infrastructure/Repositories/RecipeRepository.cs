@@ -26,11 +26,13 @@ namespace RecipeMicroservice.Infrastructure.Repositories
 
         public async Task<PagedResult<Recipe>> GetAllAsync(FilterRecipe query)
         {
-            IQueryable<Recipe> recipes = _dbContext.Recipes.AsQueryable()
+            IQueryable<Recipe> recipes = _dbContext.Recipes
+                .Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category)
+                .Include(r => r.RecipeIngredients).ThenInclude(ri => ri.Ingredient)
+                .AsSplitQuery()
                 .Where(r => string.IsNullOrWhiteSpace(query.SearchName) || r.Name.Contains(query.SearchName))
-                .Where(r => !query.SearchPrepTimeInMinutes.HasValue || r.PrepTimeInMinutes == query.SearchPrepTimeInMinutes.Value)
-                .Where(r => !query.SearchCookTimeInMinutes.HasValue || r.CookTimeInMinutes == query.SearchCookTimeInMinutes.Value)
-                .Where(r => !query.SearchServings.HasValue || r.Servings == query.SearchServings.Value);
+                .Where(r => string.IsNullOrWhiteSpace(query.SearchCategories) || r.RecipeCategories.Any(rc => rc.Category.Name.Contains(query.SearchCategories)))
+                .Where(r => string.IsNullOrWhiteSpace(query.SearchIngredients) || r.RecipeIngredients.Any(ri => ri.Ingredient.Name.Contains(query.SearchIngredients)));
 
             int totalItems = await recipes.CountAsync();
             List<Recipe> items = await recipes
@@ -72,9 +74,7 @@ namespace RecipeMicroservice.Infrastructure.Repositories
         // Instruction related methods
         public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query)
         {
-            IQueryable<Instruction> instructions = _dbContext.Recipes
-                .Include(r => r.Instructions)
-                .Where(i => i.Id == recipe.Id);
+            IQueryable<Instruction> instructions = recipe.Instructions.AsQueryable();
 
             int totalItems = await instructions.CountAsync();
             List<Instruction> items = await instructions
@@ -85,7 +85,19 @@ namespace RecipeMicroservice.Infrastructure.Repositories
                 .ToListAsync();
             return new PagedResult<Instruction>(items, totalItems, query.PageNumber, query.PageSize);
         }
-        public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter);
+        public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter)
+        {
+            IQueryable<Instruction> instructions = recipe.Instructions.AsQueryable()
+                .Where(i => string.IsNullOrWhiteSpace(filter.searchDescription) || i.Description.Contains(filter.searchDescription));
+            int totalItems = await instructions.CountAsync();
+            List<Instruction> items = await instructions
+                .OrderBy(i => i.StepNumber)
+                .ThenBy(i => i.Id)
+                .Skip(filter.Skip)
+                .Take(filter.Take)
+                .ToListAsync();
+            return new PagedResult<Instruction>(items, totalItems, filter.pageNumber, filter.pageSize);
+        }
         public async Task<Instruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId)
         {
             return await _dbContext.Recipes

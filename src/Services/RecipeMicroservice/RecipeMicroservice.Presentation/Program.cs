@@ -8,6 +8,8 @@ using RecipeMicroservice.Application;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
@@ -36,6 +38,15 @@ app.UseAuthorization();
 app.UseResponseCaching();
 
 app.MapControllers();
-app.MapDefaultControllerRoute();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<RecipeMicroserviceDbContext>();
+    db.Database.Migrate();
+}
+
+app.UseStaticFiles();
 app.Run();

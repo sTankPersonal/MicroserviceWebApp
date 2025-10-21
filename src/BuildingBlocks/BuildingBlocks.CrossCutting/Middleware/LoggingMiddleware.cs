@@ -1,21 +1,21 @@
-﻿
-using BuildingBlocks.CrossCutting.Logging;
+﻿using BuildingBlocks.CrossCutting.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BuildingBlocks.CrossCutting.Middleware
 {
-    public class LoggingMiddleware(RequestDelegate next, ILoggingService loggingService) : BaseMiddleware(next)
+    public class LoggingMiddleware(RequestDelegate next) : BaseMiddleware(next)
     {
-        protected readonly ILoggingService _loggingService = loggingService;
-
-        protected override async Task PreProcessAsync(HttpContext context)
+        public override async Task PreProcessAsync(HttpContext context)
         {
-            await _loggingService.LogRequestAsync(context);
+            ILoggingService loggingService = context.RequestServices.GetRequiredService<ILoggingService>();
+            await loggingService.LogRequestAsync(context);
         }
 
-        protected override async Task PostProcessAsync(HttpContext context)
+        public override async Task PostProcessAsync(HttpContext context)
         {
-            await _loggingService.LogResponseAsync(context);
+            ILoggingService loggingService = context.RequestServices.GetRequiredService<ILoggingService>();
+            await loggingService.LogResponseAsync(context);
         }
     }
 }

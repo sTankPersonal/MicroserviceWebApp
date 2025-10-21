@@ -15,14 +15,14 @@ namespace BuildingBlocks.CrossCutting.Extensions
             // Configure Correlation Middleware
             services.Configure<CorrelationOptions>(options => { configuration.GetSection("CorrelationOptions").Bind(options); });
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
-            services.AddSingleton<ICorrelationService, DefaultCorrelationService>();
+            services.AddScoped<ICorrelationService, DefaultCorrelationService>();
 
             // Configure Logging Middleware
-            services.AddSingleton<ILoggingService, DefaultLoggingService>();
+            services.AddScoped<ILoggingService, DefaultLoggingService>();
             services.Configure<LoggingOptions>(options => { configuration.GetSection("LoggingOptions").Bind(options); });
 
             // Configure Exception Middleware
-            services.AddSingleton<IExceptionService, DefaultExceptionService>();
+            services.AddScoped<IExceptionService, DefaultExceptionService>();
             services.Configure<ExceptionOptions>(options => { configuration.GetSection("ExceptionOptions").Bind(options); });
 
             // DTO Validation Filter

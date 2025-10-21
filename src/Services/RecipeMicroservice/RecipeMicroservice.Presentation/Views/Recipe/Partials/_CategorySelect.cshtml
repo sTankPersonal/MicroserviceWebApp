@@ -1,0 +1,49 @@
+﻿@* public class UpdateRecipeDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        [Display(Name = "Prep Time (Minutes)")]
+        public int PrepTimeInMinutes { get; set; } = 0;
+        [Display(Name = "Cook Time (Minutes)")]
+        public int CookTimeInMinutes { get; set; } = 0;
+        public int Servings { get; set; } = 0;
+        public IEnumerable<InstructionDto> Instructions { get; set; } = [];
+        public IEnumerable<RecipeIngredientDto> Ingredients { get; set; } = [];
+        public IEnumerable<RecipeCategoryDto> Categories { get; set; } = [];
+    } *@
+
+
+@model RecipeMicroservice.Application.DTOs.Recipe.UpdateRecipeDto
+@{
+    ViewData["Title"] = "Category Select";
+    var categories = (List<SelectListItem>)ViewBag.Categories;
+}
+
+
+<form asp-controller="Recipe" asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Categories</label>
+        <select id="categorySelect" name="categoryNames" multiple="multiple" class="form-control">
+            @foreach (var c in categories)
+            {
+                <option value="@c.Text">@c.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+</form>
+
+@section Scripts {
+    <script>
+        $('#categorySelect').select2({
+            tags: true,
+            placeholder: "Select or add categories"
+        });
+    </script>
+}

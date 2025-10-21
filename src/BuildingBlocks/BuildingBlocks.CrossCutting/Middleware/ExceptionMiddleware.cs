@@ -1,15 +1,14 @@
 ﻿using BuildingBlocks.CrossCutting.Correlation;
 using BuildingBlocks.CrossCutting.Exceptions;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BuildingBlocks.CrossCutting.Middleware
 {
-    public class ExceptionMiddleware(RequestDelegate next, IExceptionService exceptionService) : BaseMiddleware (next)
+    public class ExceptionMiddleware(RequestDelegate next) : BaseMiddleware (next)
     {
         private readonly RequestDelegate _next = next;
-        private readonly IExceptionService _exceptionService = exceptionService;
-        protected override Task InvokeAsync(HttpContext context)
+        public override Task InvokeAsync(HttpContext context)
         {
             try 
             {
@@ -17,7 +16,8 @@ namespace BuildingBlocks.CrossCutting.Middleware
             }
             catch (Exception ex)
             {
-                return _exceptionService.HandleExceptionAsync(context, ex);
+                IExceptionService exceptionService = context.RequestServices.GetRequiredService<IExceptionService>();
+                return exceptionService.HandleExceptionAsync(context, ex);
             }
         }
     }

@@ -1,20 +1,25 @@
 ﻿using BuildingBlocks.CrossCutting.Correlation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BuildingBlocks.CrossCutting.Middleware
 {
-    public class CorrelationMiddleware(RequestDelegate next, ICorrelationService correlationService) : BaseMiddleware(next)
+    public class CorrelationMiddleware(RequestDelegate next) : BaseMiddleware(next)
     {
-        private readonly ICorrelationService _correlationService = correlationService;
 
-        protected override async Task PreProcessAsync(HttpContext context)
+        public override async Task PreProcessAsync(HttpContext context)
         {
-            await _correlationService.GetOrSetCorrelationId(context);
+            ICorrelationService correlationService = context.RequestServices.GetRequiredService<ICorrelationService>();
+            await correlationService.GetOrSetCorrelationId(context);
+
+            await correlationService.SetCorrelationId(context);
         }
 
-        protected override async Task PostProcessAsync(HttpContext context)
+        public override Task PostProcessAsync(HttpContext context)
         {
-            await _correlationService.SetCorrelationId(context);
+            return Task.CompletedTask;
+            //ICorrelationService correlationService = context.RequestServices.GetRequiredService<ICorrelationService>();
+            //await correlationService.SetCorrelationId(context);
         }
     }
 }
