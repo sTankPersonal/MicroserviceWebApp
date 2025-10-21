@@ -1,4 +1,5 @@
-﻿@model RecipeMicroservice.Application.DTOs.Recipe.RecipeDto
+﻿@using RecipeMicroservice.Presentation.Models.Recipe
+@model RecipeViewModel
 @{
     ViewData["Title"] = "Recipe Details";
 }
@@ -7,12 +8,12 @@
 <p>
     <strong>Prep Time:</strong> @(Model.PrepTimeInMinutes / 60)h @(Model.PrepTimeInMinutes % 60)min<br />
     <strong>Cook Time:</strong> @(Model.CookTimeInMinutes / 60)h @(Model.CookTimeInMinutes % 60)min<br />
-    <strong>Services:</strong> @(Model.Servings / 60)h @(Model.Servings % 60)min<br />
+    <strong>Servings:</strong> @(Model.Servings)<br />
     <strong>Categories:</strong> @string.Join(", ", Model.Categories.Select(c => c.CategoryName))
 </p>
 
 <h4>Ingredients</h4>
-@if (Model.Ingredients != null && Model.Ingredients.Count() > 0)
+@if (Model.HasInstructions())
 {
     <ul>
         @foreach (var ingredient in Model.Ingredients)
@@ -29,7 +30,7 @@ else
 }
 
 <h4>Steps</h4>
-@if (Model.Instructions != null && Model.Instructions.Count() > 0)
+@if (Model.HasInstructions())
 {
     <ol>
         @foreach (var step in Model.Instructions.OrderBy(s => s.StepNumber))
@@ -45,4 +46,4 @@ else
 
 <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+<a asp-action="Delete" asp-route-idRecipe="@Model.Id" class="btn btn-danger">Delete</a>

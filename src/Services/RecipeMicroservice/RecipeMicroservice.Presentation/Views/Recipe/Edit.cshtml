@@ -1,11 +1,10 @@
-﻿@using RecipeMicroservice.Presentation.Models.Recipe
-@model CreateRecipeViewModel
+﻿@model RecipeMicroservice.Application.DTOs.Recipe.UpdateRecipeDto
 @{
-	ViewData["Title"] = "Create Recipe";
+	ViewData["Title"] = "Edit Recipe";
 }
-<h2>Create Recipe</h2>
+<h2>Edit Recipe</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
 	<div class="mb-3">
 		<label asp-for="Name" class="form-label"></label>
 		<input asp-for="Name" class="form-control" />
@@ -26,6 +25,6 @@
 		<input asp-for="Servings" class="form-control" typeof="number">
 		<span asp-validation-for="Servings" class="text-danger"></span>
 	</div>
-	<button type="submit" class="btn btn-primary">Create</button>
-	<a asp-action="Index" class="btn btn-secondary">Cancel</a>"
+	<button type="submit" class="btn btn-primary">Edit</button>
+	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
