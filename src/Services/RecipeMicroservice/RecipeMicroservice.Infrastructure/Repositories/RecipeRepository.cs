@@ -84,52 +84,84 @@ namespace RecipeMicroservice.Infrastructure.Repositories
         }
 
         // Instruction related methods
-        public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query)
-        {
-            IQueryable<Instruction> instructions = recipe.Instructions.AsQueryable();
+        //public async Task<PagedResult<RecipeInstruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query)
+        //{
+        //    IQueryable<RecipeInstruction> instructions = recipe.RecipeInstructions.AsQueryable();
 
-            int totalItems = await instructions.CountAsync();
-            List<Instruction> items = await instructions
-                .OrderBy(i => i.StepNumber)
-                .ThenBy(i => i.Id)
-                .Skip(query.Skip)
-                .Take(query.Take)
-                .ToListAsync();
-            return new PagedResult<Instruction>(items, totalItems, query.PageNumber, query.PageSize);
-        }
-        public async Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter)
+        //    int totalItems = await instructions.CountAsync();
+        //    List<RecipeInstruction> items = await instructions
+        //        .OrderBy(i => i.StepNumber)
+        //        .ThenBy(i => i.Id)
+        //        .Skip(query.Skip)
+        //        .Take(query.Take)
+        //        .ToListAsync();
+        //    return new PagedResult<RecipeInstruction>(items, totalItems, query.PageNumber, query.PageSize);
+        //}
+        //public async Task<PagedResult<RecipeInstruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter)
+        //{
+        //    IQueryable<RecipeInstruction> instructions = recipe.RecipeInstructions.AsQueryable()
+        //        .Where(i => string.IsNullOrWhiteSpace(filter.searchDescription) || i.Description.Contains(filter.searchDescription));
+        //    int totalItems = await instructions.CountAsync();
+        //    List<RecipeInstruction> items = await instructions
+        //        .OrderBy(i => i.StepNumber)
+        //        .ThenBy(i => i.Id)
+        //        .Skip(filter.Skip)
+        //        .Take(filter.Take)
+        //        .ToListAsync();
+        //    return new PagedResult<RecipeInstruction>(items, totalItems, filter.pageNumber, filter.pageSize);
+        //}
+        //public async Task<RecipeInstruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId)
+        //{
+        //    return await _dbContext.Recipes
+        //        .Include(r => r.RecipeInstructions)
+        //        .Where(r => r.Id == recipe.Id)
+        //        .SelectMany(r => r.RecipeInstructions)
+        //        .FirstOrDefaultAsync(i => i.Id == instructionId);
+        //}
+        public async Task AddInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {
-            IQueryable<Instruction> instructions = recipe.Instructions.AsQueryable()
-                .Where(i => string.IsNullOrWhiteSpace(filter.searchDescription) || i.Description.Contains(filter.searchDescription));
-            int totalItems = await instructions.CountAsync();
-            List<Instruction> items = await instructions
-                .OrderBy(i => i.StepNumber)
-                .ThenBy(i => i.Id)
-                .Skip(filter.Skip)
-                .Take(filter.Take)
-                .ToListAsync();
-            return new PagedResult<Instruction>(items, totalItems, filter.pageNumber, filter.pageSize);
-        }
-        public async Task<Instruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId)
-        {
-            return await _dbContext.Recipes
-                .Include(r => r.Instructions)
-                .Where(r => r.Id == recipe.Id)
-                .SelectMany(r => r.Instructions)
-                .FirstOrDefaultAsync(i => i.Id == instructionId);
-        }
-        public async Task AddInstructionAsync(Recipe recipe, Instruction instruction)
-        {
-            recipe.Instructions.Add(instruction);
+            recipe.RecipeInstructions.Add(recipeInstruction);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task UpdateInstructionAsync(Recipe recipe, Instruction instruction)
+        public async Task UpdateInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {
             await _dbContext.SaveChangesAsync();
         }
-        public async Task DeleteInstructionByIdAsync(Recipe recipe, Instruction instruction)
+        public async Task DeleteInstructionByIdAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {
-            recipe.Instructions.Remove(instruction);
+            recipe.RecipeInstructions.Remove(recipeInstruction);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        // Ingredient related methods
+        public async Task AddIngredientAsync(Recipe recipe, RecipeIngredient recipeIngredient)
+        {
+            recipe.RecipeIngredients.Add(recipeIngredient);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task UpdateInstructionAsync(Recipe recipe, RecipeIngredient recipeIngredient)
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task DeleteIngredientByIdAsync(Recipe recipe, RecipeIngredient recipeIngredient)
+        {
+            recipe.RecipeIngredients.Remove(recipeIngredient);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        // Category related methods
+        public async Task AddCategoryAsync(Recipe recipe, RecipeCategory recipeCategory)
+        {
+            recipe.RecipeCategories.Add(recipeCategory);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task UpdateCategoryAsync(Recipe recipe, RecipeCategory recipeCategory)
+        {
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task DeleteCategoryByIdAsync(Recipe recipe, RecipeCategory recipeCategory)
+        {
+            recipe.RecipeCategories.Remove(recipeCategory);
             await _dbContext.SaveChangesAsync();
         }
     }

@@ -17,6 +17,18 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
      * POST: /Recipe/Create - Create a new recipe and redirect to Details view
      * POST: /Recipe/Edit/{id} - Update a recipe and redirect to Details view
      * POST: /Recipe/Delete/{id} - Delete a recipe and redirect to List view
+     * 
+     * POST: /Recipe/{id}/Instruction/Add - Add an instruction to the recipe being created or edited
+     * POST: /Recipe/{id}/Ingredient/Add - Add an ingredient to the recipe being created or edited
+     * POST: /Recipe/{id}/Category/Add - Add a category to the recipe being created or edited
+     * 
+     * POST: /Recipe/{id}/Instruction/Remove - Remove an instruction from the recipe being created or edited
+     * POST: /Recipe/{id}/Ingredient/Remove - Remove an ingredient from the recipe being created or edited
+     * POST: /Recipe/{id}/Category/Remove - Remove a category from the recipe being created or edited
+     * 
+     * POST: /Recipe/{id}/Instruction/Edit/{instructionId} - Edit an instruction in the recipe being created or edited
+     * POST: /Recipe/{id}/Ingredient/Edit/{ingredientId} - Edit an ingredient in the recipe being created or edited
+     * POST: /Recipe/{id}/Category/Edit/{categoryId} - Edit a category in the recipe being created or edited
      */
     [Route("[controller]")]
     public class RecipeController(IRecipeService recipeService) : Controller

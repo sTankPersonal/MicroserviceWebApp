@@ -11,6 +11,6 @@ namespace RecipeMicroservice.Domain.Aggregates
         public int Servings { get; set; } = 0;
         public ICollection<RecipeCategory> RecipeCategories { get; set; } = [];
         public ICollection<RecipeIngredient> RecipeIngredients { get; set; } = [];
-        public ICollection<Instruction> Instructions { get; set; } = [];
+        public ICollection<RecipeInstruction> RecipeInstructions { get; set; } = [];
     }
 }

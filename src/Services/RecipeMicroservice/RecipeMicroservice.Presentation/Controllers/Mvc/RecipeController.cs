@@ -105,8 +105,7 @@ namespace RecipeMicroservice.Presentation.Controllers.Mvc
         [HttpGet("RecipeInstructionListPartial")]
         public async Task<IActionResult> RecipeInstructionListPartial(Guid recipeId)
         {
-            PagedResult<RecipeInstructionDto> instructions = await _recipeService.GetAllInstructionsAsync(recipeId, new FilterInstruction());
-            return PartialView("_RecipeInstructionListPartial", RecipeInstructionListViewModel.FromPagedResult(instructions));
+            return View("Index");
         }
     }
 }

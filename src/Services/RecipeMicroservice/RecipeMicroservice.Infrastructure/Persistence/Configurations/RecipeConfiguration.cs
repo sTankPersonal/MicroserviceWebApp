@@ -31,7 +31,7 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Configurations
                 .HasForeignKey(ri => ri.RecipeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(r => r.Instructions)
+            builder.HasMany(r => r.RecipeInstructions)
                 .WithOne(i => i.Recipe)
                 .HasForeignKey(i => i.RecipeId)
                 .OnDelete(DeleteBehavior.Cascade);
