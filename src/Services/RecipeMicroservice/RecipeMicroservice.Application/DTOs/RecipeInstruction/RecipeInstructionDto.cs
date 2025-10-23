@@ -1,6 +1,6 @@
-﻿namespace RecipeMicroservice.Application.DTOs.Instruction
+﻿namespace RecipeMicroservice.Application.DTOs.RecipeInstruction
 {
-    public class InstructionDto
+    public class RecipeInstructionDto
     {
         public Guid Id { get; set; }
         public int StepNumber { get; set; }

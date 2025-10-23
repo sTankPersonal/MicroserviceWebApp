@@ -1,93 +1,103 @@
 ﻿function initializeAjaxList(config) {
-    const form = document.getElementById(config.formId);
-    const container = document.getElementById(config.containerId);
+    const { formId, containerId, partialUrl, listId } = config;
+    const form = document.getElementById(formId);
+    const container = document.getElementById(containerId);
 
-    async function loadData(params) {
-        const response = await fetch(`${config.partialUrl}?${params}`, {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        });
-        const html = await response.text();
-        container.innerHTML = html;
-        //initializeSelect2(container);
+    if (!form || !container) {
+        console.error("Missing required elements for Ajax list initialization");
+        return;
     }
 
-    form.addEventListener("submit", function (e) {
+    // Helper: Load data from server and update container
+    async function loadData(params = "") {
+        try {
+            const response = await fetch(`${partialUrl}?${params}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            container.innerHTML = await response.text();
+        } catch (err) {
+            console.error("❌ Failed to load data:", err);
+        }
+    }
+
+    // Handle form submit (search/filter)
+    form.addEventListener("submit", e => {
         e.preventDefault();
-        const params = new URLSearchParams(new FormData(this)).toString();
+        const params = new URLSearchParams(new FormData(form)).toString();
         loadData(params);
     });
 
-    document.addEventListener("click", function (e) {
-        if (e.target.classList.contains("page-btn")) {
-            e.preventDefault();
-            const page = e.target.dataset.page;
-            const formData = new FormData(form);
-            formData.append("pageNumber", page);
-            const params = new URLSearchParams(formData).toString();
-            loadData(params);
-        }
+    // Handle pagination buttons (delegated)
+    document.addEventListener("click", e => {
+        const btn = e.target.closest(".page-btn");
+        if (!btn) return;
+
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        formData.set("pageNumber", btn.dataset.page);
+        const params = new URLSearchParams(formData).toString();
+        loadData(params);
     });
 
-    const resetBtn = document.getElementById(`${config.listId}ResetBtn`);
+    // Handle reset button
+    const resetBtn = document.getElementById(`${listId}ResetBtn`);
     if (resetBtn) {
         resetBtn.addEventListener("click", () => {
             form.reset();
             form.querySelectorAll('input[type="text"]').forEach(input => input.value = "");
             initializeSelect2(form, true);
-            loadData("");
+            loadData();
         });
     }
 
-    // Initialize Select2 for the first render
-    initializeSelect2(document);
+    // Initialize select2 fields
+    initializeSelect2(form);
 }
 
 function initializeSelect2(scope = document, reset = false) {
     if (typeof $ === "undefined" || !$.fn.select2) {
-        console.error("❌ jQuery or Select2 not loaded");
+        console.error("jQuery or Select2 not loaded");
         return;
     }
 
     const $fields = $(scope).find(".select2-field");
-    console.log("Initializing Select2 for", $fields.length, "fields");
+    console.log(`Initializing Select2 for ${$fields.length} fields`, reset ? "(reset mode)" : "");
 
-    $(scope).find(".select2-field").each(function () {
+    $fields.each(function () {
         const $el = $(this);
 
-        // If reset requested or already initialized, cleanly destroy
-        if (reset && $el.data("select2")) {
-            $el.select2("destroy");
-        }
-
-        // Skip if already initialized
+        // Re-init handling
+        if (reset && $el.data("select2")) $el.select2("destroy");
         if ($el.data("select2")) return;
 
         const ajaxUrl = $el.data("ajax-url");
         const textField = $el.data("ajax-text-field") || "text";
         const idField = $el.data("ajax-id-field") || "id";
 
-        const config = {
+        const select2Config = {
             width: "100%",
             placeholder: $el.data("placeholder") || "",
             allowClear: true,
-            minimumInputLength: 0, // allows clicking without typing first
-            dropdownParent: $el.parent() // prevents hidden focus issue
+            minimumInputLength: 0,
+            dropdownParent: $el.parent()
         };
 
         if (ajaxUrl) {
-            config.ajax = {
+            select2Config.ajax = {
                 url: ajaxUrl,
                 dataType: "json",
                 delay: 250,
-                data: function (params) {
-                    return {
-                        searchName: params.term || "",
-                        pageNumber: params.page || 1,
-                        pageSize: 10
-                    };
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
+                data: params => ({
+                    searchName: params.term || "",
+                    pageNumber: params.page || 1,
+                    pageSize: 10
+                }),
+                processResults: (data, params) => {
+                    const page = params.page || 1;
                     const items = data.items || data.Items || [];
                     const total = data.totalItems || data.TotalItems || 0;
 
@@ -97,7 +107,7 @@ function initializeSelect2(scope = document, reset = false) {
                             text: item[textField]
                         })),
                         pagination: {
-                            more: (params.page * 10) < total
+                            more: page * 10 < total
                         }
                     };
                 },
@@ -105,10 +115,10 @@ function initializeSelect2(scope = document, reset = false) {
             };
         }
 
-        $el.select2(config);
+        $el.select2(select2Config);
 
-        // 🔥 Force focus into the search box when dropdown opens
-        $el.on("select2:open", function () {
+        // Ensure focus on open
+        $el.on("select2:open", () => {
             setTimeout(() => {
                 document.querySelector(".select2-search__field")?.focus();
             }, 0);

@@ -29,10 +29,22 @@ namespace RecipeMicroservice.Infrastructure.Repositories
             IQueryable<Recipe> recipes = _dbContext.Recipes
                 .Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category)
                 .Include(r => r.RecipeIngredients).ThenInclude(ri => ri.Ingredient)
-                .AsSplitQuery()
-                .Where(r => string.IsNullOrWhiteSpace(query.SearchName) || r.Name.Contains(query.SearchName))
-                .Where(r => string.IsNullOrWhiteSpace(query.SearchCategories) || r.RecipeCategories.Any(rc => rc.Category.Name.Contains(query.SearchCategories)))
-                .Where(r => string.IsNullOrWhiteSpace(query.SearchIngredients) || r.RecipeIngredients.Any(ri => ri.Ingredient.Name.Contains(query.SearchIngredients)));
+                .AsSplitQuery();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchName))
+            {
+                recipes = recipes.Where(r => EF.Functions.ILike(r.Name, $"%{query.SearchName}%"));
+            }
+            if (!string.IsNullOrWhiteSpace(query.SearchCategories))
+            {
+                recipes = recipes.Where(r => r.RecipeCategories.Any(rc =>
+                    EF.Functions.ILike(rc.Category.Name, $"%{query.SearchCategories}%")));
+            }
+            if (!string.IsNullOrWhiteSpace(query.SearchIngredients))
+            {
+                recipes = recipes.Where(r => r.RecipeIngredients.Any(ri =>
+                    EF.Functions.ILike(ri.Ingredient.Name, $"%{query.SearchIngredients}%")));
+            }
 
             int totalItems = await recipes.CountAsync();
             List<Recipe> items = await recipes

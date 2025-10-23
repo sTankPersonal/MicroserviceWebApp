@@ -1,0 +1,43 @@
+﻿@using RecipeMicroservice.Presentation.Models.RecipeInstruction
+@model RecipeInstructionListViewModel
+
+@if (Model.Items.Count == 0)
+{
+    <p>No Instructions.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Step Number</th>
+                <th>Instruction</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (RecipeInstructionViewModel instruction in Model.Items)
+            {
+                <tr>
+                    <form asp-controller="RecipeInstruction" asp-action="Edit" method="post">
+                        <td>
+                            <input type="number" name="StepNumber" value="@instruction.StepNumber" class="form-control"
+                                required />
+                        </td>
+                        <td>
+                            <input type="text" name="Description" value="@instruction.Description" class="form-control"
+                                required />
+                        </td>
+                        <td>
+                            <input type="hidden" name="Id" value="@instruction.Id" />
+                            <button type="submit" class="btn btn-sm btn-warning">Edit</button>
+                            <a asp-controller="RecipeInstruction" asp-action="Delete" asp-route-id="@instruction.Id"
+                                class="btn btn-s">Delete</a>
+                        </td>
+                    </form>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

@@ -28,7 +28,7 @@ namespace RecipeMicroservice.Infrastructure.Repositories
             IQueryable<Ingredient> ingredients = _dbContext.Ingredients.AsQueryable();
             if (!string.IsNullOrWhiteSpace(query.SearchName))
             {
-                ingredients = ingredients.Where(i => i.Name.Contains(query.SearchName));
+                ingredients = ingredients.Where(i => EF.Functions.ILike(i.Name, $"%{query.SearchName}%"));
             }
             int totalItems = await ingredients.CountAsync();
             List<Ingredient> items = await ingredients.OrderBy(i => i.Name).ThenBy(i => i.Id).Skip(query.Skip).Take(query.Take).ToListAsync();

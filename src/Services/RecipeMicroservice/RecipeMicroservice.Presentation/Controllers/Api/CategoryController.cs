@@ -34,5 +34,11 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
             PagedResult<CategoryDto> categories = await _categoryService.GetAllAsync(new FilterCategory(searchName, pageNumber, pageSize));
             return Ok(categories);
         }
+
+        public async Task<IActionResult> GetCategoryCategories(FilterCategory filterCategory)
+        {
+            PagedResult<CategoryDto> recipes = await _categoryService.GetAllAsync(filterCategory);
+            return Ok(recipes);
+        }
     }
 }

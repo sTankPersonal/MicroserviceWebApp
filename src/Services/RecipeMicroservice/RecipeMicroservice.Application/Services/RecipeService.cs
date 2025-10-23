@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
+using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Aggregates;
 using RecipeMicroservice.Domain.Entities;
@@ -97,52 +98,52 @@ namespace RecipeMicroservice.Application.Services
         }
 
         // Aggregate Child - Instructions
-        public async Task<InstructionDto?> GetInstructionByIdAsync(Guid recipeId, Guid instructionId)
+        public async Task<RecipeInstructionDto?> GetInstructionByIdAsync(Guid recipeId, Guid instructionId)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             Instruction? instruction = await _recipeRepository.GetInstructionByIdAsync(recipe, instructionId) ?? throw new KeyNotFoundException($"Instruction with id {instructionId} not found in Recipe with id {recipeId}.");
-            return new InstructionDto
+            return new RecipeInstructionDto
             {
                 Id = instruction.Id,
                 StepNumber = instruction.StepNumber,
                 Description = instruction.Description
             };
         }
-        public async Task<PagedResult<InstructionDto>> GetAllInstructionsAsync(Guid recipeId, PagedQuery query)
+        public async Task<PagedResult<RecipeInstructionDto>> GetAllInstructionsAsync(Guid recipeId, PagedQuery query)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             PagedResult<Instruction> pagedInstructions =  await _recipeRepository.GetAllInstructionsAsync(recipe, query);
-            List<InstructionDto> instructionDtos = [.. pagedInstructions.Items
-                .Select(i => new InstructionDto
+            List<RecipeInstructionDto> instructionDtos = [.. pagedInstructions.Items
+                .Select(i => new RecipeInstructionDto
                 {
                     Id = i.Id,
                     StepNumber = i.StepNumber,
                     Description = i.Description
                 })];
-            return new PagedResult<InstructionDto>(
+            return new PagedResult<RecipeInstructionDto>(
                 instructionDtos,
                 pagedInstructions.TotalItems,
                 pagedInstructions.PageNumber,
                 pagedInstructions.PageSize);
         }
-        public async Task<PagedResult<InstructionDto>> GetAllInstructionsAsync(Guid recipeId, FilterInstruction filter)
+        public async Task<PagedResult<RecipeInstructionDto>> GetAllInstructionsAsync(Guid recipeId, FilterInstruction filter)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             PagedResult<Instruction> pagedInstructions =  await _recipeRepository.GetAllInstructionsAsync(recipe, filter);
-            List<InstructionDto> instructionDtos = [.. pagedInstructions.Items
-                .Select(i => new InstructionDto
+            List<RecipeInstructionDto> instructionDtos = [.. pagedInstructions.Items
+                .Select(i => new RecipeInstructionDto
                 {
                     Id = i.Id,
                     StepNumber = i.StepNumber,
                     Description = i.Description
                 })];
-            return new PagedResult<InstructionDto>(
+            return new PagedResult<RecipeInstructionDto>(
                 instructionDtos,
                 pagedInstructions.TotalItems,
                 pagedInstructions.PageNumber,
                 pagedInstructions.PageSize);
         }
-        public async Task<Guid> CreateInstructionAsync(Guid recipeId, CreateInstructionDto dto)
+        public async Task<Guid> CreateInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             Instruction instruction = new()
@@ -155,7 +156,7 @@ namespace RecipeMicroservice.Application.Services
             await _recipeRepository.AddInstructionAsync(recipe, instruction);
             return instruction.Id;
         }
-        public async Task UpdateInstructionAsync(Guid recipeId, Guid instructionId, UpdateInstructionDto dto)
+        public async Task UpdateInstructionAsync(Guid recipeId, Guid instructionId, UpdateRecipeInstructionDto dto)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             Instruction? instruction = await _recipeRepository.GetInstructionByIdAsync(recipe, instructionId) ?? throw new KeyNotFoundException($"Instruction with id {instructionId} not found in Recipe with id {recipeId}.");

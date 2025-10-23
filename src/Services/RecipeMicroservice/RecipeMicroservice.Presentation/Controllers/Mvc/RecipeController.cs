@@ -1,9 +1,11 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Recipe;
+using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Presentation.Models.Recipe;
+using RecipeMicroservice.Presentation.Models.RecipeInstruction;
 
 
 
@@ -98,6 +100,13 @@ namespace RecipeMicroservice.Presentation.Controllers.Mvc
             }
             await _recipeService.UpdateAsync(id, updateRecipeDto);
             return RedirectToAction("Details", new { id });
+        }
+
+        [HttpGet("RecipeInstructionListPartial")]
+        public async Task<IActionResult> RecipeInstructionListPartial(Guid recipeId)
+        {
+            PagedResult<RecipeInstructionDto> instructions = await _recipeService.GetAllInstructionsAsync(recipeId, new FilterInstruction());
+            return PartialView("_RecipeInstructionListPartial", RecipeInstructionListViewModel.FromPagedResult(instructions));
         }
     }
 }

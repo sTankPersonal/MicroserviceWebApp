@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.Presenta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.Tests", "src\Services\RecipeMicroservice\RecipeMicroservice.Tests\RecipeMicroservice.Tests.csproj", "{B08B561A-7FAA-4F48-895B-1AF5BC3816FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.PresentationMVC", "src\Services\RecipeMicroservice\RecipeMicroservice.PresentationMVC\RecipeMicroservice.PresentationMVC.csproj", "{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -228,6 +230,18 @@ Global
 		{B08B561A-7FAA-4F48-895B-1AF5BC3816FD}.Release|x64.Build.0 = Release|Any CPU
 		{B08B561A-7FAA-4F48-895B-1AF5BC3816FD}.Release|x86.ActiveCfg = Release|Any CPU
 		{B08B561A-7FAA-4F48-895B-1AF5BC3816FD}.Release|x86.Build.0 = Release|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Release|x64.Build.0 = Release|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -253,6 +267,7 @@ Global
 		{9987666D-D151-4327-BABE-04F04996D68F} = {C22CEC79-5857-C427-E218-AD784FDECCF5}
 		{8BD9FA6E-925F-4BE7-8FC5-8AF5D445E8F7} = {C22CEC79-5857-C427-E218-AD784FDECCF5}
 		{B08B561A-7FAA-4F48-895B-1AF5BC3816FD} = {C22CEC79-5857-C427-E218-AD784FDECCF5}
+		{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE} = {C22CEC79-5857-C427-E218-AD784FDECCF5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0839881C-FB81-4B49-9582-69ECFC0E847B}

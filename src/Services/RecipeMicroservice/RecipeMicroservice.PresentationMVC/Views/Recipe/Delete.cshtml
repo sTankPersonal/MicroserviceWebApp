@@ -1,0 +1,27 @@
+﻿@using RecipeMicroservice.PresentationMVC.Models.Recipe
+@model RecipeViewModel
+
+@{
+	ViewData["Title"] = "Delete Recipe";
+}
+
+<h1>Delete Recipe</h1>
+
+<h3>Are you sure you want to delete this recipe?</h3>
+
+<div>
+    <strong>@Model.Name</strong>
+    <p>
+        <strong>Prep Time:</strong> @(Model.PrepTimeInMinutes / 60)h @(Model.PrepTimeInMinutes % 60)min<br />
+        <strong>Cook Time:</strong> @(Model.CookTimeInMinutes / 60)h @(Model.CookTimeInMinutes % 60)min<br />
+        <strong>Servings:</strong> @(Model.Servings)<br />
+        <strong>Categories:</strong> @string.Join(", ", Model.Categories.Select(c => c.CategoryName))
+    </p>
+</div>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

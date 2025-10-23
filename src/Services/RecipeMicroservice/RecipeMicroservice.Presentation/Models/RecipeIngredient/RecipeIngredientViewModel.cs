@@ -7,10 +7,11 @@ namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
         public Guid RecipeId { get; set; }
         public Guid IngredientId { get; set; }
         public Guid UnitId { get; set; }
-        public string IngredientName { get; set; } = string.Empty;
         public decimal Quantity { get; set; }
-        public string UnitName { get; set; } = string.Empty;
 
+        //Display mapping
+        public string IngredientName { get; set; } = string.Empty;
+        public string UnitName { get; set; } = string.Empty;
         public static RecipeIngredientViewModel FromDto(RecipeIngredientDto dto)
         {
             return new RecipeIngredientViewModel
