@@ -1,18 +1,17 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
+using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.PresentationMVC.Models.Recipe;
-using RecipeMicroservice.PresentationMVC.Models.RecipeCategory;
-using RecipeMicroservice.PresentationMVC.Models.RecipeIngredient;
-using RecipeMicroservice.PresentationMVC.Models.RecipeInstruction;
-using System.Threading.Tasks;
+using RecipeMicroservice.Presentation.Models.Recipe;
+using RecipeMicroservice.Presentation.Models.RecipeCategory;
+using RecipeMicroservice.Presentation.Models.RecipeIngredient;
+using RecipeMicroservice.Presentation.Models.RecipeInstruction;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
+namespace RecipeMicroservice.Presentation.Controllers.ViewModel
 {
     /* RecipeController Returns a View model
      * GET: /Recipe/{id} - Get recipe by id and return Details view
@@ -25,17 +24,17 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
      * POST: /Recipe/Edit/{id} - Update a recipe and redirect to Details view
      * POST: /Recipe/Delete/{id} - Delete a recipe and redirect to List view
      * 
-     * POST: /Recipe/{id}/Instruction/Add - Add an instruction to the recipe being created or edited
-     * POST: /Recipe/{id}/Ingredient/Add - Add an ingredient to the recipe being created or edited
-     * POST: /Recipe/{id}/Category/Add - Add a category to the recipe being created or edited
+     * POST: /Recipe/{id}/Instruction/Add/{instructionId} - Add an instruction to the recipe being created or edited
+     * POST: /Recipe/{id}/Ingredient/Add/{ingredientId} - Add an ingredient to the recipe being created or edited
+     * POST: /Recipe/{id}/Category/Add/{categoryId} - Add a category to the recipe being created or edited
      * 
      * POST: /Recipe/{id}/Instruction/Remove - Remove an instruction from the recipe being created or edited
      * POST: /Recipe/{id}/Ingredient/Remove - Remove an ingredient from the recipe being created or edited
      * POST: /Recipe/{id}/Category/Remove - Remove a category from the recipe being created or edited
      * 
-     * POST: /Recipe/{id}/Instruction/Edit/{instructionId} - Edit an instruction in the recipe being created or edited
-     * POST: /Recipe/{id}/Ingredient/Edit/{ingredientId} - Edit an ingredient in the recipe being created or edited
-     * POST: /Recipe/{id}/Category/Edit/{categoryId} - Edit a category in the recipe being created or edited
+     * POST: /Recipe/{id}/Instruction/Edit - Edit an instruction in the recipe being created or edited
+     * POST: /Recipe/{id}/Ingredient/Edit - Edit an ingredient in the recipe being created or edited
+     * POST: /Recipe/{id}/Category/Edit - Edit a category in the recipe being created or edited
      */
     [Route("[controller]")]
     public class RecipeController(IRecipeService recipeService) : Controller
@@ -144,32 +143,35 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
         // POST: /Recipe/{id}/Instruction/Add
         [HttpPost("{id}/Instruction/Add")]
         [ActionName("AddInstruction")]
-        public async Task<IActionResult> AddInstruction(Guid id, EditRecipeInstructionViewModel editRecipeInstructionViewModel)
+        public async Task<IActionResult> AddInstruction(Guid id, CreateRecipeInstructionViewModel createRecipeInstructionViewModel)
         {
             await _recipeService.CreateRecipeInstructionAsync(id, new CreateRecipeInstructionDto
             {
-                Description = editRecipeInstructionViewModel.Description,
-                StepNumber = editRecipeInstructionViewModel.StepNumber
+                Description = createRecipeInstructionViewModel.Description,
+                StepNumber = createRecipeInstructionViewModel.StepNumber
             });
             return RedirectToAction("Edit", new { id });
         }
         // POST: /Recipe/{id}/Ingredient/Add
         [HttpPost("{id}/Ingredient/Add")]
         [ActionName("AddIngredient")]
-        public async Task<IActionResult> AddIngredient(Guid id, Guid ingredientId, EditRecipeIngredientViewModel editRecipeIngredientViewModel)
+        public async Task<IActionResult> AddIngredient(Guid id, CreateRecipeIngredientViewModel createRecipeIngredientViewModel)
         {
-            await _recipeService.CreateRecipeIngredientAsync(id, ingredientId, new CreateRecipeIngredientDto
+            await _recipeService.CreateRecipeIngredientAsync(id, createRecipeIngredientViewModel.IngredientId, new CreateRecipeIngredientDto
             {
-                UnitId = editRecipeIngredientViewModel.UnitId,
-                Quantity = editRecipeIngredientViewModel.Quantity
+                UnitId = createRecipeIngredientViewModel.UnitId,
+                Quantity = createRecipeIngredientViewModel.Quantity
             });
             return RedirectToAction("Edit", new { id });
         }
         // POST: /Recipe/{id}/Category/Add
         [HttpPost("{id}/Category/Add")]
-        public async Task<IActionResult> AddCategory(Guid id, Guid categoryId, EditRecipeCategoryViewModel editRecipeCategoryViewModel)
+        public async Task<IActionResult> AddCategory(Guid id, CreateRecipeCategoryViewModel createRecipeCategoryViewModel)
         {
-            await _recipeService.CreateRecipeCategoryAsync(id, categoryId, new CreateRecipeCategoryDto { });
+            Console.WriteLine("Adding category to recipe...");
+            Console.WriteLine($"Recipe ID: {id}");
+            Console.WriteLine($"Category ID: {createRecipeCategoryViewModel.CategoryId}");
+            await _recipeService.CreateRecipeCategoryAsync(id, createRecipeCategoryViewModel.CategoryId, new CreateRecipeCategoryDto { });
             return RedirectToAction("Edit", new { id });
         }
 
@@ -187,7 +189,7 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
             await _recipeService.DeleteRecipeIngredientAsync(id, ingredientId);
             return RedirectToAction("Edit", new { id });
         }
-        // POST: /Recipe/{id}/Category/Remove
+        // POST: /Recipe/{id}/Category/Remove/{categoryId}
         [HttpPost("{id}/Category/Remove")]
         public async Task<IActionResult> RemoveCategory(Guid id, Guid categoryId)
         {

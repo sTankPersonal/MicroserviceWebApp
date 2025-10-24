@@ -1,4 +1,4 @@
-﻿namespace RecipeMicroservice.PresentationMVC.Models
+﻿namespace RecipeMicroservice.Presentation.Models
 {
     public class BaseListViewModel<T>
     {

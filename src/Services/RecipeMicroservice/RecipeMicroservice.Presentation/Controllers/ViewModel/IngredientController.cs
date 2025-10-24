@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Ingredient;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.PresentationMVC.Models.Ingredient;
+using RecipeMicroservice.Presentation.Models.Ingredient;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
+namespace RecipeMicroservice.Presentation.Controllers.ViewModel
 {
     /* GET: /Ingredient - Get all ingredients and return List view
      * GET: /Ingredient/{id} - Get ingredient by id and return Details view

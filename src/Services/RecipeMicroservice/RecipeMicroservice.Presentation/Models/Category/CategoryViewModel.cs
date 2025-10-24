@@ -1,6 +1,6 @@
 ﻿using RecipeMicroservice.Application.DTOs.Category;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Category
+namespace RecipeMicroservice.Presentation.Models.Category
 {
     public class CategoryViewModel
     {

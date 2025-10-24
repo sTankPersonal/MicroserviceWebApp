@@ -1,9 +1,9 @@
 ﻿using RecipeMicroservice.Application.DTOs.Recipe;
-using RecipeMicroservice.PresentationMVC.Models.RecipeCategory;
-using RecipeMicroservice.PresentationMVC.Models.RecipeIngredient;
-using RecipeMicroservice.PresentationMVC.Models.RecipeInstruction;
+using RecipeMicroservice.Presentation.Models.RecipeCategory;
+using RecipeMicroservice.Presentation.Models.RecipeIngredient;
+using RecipeMicroservice.Presentation.Models.RecipeInstruction;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Recipe
+namespace RecipeMicroservice.Presentation.Models.Recipe
 {
     public class RecipeViewModel
     {

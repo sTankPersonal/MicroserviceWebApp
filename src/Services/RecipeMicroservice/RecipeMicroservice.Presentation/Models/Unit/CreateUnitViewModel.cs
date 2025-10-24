@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Unit
+namespace RecipeMicroservice.Presentation.Models.Unit
 {
     public class CreateUnitViewModel
     {

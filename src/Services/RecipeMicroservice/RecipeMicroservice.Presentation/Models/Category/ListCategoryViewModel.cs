@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Category;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Category
+namespace RecipeMicroservice.Presentation.Models.Category
 {
     public class ListCategoryViewModel : BaseListViewModel<CategoryViewModel>
     {

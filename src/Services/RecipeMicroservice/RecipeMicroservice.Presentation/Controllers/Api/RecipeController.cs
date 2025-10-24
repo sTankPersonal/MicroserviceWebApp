@@ -5,7 +5,7 @@ using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Application.DTOs.Recipe;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.Api
+namespace RecipeMicroservice.Presentation.Controllers.Api
 {
     [Route("api/[Controller]")]
     public class RecipeController(IRecipeService recipeService) : ControllerBase

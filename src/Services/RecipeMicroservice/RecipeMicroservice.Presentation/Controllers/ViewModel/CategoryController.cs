@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Category;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.PresentationMVC.Models.Category;
+using RecipeMicroservice.Presentation.Models.Category;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
+namespace RecipeMicroservice.Presentation.Controllers.ViewModel
 {
     /* GET: /Category - Get all categories and return List view
      * GET: /Category/{id} - Get category by id and return Details view

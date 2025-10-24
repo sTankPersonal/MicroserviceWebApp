@@ -1,4 +1,4 @@
-﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeCategory
+﻿namespace RecipeMicroservice.Presentation.Models.RecipeCategory
 {
     public class RecipeCategoryViewModel
     {

@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
-using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;

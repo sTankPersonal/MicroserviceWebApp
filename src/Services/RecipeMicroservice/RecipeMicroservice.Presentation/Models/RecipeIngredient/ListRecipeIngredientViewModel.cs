@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 
-namespace RecipeMicroservice.PresentationMVC.Models.RecipeIngredient
+namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
 {
     public class ListRecipeIngredientViewModel : BaseListViewModel<RecipeIngredientViewModel>
     {

@@ -1,7 +1,9 @@
-﻿@using RecipeMicroservice.PresentationMVC.Models.Recipe
-@using RecipeMicroservice.PresentationMVC.Models.RecipeCategory
-@using RecipeMicroservice.PresentationMVC.Models.RecipeIngredient
-@using RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
+﻿@using RecipeMicroservice.Presentation
+@using RecipeMicroservice.Presentation.Models
+@using RecipeMicroservice.Presentation.Models.Recipe
+@using RecipeMicroservice.Presentation.Models.RecipeCategory
+@using RecipeMicroservice.Presentation.Models.RecipeIngredient
+@using RecipeMicroservice.Presentation.Models.RecipeInstruction
 @model EditRecipeViewModel
 @{
 	ViewData["Title"] = "Edit Recipe";
@@ -39,7 +41,7 @@
 
 <h4>Categories</h4>
 
-<table class="table table-striped">
+<table class="table table-striped mb-3">
 	<thead>
 		<tr>
 			<th>Category</th>
@@ -47,24 +49,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<form asp-controller="Recipe" asp-action="AddCategory" asp-route-id="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
-				<input type="hidden" name="id" value="@Model.Id" />
-				<td>
-					<select name="categoryId"
-						class="form-select select2-field"
-						data-placeholder="New Category"
-						data-ajax-url="/api/Category/AjaxList"
-						data-ajax-text-field="text"
-						data-ajax-id-field="id"
-						data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
-					</select>
-				</td>
-				<td>
-					<button type="submit" class="btn btn-primary">Add Category</button>
-				</td>
-			</form>
-		</tr>
 		@if (Model.HasCategories())
 		{
 			@foreach (RecipeCategoryViewModel category in Model.RecipeCategories)
@@ -81,7 +65,27 @@
 	</tbody>
 </table>
 
-<hr />
+<form asp-controller="Recipe"
+	  asp-action="AddCategory"
+	  asp-route-id="@Model.Id"
+	  method="post"
+	  class="row g-2 align-items-center mb-3">
+
+	<div class="col-6">
+		<select asp-for="NewCategory.CategoryId"
+				class="form-select select2-field"
+				data-placeholder="New Category"
+				data-ajax-url="/api/Category/AjaxList"
+				data-ajax-text-field="text"
+				data-ajax-id-field="id"
+				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+		</select>
+	</div>
+	<div class="col-auto">
+		<button type="submit" class="btn btn-primary">Add Category</button>
+	</div>
+</form>
+
 
 <h4>Ingredients</h4>
 
@@ -96,10 +100,9 @@
         </thead>
         <tbody>
 			<tr>
-				<form asp-controller="RecipeIngredient" asp-action="Add" asp-route-recipeId="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
-					<input type="hidden" name="RecipeId" value="@Model.Id" />
+			<form asp-controller="RecipeIngredient" asp-action="Add" asp-route-recipeId="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
 					<td>
-						<select name="IngredientId"
+						<select asp-for="NewIngredient.IngredientId"
 							class="form-select select2-field"
 							data-placeholder="New Ingredient"
 							data-ajax-url="/api/Ingredient/AjaxList"
@@ -109,10 +112,12 @@
 						</select>
 					</td>
 					<td>
-						<input type="number" step="any" name="Quantity" class="form-control" placeholder="Quantity" />
+						<label asp-for="NewIngredient.Quantity" class="form-label"></label>
+						<input asp-for="NewIngredient.Quantity" class="form-control" type="number" />
+						<span asp-validation-for="NewIngredient.Quantity" class="text-danger"></span>
 					</td>
 					<td>
-						<select name="UnitId"
+						<select asp-for="NewIngredient.IngredientId"
 							class="form-select select2-field"
 							data-placeholder="Unit"
 							data-ajax-url="/api/Unit/AjaxList"
@@ -126,7 +131,7 @@
 					</td>
 			</form>
 			</tr>
-@if (Model.HasInstructions())
+@if (Model.HasIngredients())
 {
 			@foreach (RecipeIngredientViewModel ingredient in Model.RecipeIngredients)
 			{
@@ -144,8 +149,6 @@
 		</tbody>
 	</table>
 
-
-
 <h4>Steps</h4>
 
 	<table class="table table-striped">
@@ -157,20 +160,25 @@
             </tr>
         </thead>
         <tbody>
-			<tr>
-				<form asp-controller="RecipeInstruction" asp-action="Add" asp-route-recipeId="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
+			<form asp-controller="RecipeInstruction" asp-action="Add" asp-route-recipeId="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
+				<tr>
 					<input type="hidden" name="RecipeId" value="@Model.Id" />
 					<td>
-						<input type="number" name="StepNumber" class="form-control" placeholder="Step Number" />	
+						<label asp-for="NewInstruction.StepNumber" class="form-label"></label>
+						<input asp-for="NewInstruction.StepNumber" class="form-control" type="number" />
+						<span asp-validation-for="NewInstruction.StepNumber" class="text-danger"></span>
 					</td>
 					<td>
-						<textarea name="Description" class="form-control" placeholder="New Instruction"></textarea>
+						<label asp-for="NewInstruction.Description" class="form-label"></label>
+						<input asp-for="NewInstruction.Description" class="form-control" />
+						<span asp-validation-for="NewInstruction.Description" class="text-danger"></span>
 					</td>
 					<td>
 						<button type="submit" class="btn btn-primary">Add Step</button>
 					</td>
-				</form>
-			</tr>
+				</tr>	
+			</form>
+
 @if (Model.HasInstructions())
 {
 			@foreach (RecipeInstructionViewModel step in Model.RecipeInstructions.OrderBy(s => s.StepNumber).ThenBy(s => s.Id))
@@ -187,11 +195,6 @@
 }
 		</tbody>
 	</table>
-
-
-
-
-
 
 @section Scripts {
 	<script src="~/js/select2-ajax.js"></script>

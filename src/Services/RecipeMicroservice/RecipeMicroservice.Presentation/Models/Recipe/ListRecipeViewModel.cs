@@ -2,7 +2,7 @@
 using RecipeMicroservice.Application.DTOs.Recipe;
 using System.ComponentModel.DataAnnotations;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Recipe
+namespace RecipeMicroservice.Presentation.Models.Recipe
 {
     public class ListRecipeViewModel : BaseListViewModel<RecipeViewModel>
     {
