@@ -2,4 +2,12 @@
 @{
 	ViewData["Title"] = "Category Details";
 }
-<h2>@Model.Name</h2>
+<h2>Category Details - @Model.Name</h2>
+
+<p>
+    <strong>No attributes to display for @Model.Name</strong><br />
+</p>
+
+<a asp-controller="Category" asp-action="List" class="btn btn-secondary">Back to List</a>
+<a asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+<a asp-controller="Category" asp-action="Delete" asp-route-idRecipe="@Model.Id" class="btn btn-danger">Delete</a>

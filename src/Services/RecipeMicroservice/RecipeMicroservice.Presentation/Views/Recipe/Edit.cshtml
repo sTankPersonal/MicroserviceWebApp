@@ -7,7 +7,7 @@
 	ViewData["Title"] = "Edit Recipe";
 }
 
-<h2>Edit Recipe</h2>
+<h2>Edit Recipe - @Model.Name</h2>
 
 <form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id" method="post">
 	<input type="hidden" asp-for="Id" />

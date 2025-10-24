@@ -1,8 +1,15 @@
-﻿@using RecipeMicroservice.PresentationMVC.Models.Ingredient
-@model IngredientViewModel
+﻿@model RecipeMicroservice.PresentationMVC.Models.Ingredient.IngredientViewModel
 @{
 	ViewData["Title"] = "Ingredient Details";
 }
-<h2>@Model.Name</h2>
+<h2>Ingredient Details - @Model.Name</h2>
+
+<p>
+	<strong>No attributes to display for @Model.Name</strong><br />
+</p>
+
+<a asp-controller="Ingredient" asp-action="List" class="btn btn-secondary">Back to List</a>
+<a asp-controller="Ingredient" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+<a asp-controller="Ingredient" asp-action="Delete" asp-route-idRecipe="@Model.Id" class="btn btn-danger">Delete</a>
 
 
