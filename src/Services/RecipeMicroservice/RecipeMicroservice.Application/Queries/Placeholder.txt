@@ -1,0 +1,4 @@
+If you wish an additional layer of abstractions, queries can be created here.
+A query is a request for data retrieval, often encapsulating all necessary parameters for that retrieval and receiving a response containing the requested data.
+The Service layer will call the correct query to perform the data retrieval.
+However, if the data retrieval is simple enough, it can be performed directly in the Service layer without needing a separate query.

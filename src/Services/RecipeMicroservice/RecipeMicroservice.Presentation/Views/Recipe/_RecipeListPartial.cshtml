@@ -1,0 +1,60 @@
+﻿@using RecipeMicroservice.Presentation.Models.Recipe
+@using RecipeMicroservice.Presentation.Models.RecipeCategory
+@model RecipeListViewModel
+
+
+@if (Model.Items.Count == 0)
+{
+    <p>No Recipes.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Recipe</th>
+                <th>Categories</th>
+                <th>Prep Time</th>
+                <th>Cook Time</th>
+                <th>Servings</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (RecipeViewModel recipe in Model.Items)
+            {
+                <tr>
+                    <td>@recipe.Name</td>
+                    <td>
+                        @if (recipe.HasCategories())
+                        {
+                            @string.Join(", ", recipe.Categories.Select(c => c.CategoryName))
+                        }
+                    </td>
+                    <td>@(recipe.PrepTimeInMinutes / 60)h @(recipe.PrepTimeInMinutes % 60)min</td>
+                    <td>@(recipe.CookTimeInMinutes / 60)h @(recipe.CookTimeInMinutes % 60)min</td>
+                    <td>@(recipe.Servings)</td>
+                    <td>
+                        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-info">View</a>
+                        <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item"><a href="#" class="page-link page-btn" data-page="@(Model.PageNumber - 1)">Previous</a></li>
+            }
+            <li class="page-item active"><span class="page-link">@Model.PageNumber</span></li>
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item"><a href="#" class="page-link page-btn" data-page="@(Model.PageNumber + 1)">Next</a></li>
+            }
+        </ul>
+    </nav>
+}

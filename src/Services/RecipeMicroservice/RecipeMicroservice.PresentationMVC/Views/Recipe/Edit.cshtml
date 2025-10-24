@@ -1,0 +1,198 @@
+﻿@using RecipeMicroservice.PresentationMVC.Models.Recipe
+@using RecipeMicroservice.PresentationMVC.Models.RecipeCategory
+@using RecipeMicroservice.PresentationMVC.Models.RecipeIngredient
+@using RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
+@model EditRecipeViewModel
+@{
+	ViewData["Title"] = "Edit Recipe";
+}
+
+<h2>Edit Recipe</h2>
+
+<form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+	<input type="hidden" asp-for="Id" />
+	<div class="mb-3">
+		<label asp-for="Name" class="form-label"></label>
+		<input asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="PrepTimeInMinutes" class="form-label"></label>
+		<input asp-for="PrepTimeInMinutes" class="form-control" type="number" />
+		<span asp-validation-for="PrepTimeInMinutes" class="text-danger"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="CookTimeInMinutes" class="form-label"></label>
+		<input asp-for="CookTimeInMinutes" class="form-control" type="number" />
+		<span asp-validation-for="CookTimeInMinutes" class="text-danger"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="Servings" class="form-label"></label>
+		<input asp-for="Servings" class="form-control" typeof="number">
+		<span asp-validation-for="Servings" class="text-danger"></span>
+	</div>
+	<button type="submit" class="btn btn-primary">Save</button>
+	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<hr />
+
+<h4>Categories</h4>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<form asp-controller="Recipe" asp-action="AddCategory" asp-route-id="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
+				<input type="hidden" name="id" value="@Model.Id" />
+				<td>
+					<select name="categoryId"
+						class="form-select select2-field"
+						data-placeholder="New Category"
+						data-ajax-url="/api/Category/AjaxList"
+						data-ajax-text-field="text"
+						data-ajax-id-field="id"
+						data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+					</select>
+				</td>
+				<td>
+					<button type="submit" class="btn btn-primary">Add Category</button>
+				</td>
+			</form>
+		</tr>
+		@if (Model.HasCategories())
+		{
+			@foreach (RecipeCategoryViewModel category in Model.RecipeCategories)
+			{
+				<tr>
+					<td>@category.CategoryName</td>
+					<td>
+						<a asp-controller="Recipe" asp-action="Edit" asp-route-id="@category.RecipeId" class="btn btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="Delete" asp-route-id="@category.RecipeId" class="btn btn-sm">Delete-WIP</a>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>
+
+<hr />
+
+<h4>Ingredients</h4>
+
+	<table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+				<th>Quantity</th>
+				<th>Unit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+			<tr>
+				<form asp-controller="RecipeIngredient" asp-action="Add" asp-route-recipeId="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
+					<input type="hidden" name="RecipeId" value="@Model.Id" />
+					<td>
+						<select name="IngredientId"
+							class="form-select select2-field"
+							data-placeholder="New Ingredient"
+							data-ajax-url="/api/Ingredient/AjaxList"
+							data-ajax-text-field="text"
+							data-ajax-id-field="id"
+							data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+						</select>
+					</td>
+					<td>
+						<input type="number" step="any" name="Quantity" class="form-control" placeholder="Quantity" />
+					</td>
+					<td>
+						<select name="UnitId"
+							class="form-select select2-field"
+							data-placeholder="Unit"
+							data-ajax-url="/api/Unit/AjaxList"
+							data-ajax-text-field="text"
+							data-ajax-id-field="id"
+							data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+						</select>
+					</td>
+					<td>
+						<button type="submit" class="btn btn-primary">Add Ingredient</button>
+					</td>
+			</form>
+			</tr>
+@if (Model.HasInstructions())
+{
+			@foreach (RecipeIngredientViewModel ingredient in Model.RecipeIngredients)
+			{
+				<tr>
+					<td>@ingredient.IngredientName</td>
+					<td>@ingredient.FormattedQuantity</td>
+					<td>@ingredient.UnitName </td>
+					<td>
+						<a asp-controller="RecipeIngredient" asp-action="Edit" asp-route-id="@ingredient.RecipeId" class="btn btn-sm">Edit-WIP</a>
+						<a asp-controller="RecipeIngredient" asp-action="Delete" asp-route-id="@ingredient.RecipeId" class="btn btn-sm">Delete-WIP</a>
+					</td>
+				</tr>
+			}
+}
+		</tbody>
+	</table>
+
+
+
+<h4>Steps</h4>
+
+	<table class="table table-striped">
+        <thead>
+            <tr>
+				<th>Step Number</th>
+                <th>Instructions</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+			<tr>
+				<form asp-controller="RecipeInstruction" asp-action="Add" asp-route-recipeId="@Model.Id" method="post" class="row g-2 align-items-center mb-3">
+					<input type="hidden" name="RecipeId" value="@Model.Id" />
+					<td>
+						<input type="number" name="StepNumber" class="form-control" placeholder="Step Number" />	
+					</td>
+					<td>
+						<textarea name="Description" class="form-control" placeholder="New Instruction"></textarea>
+					</td>
+					<td>
+						<button type="submit" class="btn btn-primary">Add Step</button>
+					</td>
+				</form>
+			</tr>
+@if (Model.HasInstructions())
+{
+			@foreach (RecipeInstructionViewModel step in Model.RecipeInstructions.OrderBy(s => s.StepNumber).ThenBy(s => s.Id))
+			{
+				<tr>
+					<td>@step.StepNumber</td>
+					<td>@step.Description</td>
+					<td>
+						<a asp-controller="RecipeInstruction" asp-action="Edit" asp-route-id="@step.Id" class="btn btn-sm">Edit-WIP</a>
+						<a asp-controller="RecipeInstruction" asp-action="Delete" asp-route-id="@step.Id" class="btn btn-sm">Delete-WIP</a>
+					</td>
+				</tr>
+			}
+}
+		</tbody>
+	</table>
+
+
+
+
+
+
+@section Scripts {
+	<script src="~/js/select2-ajax.js"></script>
+}

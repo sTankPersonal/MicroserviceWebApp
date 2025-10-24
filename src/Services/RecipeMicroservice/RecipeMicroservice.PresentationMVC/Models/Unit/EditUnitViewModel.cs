@@ -1,0 +1,13 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RecipeMicroservice.PresentationMVC.Models.Unit
+{
+    public class EditUnitViewModel
+    {
+        public Guid Id { get; set; }
+        [Required(ErrorMessage = "Please enter a name for the Ingredient.")]
+        [Display(Name = "Ingredient Name")]
+        [StringLength(200, ErrorMessage = "Ingredient name cannot be longer than 200 characters.")]
+        public string Name { get; set; } = string.Empty;
+    }
+}

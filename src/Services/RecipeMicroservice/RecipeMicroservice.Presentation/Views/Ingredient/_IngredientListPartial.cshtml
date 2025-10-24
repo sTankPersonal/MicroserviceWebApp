@@ -1,0 +1,44 @@
+﻿@using RecipeMicroservice.Presentation.Models.Ingredient
+@model IngredientListViewModel
+
+@if(Model.Items.Count == 0)
+{
+	<p>No Ingredients.</p>
+}
+else
+{
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Ingredient</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (IngredientViewModel ingredient in Model.Items)
+			{
+				<tr>
+					<td>@ingredient.Name</td>
+					<td>
+						<a asp-controller="Ingredient" asp-action="Details" asp-route-id="@ingredient.Id" class="btn btn-sm btn-info">View</a>
+						<a asp-controller="Ingredient" asp-action="Edit" asp-route-id="@ingredient.Id" class="btn btn-sm btn-warning">Edit</a>
+						<a asp-controller="Ingredient" asp-action="Delete" asp-route-id="@ingredient.Id" class="btn btn-sm btn-danger">Delete</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<nav>
+		<ul class="pagination">
+			@if (Model.HasPreviousPage)
+			{
+				<li class="page-item"><a href="#" class="page-link page-btn" data-page="@(Model.PageNumber - 1)">Previous</a></li>
+			}
+			<li class="page-item active"><span class="page-link">@Model.PageNumber</span></li>
+			@if (Model.HasNextPage)
+			{
+				<li class="page-item"><a href="#" class="page-link page-btn" data-page="@(Model.PageNumber + 1)">Next</a></li>
+			}
+		</ul>
+	</nav>
+}

@@ -1,6 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+
 using BuildingBlocks.CrossCutting.Extensions;
 using BuildingBlocks.CrossCutting.Middleware;
 using BuildingBlocks.CrossCutting.Validation;
+using Template.Infrastructure.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -9,19 +12,25 @@ builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add<DefaultValidationFilter>();
 });
-ServiceCollectionExtensions.AddCrossCutting(builder.Services, builder.Configuration);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = "Cookies";
-    options.DefaultChallengeScheme = "Google";
-})
-.AddCookie("Cookies")
-.AddGoogle("Google", options =>
-{
-    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? string.Empty;
-    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") ?? string.Empty;
+builder.Services.AddCrossCutting(builder.Configuration);
+
+builder.Services.AddDbContext<ExampleDbContext>(options =>
+{ 
+    options.UseNpgsql(Environment.GetEnvironmentVariable("NEON_CONNECTION"));
 });
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = "Cookies";
+//    options.DefaultChallengeScheme = "Google";
+//})
+//.AddCookie("Cookies")
+//.AddGoogle("Google", options =>
+//{
+//    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? string.Empty;
+//    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") ?? string.Empty;
+//});
 
 builder.Services.AddAuthorization();
 

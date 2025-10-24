@@ -2,7 +2,7 @@
 
 namespace Template.Application.Interfaces.Services
 {
-    internal interface IExampleService : IApplicationService
+    internal interface IExampleService
     {
         Task<ExampleDto> GetById(Guid id);
     }

@@ -1,0 +1,16 @@
+﻿@using RecipeMicroservice.Presentation.Models.Recipe
+@model RecipeListViewModel
+@{
+    ViewData["Title"] = "Recipes";
+    ViewBag.PartialView = "_RecipeListPartial";
+    ViewBag.PartialUrl = "/Recipe/PartialRecipes";
+    ViewBag.CreateUrl = Url.Action("Create", "Recipe");
+    ViewBag.CreateLabel = "Create New Recipe";
+    ViewBag.ListId = "recipeList";
+    ViewBag.SearchFormId = "recipeSearchForm";
+	ViewBag.SearchFieldsPartial = "_RecipeSearchFields";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@await Html.PartialAsync("_AjaxListContainer", Model)

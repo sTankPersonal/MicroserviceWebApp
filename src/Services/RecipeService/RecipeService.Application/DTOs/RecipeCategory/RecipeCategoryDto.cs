@@ -1,9 +1,0 @@
-﻿namespace RecipeService.Application.DTOs.RecipeCategory
-{
-    public class RecipeCategoryDto
-    {
-        public Guid RecipeId { get; set; }
-        public Guid CategoryId { get; set; }
-        public string CategoryName { get; set; } = string.Empty;
-    }
-}

@@ -1,0 +1,40 @@
+﻿
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RecipeMicroservice.Domain.Aggregates;
+
+namespace RecipeMicroservice.Infrastructure.Persistence.Configurations
+{
+    public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
+    {
+        public void Configure(EntityTypeBuilder<Recipe> builder)
+        {
+            builder.HasKey(r => r.Id);
+
+            builder.Property(r => r.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+            builder.Property(r => r.PrepTimeInMinutes)
+                .IsRequired();
+            builder.Property(r => r.CookTimeInMinutes)
+                .IsRequired();
+            builder.Property(r => r.Servings)
+                .IsRequired();
+
+            builder.HasMany(r => r.RecipeCategories)
+                .WithOne(rc => rc.Recipe)
+                .HasForeignKey(rc => rc.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(r => r.RecipeIngredients)
+                .WithOne(ri => ri.Recipe)
+                .HasForeignKey(ri => ri.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(r => r.RecipeInstructions)
+                .WithOne(i => i.Recipe)
+                .HasForeignKey(i => i.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+}

@@ -1,0 +1,19 @@
+﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
+{
+    public class RecipeInstructionViewModel
+    {
+        public Guid Id { get; set; }
+        public int StepNumber { get; set; }
+        public string Description { get; set; } = string.Empty;
+
+        public static RecipeInstructionViewModel FromDto(Application.DTOs.RecipeInstruction.RecipeInstructionDto dto)
+        {
+            return new RecipeInstructionViewModel
+            {
+                Id = dto.Id,
+                StepNumber = dto.StepNumber,
+                Description = dto.Description
+            };
+        }
+    }
+}
