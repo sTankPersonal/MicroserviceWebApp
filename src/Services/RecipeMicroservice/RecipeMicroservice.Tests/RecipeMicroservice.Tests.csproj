@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RecipeMicroservice.Application\RecipeMicroservice.Application.csproj" />
     <ProjectReference Include="..\RecipeMicroservice.Domain\RecipeMicroservice.Domain.csproj" />
-    <ProjectReference Include="..\RecipeMicroservice.Presentation\RecipeMicroservice.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
