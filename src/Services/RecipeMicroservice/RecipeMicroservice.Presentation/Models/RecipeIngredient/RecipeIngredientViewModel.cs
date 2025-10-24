@@ -1,17 +1,18 @@
 ﻿using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 
-namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
+namespace RecipeMicroservice.PresentationMVC.Models.RecipeIngredient
 {
     public class RecipeIngredientViewModel
     {
         public Guid RecipeId { get; set; }
         public Guid IngredientId { get; set; }
         public Guid UnitId { get; set; }
-        public decimal Quantity { get; set; }
+        public decimal Quantity { get; set; } = 0;
 
-        //Display mapping
+        //Display Properties
         public string IngredientName { get; set; } = string.Empty;
         public string UnitName { get; set; } = string.Empty;
+
         public static RecipeIngredientViewModel FromDto(RecipeIngredientDto dto)
         {
             return new RecipeIngredientViewModel

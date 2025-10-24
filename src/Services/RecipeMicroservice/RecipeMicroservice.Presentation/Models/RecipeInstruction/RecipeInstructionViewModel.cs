@@ -1,6 +1,4 @@
-﻿using RecipeMicroservice.Application.DTOs.RecipeInstruction;
-
-namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
+﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
 {
     public class RecipeInstructionViewModel
     {
@@ -8,7 +6,7 @@ namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
         public int StepNumber { get; set; }
         public string Description { get; set; } = string.Empty;
 
-        public static RecipeInstructionViewModel FromDto(RecipeInstructionDto dto)
+        public static RecipeInstructionViewModel FromDto(Application.DTOs.RecipeInstruction.RecipeInstructionDto dto)
         {
             return new RecipeInstructionViewModel
             {

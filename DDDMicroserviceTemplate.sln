@@ -48,7 +48,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.Infrastr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.Tests", "src\Services\RecipeMicroservice\RecipeMicroservice.Tests\RecipeMicroservice.Tests.csproj", "{B08B561A-7FAA-4F48-895B-1AF5BC3816FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.PresentationMVC", "src\Services\RecipeMicroservice\RecipeMicroservice.PresentationMVC\RecipeMicroservice.PresentationMVC.csproj", "{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMicroservice.Presentation", "src\Services\RecipeMicroservice\RecipeMicroservice.Presentation\RecipeMicroservice.Presentation.csproj", "{867B0BFD-C1C4-49F5-B3C1-DE4B611041EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

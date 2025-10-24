@@ -1,14 +1,14 @@
-﻿using RecipeMicroservice.Application.DTOs.RecipeCategory;
-
-namespace RecipeMicroservice.Presentation.Models.RecipeCategory
+﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeCategory
 {
     public class RecipeCategoryViewModel
     {
         public Guid RecipeId { get; set; }
         public Guid CategoryId { get; set; }
+
+        // Display Properties
         public string CategoryName { get; set; } = string.Empty;
 
-        public static RecipeCategoryViewModel FromDto(RecipeCategoryDto dto)
+        public static RecipeCategoryViewModel FromDto(Application.DTOs.RecipeCategory.RecipeCategoryDto dto)
         {
             return new RecipeCategoryViewModel
             {

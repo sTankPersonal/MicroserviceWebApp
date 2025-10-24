@@ -1,11 +1,11 @@
-﻿@using RecipeMicroservice.Presentation.Models.Recipe
+﻿@using RecipeMicroservice.PresentationMVC.Models.Recipe
 @model CreateRecipeViewModel
 @{
 	ViewData["Title"] = "Create Recipe";
 }
 <h2>Create Recipe</h2>
 
-<form asp-action="Create" method="post">
+<form asp-controller="Recipe" asp-action="Create" method="post">
 	<div class="mb-3">
 		<label asp-for="Name" class="form-label"></label>
 		<input asp-for="Name" class="form-control" />
