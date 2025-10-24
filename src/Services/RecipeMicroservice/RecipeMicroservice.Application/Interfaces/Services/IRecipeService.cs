@@ -2,6 +2,8 @@
 using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
+using RecipeMicroservice.Application.DTOs.RecipeCategory;
+using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Domain.Specifications;
 
@@ -11,12 +13,21 @@ namespace RecipeMicroservice.Application.Interfaces.Services
     {
         public Task<PagedResult<RecipeDto>> GetAllAsync(FilterRecipe filter);
 
-        //Aggregate Child - Instructions
+        //Aggregate Child - RecipeInstructions
         //public Task<RecipeInstructionDto?> GetInstructionByIdAsync(Guid recipeId, Guid instructionId);
         //public Task<PagedResult<RecipeInstructionDto>> GetAllInstructionsAsync(Guid recipeId, PagedQuery query);
         //public Task<PagedResult<RecipeInstructionDto>> GetAllInstructionsAsync(Guid recipeId, FilterInstruction filter);
-        public Task<Guid> CreateInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto);
-        public Task UpdateInstructionAsync(Guid recipeId, Guid instructionId, UpdateRecipeInstructionDto dto);
-        public Task DeleteInstructionAsync(Guid recipeId,  Guid instructionId);
+        public Task<Guid> CreateRecipeInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto);
+        public Task UpdateRecipeInstructionAsync(Guid recipeId, Guid recipeInstructionId, UpdateRecipeInstructionDto dto);
+        public Task DeleteRecipeInstructionAsync(Guid recipeId,  Guid recipeInstructionId);
+        //Aggregate Child - RecipeIngredients
+        public Task<Guid> CreateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, CreateRecipeIngredientDto dto);
+        public Task UpdateRecipeIngredientAsync(Guid recipeId, Guid recipeIngredientId, UpdateRecipeIngredientDto dto);
+        public Task DeleteRecipeIngredientAsync(Guid recipeId,  Guid recipeIngredientId);
+
+        //Aggregate Child - RecipeCategories
+        public Task<Guid> CreateRecipeCategoryAsync(Guid recipeId, Guid categoryId, CreateRecipeCategoryDto dto);
+        public Task UpdateRecipeCategoryAsync(Guid recipeId, Guid recipeCategoryId, UpdateRecipeCategoryDto dto);
+        public Task DeleteRecipeCategoryAsync(Guid recipeId,  Guid recipeCategoryId);
     }
 }

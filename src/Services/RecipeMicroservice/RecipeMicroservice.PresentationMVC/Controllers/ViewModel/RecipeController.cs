@@ -1,9 +1,16 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
+using RecipeMicroservice.Application.DTOs.RecipeCategory;
+using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.PresentationMVC.Models.Recipe;
+using RecipeMicroservice.PresentationMVC.Models.RecipeCategory;
+using RecipeMicroservice.PresentationMVC.Models.RecipeIngredient;
+using RecipeMicroservice.PresentationMVC.Models.RecipeInstruction;
+using System.Threading.Tasks;
 
 namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
 {
@@ -132,6 +139,60 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
             await _recipeService.DeleteAsync(id);
             return RedirectToAction("List");
 
+        }
+
+        // POST: /Recipe/{id}/Instruction/Add
+        [HttpPost("{id}/Instruction/Add")]
+        [ActionName("AddInstruction")]
+        public async Task<IActionResult> AddInstruction(Guid id, EditRecipeInstructionViewModel editRecipeInstructionViewModel)
+        {
+            await _recipeService.CreateRecipeInstructionAsync(id, new CreateRecipeInstructionDto
+            {
+                Description = editRecipeInstructionViewModel.Description,
+                StepNumber = editRecipeInstructionViewModel.StepNumber
+            });
+            return RedirectToAction("Edit", new { id });
+        }
+        // POST: /Recipe/{id}/Ingredient/Add
+        [HttpPost("{id}/Ingredient/Add")]
+        [ActionName("AddIngredient")]
+        public async Task<IActionResult> AddIngredient(Guid id, Guid ingredientId, EditRecipeIngredientViewModel editRecipeIngredientViewModel)
+        {
+            await _recipeService.CreateRecipeIngredientAsync(id, ingredientId, new CreateRecipeIngredientDto
+            {
+                UnitId = editRecipeIngredientViewModel.UnitId,
+                Quantity = editRecipeIngredientViewModel.Quantity
+            });
+            return RedirectToAction("Edit", new { id });
+        }
+        // POST: /Recipe/{id}/Category/Add
+        [HttpPost("{id}/Category/Add")]
+        public async Task<IActionResult> AddCategory(Guid id, Guid categoryId, EditRecipeCategoryViewModel editRecipeCategoryViewModel)
+        {
+            await _recipeService.CreateRecipeCategoryAsync(id, categoryId, new CreateRecipeCategoryDto { });
+            return RedirectToAction("Edit", new { id });
+        }
+
+        // POST: /Recipe/{id}/Instruction/Remove
+        [HttpPost("{id}/Instruction/Remove")]
+        public async Task<IActionResult> RemoveInstruction(Guid id, Guid instructionId)
+        {
+            await _recipeService.DeleteRecipeInstructionAsync(id, instructionId);
+            return RedirectToAction("Edit", new { id });
+        }
+        // POST: /Recipe/{id}/Ingredient/Remove
+        [HttpPost("{id}/Ingredient/Remove")]
+        public async Task<IActionResult> RemoveIngredient(Guid id, Guid ingredientId)
+        {
+            await _recipeService.DeleteRecipeIngredientAsync(id, ingredientId);
+            return RedirectToAction("Edit", new { id });
+        }
+        // POST: /Recipe/{id}/Category/Remove
+        [HttpPost("{id}/Category/Remove")]
+        public async Task<IActionResult> RemoveCategory(Guid id, Guid categoryId)
+        {
+            await _recipeService.DeleteRecipeCategoryAsync(id, categoryId);
+            return RedirectToAction("Edit", new { id });
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
+using RecipeMicroservice.Application.DTOs.RecipeCategory;
+using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Aggregates;
@@ -34,7 +36,7 @@ namespace RecipeMicroservice.Application.Services
 
         public async Task<PagedResult<RecipeDto>> GetAllAsync(FilterRecipe filter)
         {
-            PagedResult<Recipe> pagedRecipes =  await _recipeRepository.GetAllAsync(filter);
+            PagedResult<Recipe> pagedRecipes = await _recipeRepository.GetAllAsync(filter);
             List<RecipeDto> recipeDtos = [.. pagedRecipes.Items
                 .Select(r => new RecipeDto
                 {
@@ -53,7 +55,7 @@ namespace RecipeMicroservice.Application.Services
 
         public async Task<PagedResult<RecipeDto>> GetAllAsync(PagedQuery query)
         {
-            PagedResult<Recipe> pagedRecipes =  await _recipeRepository.GetAllAsync(query);
+            PagedResult<Recipe> pagedRecipes = await _recipeRepository.GetAllAsync(query);
             List<RecipeDto> recipeDtos = [.. pagedRecipes.Items
                 .Select(r => new RecipeDto
                 {
@@ -143,7 +145,7 @@ namespace RecipeMicroservice.Application.Services
         //        pagedInstructions.PageNumber,
         //        pagedInstructions.PageSize);
         //}
-        public async Task<Guid> CreateInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto)
+        public async Task<Guid> CreateRecipeInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             RecipeInstruction instruction = new()
@@ -153,22 +155,73 @@ namespace RecipeMicroservice.Application.Services
                 RecipeId = recipe.Id,
                 Recipe = recipe
             };
-            await _recipeRepository.AddInstructionAsync(recipe, instruction);
+            await _recipeRepository.AddRecipeInstructionAsync(recipe, instruction);
             return instruction.Id;
         }
-        public async Task UpdateInstructionAsync(Guid recipeId, Guid instructionId, UpdateRecipeInstructionDto dto)
+        public async Task UpdateRecipeInstructionAsync(Guid recipeId, Guid instructionId, UpdateRecipeInstructionDto dto)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             RecipeInstruction? instruction = recipe.RecipeInstructions.FirstOrDefault(i => i.Id == instructionId) ?? throw new KeyNotFoundException($"Instruction with id {instructionId} not found in Recipe with id {recipeId}.");
             instruction.StepNumber = dto.StepNumber;
             instruction.Description = dto.Description;
-            await _recipeRepository.UpdateInstructionAsync(recipe, instruction);
+            await _recipeRepository.UpdateRecipeInstructionAsync(recipe, instruction);
         }
-        public async Task DeleteInstructionAsync(Guid recipeId, Guid instructionId)
+        public async Task DeleteRecipeInstructionAsync(Guid recipeId, Guid instructionId)
         {
             Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
             RecipeInstruction? instruction = recipe.RecipeInstructions.FirstOrDefault(i => i.Id == instructionId) ?? throw new KeyNotFoundException($"Instruction with id {instructionId} not found in Recipe with id {recipeId}.");
-            await _recipeRepository.DeleteInstructionByIdAsync(recipe, instruction);
+            await _recipeRepository.DeleteRecipeInstructionByIdAsync(recipe, instruction);
+        }
+        public async Task<Guid> CreateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, CreateRecipeIngredientDto dto)
+        {
+            Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
+            RecipeIngredient recipeIngredient = new()
+            {
+                IngredientId = ingredientId,
+                Quantity = dto.Quantity,
+                UnitId = dto.UnitId,
+                RecipeId = recipe.Id,
+            };
+            await _recipeRepository.AddRecipeIngredientAsync(recipe, recipeIngredient);
+            return recipeIngredient.Id;
+        }
+        public async Task UpdateRecipeIngredientAsync(Guid recipeId, Guid recipeIngredientId, UpdateRecipeIngredientDto dto)
+        {
+            Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
+            RecipeIngredient? recipeIngredient = recipe.RecipeIngredients.FirstOrDefault(ri => ri.Id == recipeIngredientId) ?? throw new KeyNotFoundException($"RecipeIngredient with id {recipeIngredientId} not found in Recipe with id {recipeId}.");
+            recipeIngredient.Quantity = dto.Quantity;
+            recipeIngredient.UnitId = dto.UnitId;
+            await _recipeRepository.UpdateRecipeIngredientAsync(recipe, recipeIngredient);
+        }
+        public async Task DeleteRecipeIngredientAsync(Guid recipeId, Guid recipeIngredientId)
+        {
+            Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
+            RecipeIngredient? recipeIngredient = recipe.RecipeIngredients.FirstOrDefault(ri => ri.Id == recipeIngredientId) ?? throw new KeyNotFoundException($"RecipeIngredient with id {recipeIngredientId} not found in Recipe with id {recipeId}.");
+            await _recipeRepository.DeleteRecipeIngredientByIdAsync(recipe, recipeIngredient);
+        }
+        public async Task<Guid> CreateRecipeCategoryAsync(Guid recipeId, Guid categoryId, CreateRecipeCategoryDto dto)
+        {
+            Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
+            RecipeCategory recipeCategory = new()
+            {
+                CategoryId = categoryId,
+                RecipeId = recipe.Id,
+            };
+            await _recipeRepository.AddRecipeCategoryAsync(recipe, recipeCategory);
+            return recipeCategory.Id;
+        }
+        public async Task UpdateRecipeCategoryAsync(Guid recipeId, Guid recipeCategoryId, UpdateRecipeCategoryDto dto)
+        {
+            Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
+            RecipeCategory? recipeCategory = recipe.RecipeCategories.FirstOrDefault(rc => rc.Id == recipeCategoryId) ?? throw new KeyNotFoundException($"RecipeCategory with id {recipeCategoryId} not found in Recipe with id {recipeId}.");
+            // No updatable fields in RecipeCategoryDto as of now
+            await _recipeRepository.UpdateRecipeCategoryAsync(recipe, recipeCategory);
+        }
+        public async Task DeleteRecipeCategoryAsync(Guid recipeId, Guid recipeCategoryId)
+        {
+            Recipe? recipe = await _recipeRepository.GetByIdAsync(recipeId) ?? throw new KeyNotFoundException($"Recipe with id {recipeId} not found.");
+            RecipeCategory? recipeCategory = recipe.RecipeCategories.FirstOrDefault(rc => rc.Id == recipeCategoryId) ?? throw new KeyNotFoundException($"RecipeCategory with id {recipeCategoryId} not found in Recipe with id {recipeId}.");
+            await _recipeRepository.DeleteRecipeCategoryByIdAsync(recipe, recipeCategory);
         }
     }
 }

@@ -118,51 +118,68 @@ namespace RecipeMicroservice.Infrastructure.Repositories
         //        .SelectMany(r => r.RecipeInstructions)
         //        .FirstOrDefaultAsync(i => i.Id == instructionId);
         //}
-        public async Task AddInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
+        // Instructions
+        public async Task AddRecipeInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {
+            _dbContext.Attach(recipe);
             recipe.RecipeInstructions.Add(recipeInstruction);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task UpdateInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
+
+        public async Task UpdateRecipeInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {
+            _dbContext.Entry(recipeInstruction).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
-        public async Task DeleteInstructionByIdAsync(Recipe recipe, RecipeInstruction recipeInstruction)
+
+        public async Task DeleteRecipeInstructionByIdAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {
+            _dbContext.Attach(recipe);
             recipe.RecipeInstructions.Remove(recipeInstruction);
             await _dbContext.SaveChangesAsync();
         }
 
-        // Ingredient related methods
-        public async Task AddIngredientAsync(Recipe recipe, RecipeIngredient recipeIngredient)
+        // Ingredients
+        public async Task AddRecipeIngredientAsync(Recipe recipe, RecipeIngredient recipeIngredient)
         {
+            _dbContext.Attach(recipe);
             recipe.RecipeIngredients.Add(recipeIngredient);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task UpdateInstructionAsync(Recipe recipe, RecipeIngredient recipeIngredient)
+
+        public async Task UpdateRecipeIngredientAsync(Recipe recipe, RecipeIngredient recipeIngredient)
         {
+            _dbContext.Entry(recipeIngredient).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
-        public async Task DeleteIngredientByIdAsync(Recipe recipe, RecipeIngredient recipeIngredient)
+
+        public async Task DeleteRecipeIngredientByIdAsync(Recipe recipe, RecipeIngredient recipeIngredient)
         {
+            _dbContext.Attach(recipe);
             recipe.RecipeIngredients.Remove(recipeIngredient);
             await _dbContext.SaveChangesAsync();
         }
 
-        // Category related methods
-        public async Task AddCategoryAsync(Recipe recipe, RecipeCategory recipeCategory)
+        // Categories
+        public async Task AddRecipeCategoryAsync(Recipe recipe, RecipeCategory recipeCategory)
         {
+            _dbContext.Attach(recipe);
             recipe.RecipeCategories.Add(recipeCategory);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task UpdateCategoryAsync(Recipe recipe, RecipeCategory recipeCategory)
+
+        public async Task UpdateRecipeCategoryAsync(Recipe recipe, RecipeCategory recipeCategory)
         {
+            _dbContext.Entry(recipeCategory).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
-        public async Task DeleteCategoryByIdAsync(Recipe recipe, RecipeCategory recipeCategory)
+
+        public async Task DeleteRecipeCategoryByIdAsync(Recipe recipe, RecipeCategory recipeCategory)
         {
+            _dbContext.Attach(recipe);
             recipe.RecipeCategories.Remove(recipeCategory);
             await _dbContext.SaveChangesAsync();
         }
+
     }
 }

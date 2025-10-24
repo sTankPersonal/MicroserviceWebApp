@@ -9,6 +9,14 @@
 
         $select.select2({
             placeholder: $select.data('placeholder'),
+            //tags: true, // Allow new entries
+            //createTag: function (params) {
+            //    return {
+            //        id: params.term,
+            //        text: params.term,
+            //        newOption: true
+            //    };
+            //},
             ajax: {
                 url: url,
                 dataType: 'json',
@@ -46,6 +54,19 @@
                     };
                 }
             }
+        //}).on('select2:select', function (e) {
+        //    var data = e.params.data;
+        //    if (data.newOption) {
+        //        // Call your Razor Page route to add the new entry
+        //        $.ajax({
+        //            url: '/YourPage/AddNewEntry', // Update with your route
+        //            method: 'POST',
+        //            data: { name: data.text },
+        //            success: function (response) {
+        //                // Optionally update the select2 options
+        //            }
+        //        });
+        //    }
         });
     });
 });

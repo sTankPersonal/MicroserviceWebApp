@@ -13,18 +13,18 @@ namespace RecipeMicroservice.Domain.Interfaces
         //Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query);
         //Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter);
         //Task<Instruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId);
-        Task AddInstructionAsync(Recipe recipe, RecipeInstruction instruction);
-        Task UpdateInstructionAsync(Recipe recipe, RecipeInstruction instruction);
-        Task DeleteInstructionByIdAsync(Recipe recipe, RecipeInstruction instruction);
+        Task AddRecipeInstructionAsync(Recipe recipe, RecipeInstruction instruction);
+        Task UpdateRecipeInstructionAsync(Recipe recipe, RecipeInstruction instruction);
+        Task DeleteRecipeInstructionByIdAsync(Recipe recipe, RecipeInstruction instruction);
 
         // Aggregate Child - Ingredients
-        Task AddIngredientAsync(Recipe recipe, RecipeIngredient ingredient);
-        Task UpdateInstructionAsync(Recipe recipe, RecipeIngredient ingredient);
-        Task DeleteIngredientByIdAsync(Recipe recipe, RecipeIngredient ingredient);
+        Task AddRecipeIngredientAsync(Recipe recipe, RecipeIngredient ingredient);
+        Task UpdateRecipeIngredientAsync(Recipe recipe, RecipeIngredient ingredient);
+        Task DeleteRecipeIngredientByIdAsync(Recipe recipe, RecipeIngredient ingredient);
 
         // Aggregate Child - Categories
-        Task AddCategoryAsync(Recipe recipe, RecipeCategory category);
-        Task UpdateCategoryAsync(Recipe recipe, RecipeCategory category);
-        Task DeleteCategoryByIdAsync(Recipe recipe, RecipeCategory category);
+        Task AddRecipeCategoryAsync(Recipe recipe, RecipeCategory category);
+        Task UpdateRecipeCategoryAsync(Recipe recipe, RecipeCategory category);
+        Task DeleteRecipeCategoryByIdAsync(Recipe recipe, RecipeCategory category);
     }
 }

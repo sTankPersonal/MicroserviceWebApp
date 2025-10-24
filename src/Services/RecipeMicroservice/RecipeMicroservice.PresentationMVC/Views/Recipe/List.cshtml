@@ -82,7 +82,7 @@ else
                     <td>@(recipe.PrepTimeInMinutes / 60)h @(recipe.PrepTimeInMinutes % 60)min</td>
                     <td>@(recipe.CookTimeInMinutes / 60)h @(recipe.CookTimeInMinutes % 60)min</td>
                     <td>@(recipe.Servings)</td>
-                    <td>
+                    <td style="white-space: nowrap; width: 1%;">
                         <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-info">View</a>
                         <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-warning">Edit</a>
                         <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-sm btn-danger">Delete</a>
@@ -97,7 +97,7 @@ else
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a asp-page="List"
+                    <a asp-action="List"
                        asp-route-PageNumber="@(Model.PageNumber - 1)"
                        asp-route-SearchName="@Model.SearchName"
                        asp-route-SearchIngredient="@Model.SearchIngredient"
@@ -113,7 +113,7 @@ else
             @if (Model.HasNextPage)
             {
                 <li class="page-item">
-                    <a asp-page="List"
+                    <a asp-action="List"
                        asp-route-PageNumber="@(Model.PageNumber + 1)"
                        asp-route-SearchName="@Model.SearchName"
                        asp-route-SearchIngredient="@Model.SearchIngredient"
