@@ -12,7 +12,7 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.Api
     {
         private readonly IUnitService _unitService = unitService;
         // GET api/Unit/Ajax
-        [HttpGet("Ajax")]
+        [HttpGet("AjaxList")]
         public async Task<IActionResult> AjaxGetAll(FilterUnit filterUnit)
         {
             PagedResult<UnitDto> units = await _unitService.GetAllAsync(filterUnit);

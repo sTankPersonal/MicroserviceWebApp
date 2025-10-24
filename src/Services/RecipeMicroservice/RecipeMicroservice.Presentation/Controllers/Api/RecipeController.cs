@@ -12,7 +12,7 @@ namespace RecipeMicroservice.PresentationMVC.Controllers.Api
     {
         private readonly IRecipeService _recipeService = recipeService;
         // GET api/Recipe/AjaxList
-        [HttpGet("Ajax")]
+        [HttpGet("AjaxList")]
         public async Task<IActionResult> AjaxGetAll(FilterRecipe filterRecipe)
         {
             PagedResult<RecipeDto> recipes = await _recipeService.GetAllAsync(filterRecipe);
