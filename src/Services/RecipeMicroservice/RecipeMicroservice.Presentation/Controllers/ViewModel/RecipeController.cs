@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using System.ComponentModel;
+using BuildingBlocks.SharedKernel.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
@@ -47,7 +48,10 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
             RecipeDto? recipe = await _recipeService.GetByIdAsync(id);
-            if (recipe == null)
+            Console.WriteLine(recipe.Categories.Count());
+            Console.WriteLine(recipe.Ingredients.Count());
+            Console.WriteLine(recipe.Instructions.Count());
+			if (recipe == null)
             {
                 return NotFound();
             }
@@ -143,35 +147,32 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // POST: /Recipe/{id}/Instruction/Add
         [HttpPost("{id}/Instruction/Add")]
         [ActionName("AddInstruction")]
-        public async Task<IActionResult> AddInstruction(Guid id, CreateRecipeInstructionViewModel createRecipeInstructionViewModel)
+        public async Task<IActionResult> AddInstruction(Guid id, CreateRecipeInstructionViewModel NewInstruction)
         {
             await _recipeService.CreateRecipeInstructionAsync(id, new CreateRecipeInstructionDto
             {
-                Description = createRecipeInstructionViewModel.Description,
-                StepNumber = createRecipeInstructionViewModel.StepNumber
+                Description = NewInstruction.Description,
+                StepNumber = NewInstruction.StepNumber
             });
             return RedirectToAction("Edit", new { id });
         }
         // POST: /Recipe/{id}/Ingredient/Add
         [HttpPost("{id}/Ingredient/Add")]
         [ActionName("AddIngredient")]
-        public async Task<IActionResult> AddIngredient(Guid id, CreateRecipeIngredientViewModel createRecipeIngredientViewModel)
+        public async Task<IActionResult> AddIngredient(Guid id, CreateRecipeIngredientViewModel NewIngredient)
         {
-            await _recipeService.CreateRecipeIngredientAsync(id, createRecipeIngredientViewModel.IngredientId, new CreateRecipeIngredientDto
+            await _recipeService.CreateRecipeIngredientAsync(id, NewIngredient.IngredientId, new CreateRecipeIngredientDto
             {
-                UnitId = createRecipeIngredientViewModel.UnitId,
-                Quantity = createRecipeIngredientViewModel.Quantity
+                UnitId = NewIngredient.UnitId,
+                Quantity = NewIngredient.Quantity
             });
             return RedirectToAction("Edit", new { id });
         }
         // POST: /Recipe/{id}/Category/Add
         [HttpPost("{id}/Category/Add")]
-        public async Task<IActionResult> AddCategory(Guid id, CreateRecipeCategoryViewModel createRecipeCategoryViewModel)
+        public async Task<IActionResult> AddCategory(Guid id, CreateRecipeCategoryViewModel NewCategory)
         {
-            Console.WriteLine("Adding category to recipe...");
-            Console.WriteLine($"Recipe ID: {id}");
-            Console.WriteLine($"Category ID: {createRecipeCategoryViewModel.CategoryId}");
-            await _recipeService.CreateRecipeCategoryAsync(id, createRecipeCategoryViewModel.CategoryId, new CreateRecipeCategoryDto { });
+            await _recipeService.CreateRecipeCategoryAsync(id, NewCategory.CategoryId, new CreateRecipeCategoryDto { });
             return RedirectToAction("Edit", new { id });
         }
 

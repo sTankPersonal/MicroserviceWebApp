@@ -44,27 +44,14 @@
                         pagination: data.pagination || {}
                     };
                 }
+            },
+            templateSelection: function (data) {
+                if (data.id && !$select.find("option[value='" + data.id + "']").length) {
+                    const option = new Option(data.text, data.id, true, true);
+                    $select.append(option).trigger('change');
+                }
+                return data.text || data.id;
             }
-        });
-
-        // This is the important fix
-        $select.on('select2:select', function (e) {
-            const data = e.params.data;
-
-            // Remove previous selections (important if single-select)
-            $select.find('option').prop('selected', false);
-
-            // Add or update the option element
-            let $option = $select.find('option[value="' + data.id + '"]');
-            if ($option.length === 0) {
-                $option = new Option(data.text, data.id, true, true);
-                $select.append($option);
-            } else {
-                $option.prop('selected', true);
-            }
-
-            // 🧩 Manually set the value and trigger change on the real <select>
-            $select.val(data.id).trigger('change.select2');
         });
     });
 });
