@@ -1,7 +1,10 @@
-﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeCategory
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RecipeMicroservice.Presentation.Models.RecipeCategory
 {
     public class CreateRecipeCategoryViewModel
     {
-        // No properties needed for creating a recipe-category association
+        [Required]
+        public Guid CategoryId { get; set; }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 
-namespace RecipeMicroservice.PresentationMVC.Models.RecipeIngredient
+namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
 {
     public class RecipeIngredientViewModel
     {
+        public Guid Id { get; set; }
         public Guid RecipeId { get; set; }
         public Guid IngredientId { get; set; }
         public Guid UnitId { get; set; }
@@ -17,6 +18,7 @@ namespace RecipeMicroservice.PresentationMVC.Models.RecipeIngredient
         {
             return new RecipeIngredientViewModel
             {
+                Id = dto.Id,
                 RecipeId = dto.RecipeId,
                 IngredientId = dto.IngredientId,
                 UnitId = dto.UnitId,

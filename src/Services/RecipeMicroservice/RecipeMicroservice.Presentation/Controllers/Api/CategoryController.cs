@@ -5,7 +5,7 @@ using RecipeMicroservice.Application.DTOs.Category;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.Api
+namespace RecipeMicroservice.Presentation.Controllers.Api
 {
     [Route("api/[controller]")]
     public class CategoryController(ICategoryService categoryService) : ControllerBase

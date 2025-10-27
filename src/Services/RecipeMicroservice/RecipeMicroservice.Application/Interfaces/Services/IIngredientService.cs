@@ -1,7 +1,6 @@
 ﻿using BuildingBlocks.SharedKernel.DomainServices;
 using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Application.DTOs.Ingredient;
-using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Application.Interfaces.Services

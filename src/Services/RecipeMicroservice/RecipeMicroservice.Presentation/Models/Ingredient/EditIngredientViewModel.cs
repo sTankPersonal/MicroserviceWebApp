@@ -1,7 +1,7 @@
 ﻿using RecipeMicroservice.Application.DTOs.Ingredient;
 using System.ComponentModel.DataAnnotations;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Ingredient
+namespace RecipeMicroservice.Presentation.Models.Ingredient
 {
     public class EditIngredientViewModel
     {

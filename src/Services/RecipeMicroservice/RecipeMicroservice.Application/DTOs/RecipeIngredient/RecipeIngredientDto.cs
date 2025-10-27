@@ -2,7 +2,8 @@
 {
     public class RecipeIngredientDto
     {
-        public Guid RecipeId { get; set; }
+        public Guid Id { get; set; }
+		public Guid RecipeId { get; set; }
         public Guid IngredientId { get; set; }
         public Guid UnitId { get; set; }
         public decimal Quantity { get; set; }

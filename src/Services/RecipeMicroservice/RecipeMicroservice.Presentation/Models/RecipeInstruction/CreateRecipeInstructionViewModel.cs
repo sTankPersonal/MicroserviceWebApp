@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 
-namespace RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
+namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
 {
     public class CreateRecipeInstructionViewModel
     {
@@ -8,7 +9,7 @@ namespace RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
         [Display(Name = "Step Number")]
         public int StepNumber { get; set; } = 0;
         [Required(ErrorMessage = "Please enter a description for the instruction.")]
-        [Display(Name = "Step Instruction")]
+        [Display(Name = "Step Instruction", Prompt =  "Enter a description for this step...")]
         [StringLength(2000, ErrorMessage = "Instruction name cannot be longer than 2000 characters.")]
         public string Description { get; set; } = string.Empty;
     }

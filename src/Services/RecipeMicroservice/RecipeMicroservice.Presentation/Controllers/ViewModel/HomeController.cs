@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using RecipeMicroservice.PresentationMVC.Models;
+using RecipeMicroservice.Presentation.Models;
 using System.Diagnostics;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
+namespace RecipeMicroservice.Presentation.Controllers.ViewModel
 {
     public class HomeController : Controller
     {

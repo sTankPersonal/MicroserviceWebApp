@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Unit;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.PresentationMVC.Models.Unit;
+using RecipeMicroservice.Presentation.Models.Unit;
 
-namespace RecipeMicroservice.PresentationMVC.Controllers.ViewModel
+namespace RecipeMicroservice.Presentation.Controllers.ViewModel
 {
     /* GET: /Unit - Get all units and return List view
      * GET: /Unit/{id} - Get unit by id and return Details view

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RecipeMicroservice.PresentationMVC.Models.Recipe
+namespace RecipeMicroservice.Presentation.Models.Recipe
 {
     public class CreateRecipeViewModel
     {
         [Required(ErrorMessage = "Please enter a name for the recipe.")]
-        [Display(Name = "Recipe Name")]
+        [Display(Name = "Recipe Name", Prompt = "Please a name for the new recipe...")]
         public string Name { get; set; } = string.Empty;
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a positive number for preparation time.")]
         [Display(Name = "Preparation Time (Minutes)")]

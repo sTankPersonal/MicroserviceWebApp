@@ -1,4 +1,4 @@
-﻿@model RecipeMicroservice.PresentationMVC.Models.Category.CreateCategoryViewModel
+﻿@model RecipeMicroservice.Presentation.Models.Category.CreateCategoryViewModel
 @{
 	ViewData["Title"] = "Create Category";
 }
@@ -12,5 +12,5 @@
 		<span asp-validation-for="Name" class="text-danger"></span>
 	</div>
 	<button type="submit" class="btn btn-primary">Create</button>
-	<a asp-controller="Category" asp-action="List" class="btn btn-secondary">Cancel</a>"
+	<a asp-controller="Category" asp-action="List" class="btn btn-secondary">Cancel</a>
 </form>

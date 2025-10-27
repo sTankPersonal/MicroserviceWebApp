@@ -74,7 +74,13 @@ namespace RecipeMicroservice.Infrastructure.Repositories
 
         public async Task<Recipe?> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+            return await _dbContext.Recipes
+                .Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category)
+                .Include(r => r.RecipeIngredients).ThenInclude(ri => ri.Ingredient)
+                .Include(r => r.RecipeIngredients).ThenInclude(ri => ri.Unit)
+                .Include(r => r.RecipeInstructions)
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task UpdateAsync(Recipe entity)

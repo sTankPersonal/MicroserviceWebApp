@@ -1,4 +1,4 @@
-﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeInstruction
+﻿namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
 {
     public class RecipeInstructionViewModel
     {

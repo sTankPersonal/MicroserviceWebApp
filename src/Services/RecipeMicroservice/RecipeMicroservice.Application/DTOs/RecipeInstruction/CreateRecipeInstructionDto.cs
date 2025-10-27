@@ -1,4 +1,4 @@
-﻿namespace RecipeMicroservice.Application.DTOs.Instruction
+﻿namespace RecipeMicroservice.Application.DTOs.RecipeInstruction
 {
     public class CreateRecipeInstructionDto
     {

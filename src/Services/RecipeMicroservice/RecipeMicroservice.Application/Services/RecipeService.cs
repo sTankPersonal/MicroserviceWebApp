@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.SharedKernel.Repositories;
-using RecipeMicroservice.Application.DTOs.Instruction;
 using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
@@ -85,8 +84,32 @@ namespace RecipeMicroservice.Application.Services
                 Name = recipe.Name,
                 PrepTimeInMinutes = recipe.PrepTimeInMinutes,
                 CookTimeInMinutes = recipe.CookTimeInMinutes,
-                Servings = recipe.Servings
-            };
+                Servings = recipe.Servings,
+                Instructions = [.. recipe.RecipeInstructions
+                    .Select(i => new RecipeInstructionDto
+                    {
+                        Id = i.Id,
+                        StepNumber = i.StepNumber,
+                        Description = i.Description
+                    })],
+                Ingredients = [.. recipe.RecipeIngredients
+                .Select(ri => new RecipeIngredientDto
+                    {
+                        Id = ri.Id,
+                        IngredientId = ri.IngredientId,
+                        IngredientName = ri.Ingredient != null ? ri.Ingredient.Name : string.Empty,
+						Quantity = ri.Quantity,
+                        UnitId = ri.UnitId,
+                        UnitName = ri.Unit != null ? ri.Unit.Name : string.Empty
+					})],
+                Categories = [.. recipe.RecipeCategories
+                .Select(rc => new RecipeCategoryDto
+                    {
+                        Id = rc.Id,
+                        CategoryId = rc.CategoryId,
+                        CategoryName = rc.Category != null ? rc.Category.Name : string.Empty
+					})]
+			};
         }
 
         public async Task UpdateAsync(Guid id, UpdateRecipeDto dto)

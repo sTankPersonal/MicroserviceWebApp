@@ -1,7 +1,8 @@
-﻿namespace RecipeMicroservice.PresentationMVC.Models.RecipeCategory
+﻿namespace RecipeMicroservice.Presentation.Models.RecipeCategory
 {
     public class RecipeCategoryViewModel
     {
+        public Guid Id { get; set; }
         public Guid RecipeId { get; set; }
         public Guid CategoryId { get; set; }
 
@@ -12,6 +13,7 @@
         {
             return new RecipeCategoryViewModel
             {
+                Id = dto.Id,
                 RecipeId = dto.RecipeId,
                 CategoryId = dto.CategoryId,
                 CategoryName = dto.CategoryName

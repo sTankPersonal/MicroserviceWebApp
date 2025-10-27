@@ -1,4 +1,4 @@
-﻿namespace RecipeMicroservice.PresentationMVC.Models.Ingredient
+﻿namespace RecipeMicroservice.Presentation.Models.Ingredient
 {
     public class IngredientViewModel
     {
