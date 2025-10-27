@@ -13,7 +13,7 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
         private readonly ICategoryService _categoryService = categoryService;
 
         //GET api/Category/AjaxList
-        [HttpGet("AjaxList")]
+        [HttpGet("Ajax/List")]
         public async Task<IActionResult> AjaxGetAll([FromQuery] FilterCategory filterCategory)
         {
             PagedResult<CategoryDto> categories = await _categoryService.GetAllAsync(filterCategory);
@@ -30,6 +30,21 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
                 }
             };
             return Ok(result);
+        }
+
+        //GET api/Category/Ajax/{id}
+        [HttpGet("Ajax/{id}")]
+        public async Task<IActionResult> GetCategory(Guid id)
+        {
+            CategoryDto? category = await _categoryService.GetByIdAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(new AjaxResultDto{
+                id = category.Id.ToString(),
+                text = category.Name
+            });
         }
     }
 }

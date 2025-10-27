@@ -12,7 +12,7 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
     {
         private readonly IIngredientService _ingredientService = ingredientService;
         // GET api/Ingredient/AjaxList
-        [HttpGet("AjaxList")]
+        [HttpGet("Ajax/List")]
         public async Task<IActionResult> AjaxGetAll(FilterIngredient filterIngredient)
         {
             PagedResult<IngredientDto> ingredients = await _ingredientService.GetAllAsync(filterIngredient);
@@ -29,6 +29,20 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
                 }
             };
             return Ok(result);
+        }
+
+        //GET api/Ingredient/Ajax{id}
+        [HttpGet("Ajax/{id}")]
+        public async Task<IActionResult> GetIngredient(Guid id)
+        {
+            IngredientDto? ingredient = await _ingredientService.GetByIdAsync(id);
+            if (ingredient == null)
+                return NotFound();
+            return Ok(new AjaxResultDto
+            {
+                id = ingredient.Id.ToString(),
+                text = ingredient.Name
+            });
         }
     }
 }

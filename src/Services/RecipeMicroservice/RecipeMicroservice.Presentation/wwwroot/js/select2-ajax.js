@@ -1,7 +1,9 @@
 ﻿$(function () {
     $('.select2-field').each(function () {
         const $select = $(this);
-        const url = $select.data('ajax-url');
+        const preselectedId = $select.val();
+        const listUrl = `${$select.data('ajax-url')}/List`;
+        const singleUrl = `${$select.data('ajax-url')}/${preselectedId}`;
         const idField = $select.data('ajax-id-field');
         const textField = $select.data('ajax-text-field');
         const rawPayload = $select.attr('data-ajax-payload');
@@ -10,7 +12,7 @@
         $select.select2({
             placeholder: $select.data('placeholder'),
             ajax: {
-                url: url,
+                url: listUrl,
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
@@ -53,5 +55,19 @@
                 return data.text || data.id;
             }
         });
+
+        if (preselectedId && singleUrl) {
+            $.ajax({
+                url: `${singleUrl}/${preselectedId}`,
+                dataType: 'json'
+            }).then(function (item) {
+                if (item) {
+                    const option = new Option(item[textField], item[idField], true, true);
+                    $select.append(option).trigger('change');
+                }
+            }).catch(function (err) {
+                console.warn('Failed to prepopulate select2', err);
+            });
+        }
     });
 });

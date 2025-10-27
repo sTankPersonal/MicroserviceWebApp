@@ -43,8 +43,32 @@ namespace RecipeMicroservice.Application.Services
                     Name = r.Name,
                     PrepTimeInMinutes = r.PrepTimeInMinutes,
                     CookTimeInMinutes = r.CookTimeInMinutes,
-                    Servings = r.Servings
-                })];
+                    Servings = r.Servings,
+                    Instructions = [.. r.RecipeInstructions
+                    .Select(i => new RecipeInstructionDto
+                    {
+                        Id = i.Id,
+                        StepNumber = i.StepNumber,
+                        Description = i.Description
+                    })],
+                    Ingredients = [.. r.RecipeIngredients
+                    .Select(ri => new RecipeIngredientDto
+                        {
+                            Id = ri.Id,
+                            IngredientId = ri.IngredientId,
+                            IngredientName = ri.Ingredient != null ? ri.Ingredient.Name : string.Empty,
+                            Quantity = ri.Quantity,
+                            UnitId = ri.UnitId,
+                            UnitName = ri.Unit != null ? ri.Unit.Name : string.Empty
+                        })],
+                    Categories = [.. r.RecipeCategories
+                    .Select(rc => new RecipeCategoryDto
+                        {
+                            Id = rc.Id,
+                            CategoryId = rc.CategoryId,
+                            CategoryName = rc.Category != null ? rc.Category.Name : string.Empty
+                        })]
+                    })];
             return new PagedResult<RecipeDto>(
                 recipeDtos,
                 pagedRecipes.TotalItems,
@@ -62,8 +86,32 @@ namespace RecipeMicroservice.Application.Services
                     Name = r.Name,
                     PrepTimeInMinutes = r.PrepTimeInMinutes,
                     CookTimeInMinutes = r.CookTimeInMinutes,
-                    Servings = r.Servings
-                })];
+                    Servings = r.Servings,
+                    Instructions = [.. r.RecipeInstructions
+                    .Select(i => new RecipeInstructionDto
+                    {
+                        Id = i.Id,
+                        StepNumber = i.StepNumber,
+                        Description = i.Description
+                    })],
+                    Ingredients = [.. r.RecipeIngredients
+                    .Select(ri => new RecipeIngredientDto
+                        {
+                            Id = ri.Id,
+                            IngredientId = ri.IngredientId,
+                            IngredientName = ri.Ingredient != null ? ri.Ingredient.Name : string.Empty,
+                            Quantity = ri.Quantity,
+                            UnitId = ri.UnitId,
+                            UnitName = ri.Unit != null ? ri.Unit.Name : string.Empty
+                        })],
+                    Categories = [.. r.RecipeCategories
+                    .Select(rc => new RecipeCategoryDto
+                        {
+                            Id = rc.Id,
+                            CategoryId = rc.CategoryId,
+                            CategoryName = rc.Category != null ? rc.Category.Name : string.Empty
+                        })]
+                    })];
             return new PagedResult<RecipeDto>(
                 recipeDtos,
                 pagedRecipes.TotalItems,

@@ -59,7 +59,7 @@
 					<select asp-for="NewCategory.CategoryId"
 						class="form-select select2-field"
 						data-placeholder="New Category"
-						data-ajax-url="/api/Category/AjaxList"
+						data-ajax-url="/api/Category/Ajax"
 						data-ajax-text-field="text"
 						data-ajax-id-field="id"
 						data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
@@ -112,7 +112,7 @@
 					<select asp-for="NewIngredient.IngredientId"
 						class="form-select select2-field"
 						data-placeholder="New Ingredient"
-						data-ajax-url="/api/Ingredient/AjaxList"
+						data-ajax-url="/api/Ingredient/Ajax"
 						data-ajax-text-field="text"
 						data-ajax-id-field="id"
 						data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
@@ -126,7 +126,7 @@
 					<select asp-for="NewIngredient.UnitId"
 						class="form-select select2-field"
 						data-placeholder="Unit"
-						data-ajax-url="/api/Unit/AjaxList"
+						data-ajax-url="/api/Unit/Ajax"
 						data-ajax-text-field="text"
 						data-ajax-id-field="id"
 						data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>

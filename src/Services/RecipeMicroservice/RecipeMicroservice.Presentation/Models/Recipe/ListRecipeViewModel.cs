@@ -9,9 +9,9 @@ namespace RecipeMicroservice.Presentation.Models.Recipe
         [Display(Name = "Search Recipe Name")]
         public string? SearchName { get; set; } = null;
         [Display(Name = "Search Categories")]
-        public string? SearchCategory { get; set; } = null;
+        public Guid? SearchCategoryId { get; set; } = null;
         [Display(Name = "Search Ingredients")]
-        public string? SearchIngredient { get; set; } = null;
+        public Guid? SearchIngredientId { get; set; } = null;
 
         public static ListRecipeViewModel FromPagedResult(PagedResult<RecipeDto> pagedResult)
         {

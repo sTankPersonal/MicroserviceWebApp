@@ -11,8 +11,8 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
     public class UnitController(IUnitService unitService) : ControllerBase
     {
         private readonly IUnitService _unitService = unitService;
-        // GET api/Unit/Ajax
-        [HttpGet("AjaxList")]
+        // GET api/Unit/AjaxList
+        [HttpGet("Ajax/List")]
         public async Task<IActionResult> AjaxGetAll(FilterUnit filterUnit)
         {
             PagedResult<UnitDto> units = await _unitService.GetAllAsync(filterUnit);
@@ -29,6 +29,22 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
                 }
             };
             return Ok(result);
+        }
+
+        //GET api/Unit/Ajax{id}
+        [HttpGet("Ajax/{id}")]
+        public async Task<IActionResult> GetUnit(Guid id)
+        {
+            UnitDto? unit = await _unitService.GetByIdAsync(id);
+            if (unit == null)
+            {
+                return NotFound();
+            }
+            return Ok(new AjaxResultDto
+            {
+                id = unit.Id.ToString(),
+                text = unit.Name
+            });
         }
     }
 }

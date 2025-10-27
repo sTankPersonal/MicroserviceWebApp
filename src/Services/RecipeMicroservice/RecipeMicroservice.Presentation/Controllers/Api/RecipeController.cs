@@ -12,7 +12,7 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
     {
         private readonly IRecipeService _recipeService = recipeService;
         // GET api/Recipe/AjaxList
-        [HttpGet("AjaxList")]
+        [HttpGet("Ajax/List")]
         public async Task<IActionResult> AjaxGetAll(FilterRecipe filterRecipe)
         {
             PagedResult<RecipeDto> recipes = await _recipeService.GetAllAsync(filterRecipe);
@@ -31,5 +31,20 @@ namespace RecipeMicroservice.Presentation.Controllers.Api
             return Ok(result);
         }
 
+        //GET api/recipe/Ajax/{id}
+        [HttpGet("Ajax/{id}")]
+        public async Task<IActionResult> GetRecipeById(Guid id)
+        {
+            RecipeDto? recipe = await _recipeService.GetByIdAsync(id);
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+            return Ok(new AjaxResultDto
+            {
+                id = recipe.Id.ToString(),
+                text = recipe.Name
+            });
+        }
     }
 }

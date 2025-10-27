@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
@@ -48,9 +47,6 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
             RecipeDto? recipe = await _recipeService.GetByIdAsync(id);
-            Console.WriteLine(recipe.Categories.Count());
-            Console.WriteLine(recipe.Ingredients.Count());
-            Console.WriteLine(recipe.Instructions.Count());
 			if (recipe == null)
             {
                 return NotFound();
@@ -61,10 +57,15 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // GET: /Recipe
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllRecipes(FilterRecipe filterRecipe)
+        public async Task<IActionResult> GetAllRecipes(ListRecipeViewModel listRecipeViewModel)
         {
+            FilterRecipe filterRecipe = new(listRecipeViewModel.SearchName, listRecipeViewModel.SearchCategoryId, listRecipeViewModel.SearchIngredientId);
             PagedResult<RecipeDto> recipes = await _recipeService.GetAllAsync(filterRecipe);
-            return View("List", ListRecipeViewModel.FromPagedResult(recipes));
+            ListRecipeViewModel newListRecipeViewModel = ListRecipeViewModel.FromPagedResult(recipes);
+            newListRecipeViewModel.SearchName = filterRecipe.SearchName;
+            newListRecipeViewModel.SearchCategoryId = filterRecipe.SearchCategoryId;
+            newListRecipeViewModel.SearchIngredientId = filterRecipe.SearchIngredientId;
+            return View("List", newListRecipeViewModel);
         }
 
         // GET: /Recipe/Create
