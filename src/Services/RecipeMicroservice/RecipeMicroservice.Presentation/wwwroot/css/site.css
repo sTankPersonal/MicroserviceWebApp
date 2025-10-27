@@ -49,3 +49,8 @@ main {
     display: flex;
     align-items: center;
 }
+
+.td-actions {
+    white-space: nowrap;
+    width: 1%;
+}

@@ -85,7 +85,9 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
             {
                 return NotFound();
             }
-            return View("Edit", EditRecipeViewModel.FromDto(recipe));
+            EditRecipeViewModel viewModel = EditRecipeViewModel.FromDto(recipe);
+            viewModel.NewInstruction.StepNumber = viewModel.RecipeInstructions.Count + 1;
+            return View("Edit", viewModel);
         }
 
         // GET: /Recipe/Delete/{id}
@@ -170,31 +172,35 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         }
         // POST: /Recipe/{id}/Category/Add
         [HttpPost("{id}/Category/Add")]
+        [ActionName("AddCategory")]
         public async Task<IActionResult> AddCategory(Guid id, CreateRecipeCategoryViewModel NewCategory)
         {
             await _recipeService.CreateRecipeCategoryAsync(id, NewCategory.CategoryId, new CreateRecipeCategoryDto { });
             return RedirectToAction("Edit", new { id });
         }
 
-        // POST: /Recipe/{id}/Instruction/Remove
-        [HttpPost("{id}/Instruction/Remove")]
-        public async Task<IActionResult> RemoveInstruction(Guid id, Guid instructionId)
+        // POST: /Recipe/{id}/Instruction/Remove/{recipeInstructionId}
+        [HttpPost("{id}/Instruction/Remove/{recipeInstructionId}")]
+        [ActionName("RemoveInstruction")]
+        public async Task<IActionResult> RemoveInstruction(Guid id, Guid recipeInstructionId)
         {
-            await _recipeService.DeleteRecipeInstructionAsync(id, instructionId);
+            await _recipeService.DeleteRecipeInstructionAsync(id, recipeInstructionId);
             return RedirectToAction("Edit", new { id });
         }
-        // POST: /Recipe/{id}/Ingredient/Remove
-        [HttpPost("{id}/Ingredient/Remove")]
-        public async Task<IActionResult> RemoveIngredient(Guid id, Guid ingredientId)
+        // POST: /Recipe/{id}/Ingredient/Remove/{recipeIngredientId}
+        [HttpPost("{id}/Ingredient/Remove/{recipeIngredientId}")]
+        [ActionName("RemoveIngredient")]
+        public async Task<IActionResult> RemoveIngredient(Guid id, Guid recipeIngredientId)
         {
-            await _recipeService.DeleteRecipeIngredientAsync(id, ingredientId);
+            await _recipeService.DeleteRecipeIngredientAsync(id, recipeIngredientId);
             return RedirectToAction("Edit", new { id });
         }
-        // POST: /Recipe/{id}/Category/Remove/{categoryId}
-        [HttpPost("{id}/Category/Remove")]
-        public async Task<IActionResult> RemoveCategory(Guid id, Guid categoryId)
+        // POST: /Recipe/{id}/Category/Remove/{recipeCategoryId}
+        [HttpPost("{id}/Category/Remove/{recipeCategoryId}")]
+        [ActionName("RemoveCategory")]
+        public async Task<IActionResult> RemoveCategory(Guid id, Guid recipeCategoryId)
         {
-            await _recipeService.DeleteRecipeCategoryAsync(id, categoryId);
+            await _recipeService.DeleteRecipeCategoryAsync(id, recipeCategoryId);
             return RedirectToAction("Edit", new { id });
         }
     }
