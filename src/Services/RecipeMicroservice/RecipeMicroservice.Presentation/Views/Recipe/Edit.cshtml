@@ -4,34 +4,34 @@
 @using RecipeMicroservice.Presentation.Models.RecipeCategory
 @using RecipeMicroservice.Presentation.Models.RecipeIngredient
 @using RecipeMicroservice.Presentation.Models.RecipeInstruction
-@model EditRecipeViewModel
+@model EditAndAttachElementsRecipeViewModel
 @{
 	ViewData["Title"] = "Edit Recipe";
 }
 
-<h2>Edit Recipe - @Model.Name</h2>
+<h2>Edit Recipe - @Model.Recipe.Name</h2>
 
-<form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id" method="post">
-	<input type="hidden" asp-for="Id" />
+<form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Recipe.Id" method="post">
+	<input type="hidden" asp-for="Recipe.Id" />
 	<div class="mb-3">
-		<label asp-for="Name" class="form-label"></label>
-		<input asp-for="Name" class="form-control" />
-		<span asp-validation-for="Name" class="text-danger"></span>
+		<label asp-for="Recipe.Name" class="form-label"></label>
+		<input asp-for="Recipe.Name" class="form-control" />
+		<span asp-validation-for="Recipe.Name" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
-		<label asp-for="PrepTimeInMinutes" class="form-label"></label>
-		<input asp-for="PrepTimeInMinutes" class="form-control" type="number" />
-		<span asp-validation-for="PrepTimeInMinutes" class="text-danger"></span>
+		<label asp-for="Recipe.PrepTimeInMinutes" class="form-label"></label>
+		<input asp-for="Recipe.PrepTimeInMinutes" class="form-control" type="number" />
+		<span asp-validation-for="Recipe.PrepTimeInMinutes" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
-		<label asp-for="CookTimeInMinutes" class="form-label"></label>
-		<input asp-for="CookTimeInMinutes" class="form-control" type="number" />
-		<span asp-validation-for="CookTimeInMinutes" class="text-danger"></span>
+		<label asp-for="Recipe.CookTimeInMinutes" class="form-label"></label>
+		<input asp-for="Recipe.CookTimeInMinutes" class="form-control" type="number" />
+		<span asp-validation-for="Recipe.CookTimeInMinutes" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
-		<label asp-for="Servings" class="form-label"></label>
-		<input asp-for="Servings" class="form-control" typeof="number">
-		<span asp-validation-for="Servings" class="text-danger"></span>
+		<label asp-for="Recipe.Servings" class="form-label"></label>
+		<input asp-for="Recipe.Servings" class="form-control" typeof="number">
+		<span asp-validation-for="Recipe.Servings" class="text-danger"></span>
 	</div>
 	<button type="submit" class="btn btn-primary">Save</button>
 	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
@@ -51,7 +51,7 @@
 	<tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddCategory"
-			asp-route-id="@Model.Id"
+			  asp-route-id="@Model.Recipe.Id"
 			method="post"
 			class="row g-2 align-items-center mb-3">
 			<tr>
@@ -71,15 +71,15 @@
 			</tr>
 		</form>
 
-		@if (Model.HasCategories())
+		@if (Model.Recipe.HasCategories())
 		{
-			@foreach (RecipeCategoryViewModel category in Model.RecipeCategories)
+			@foreach (RecipeCategoryViewModel category in Model.Recipe.RecipeCategories)
 			{
 				<tr>
 					<td>@category.CategoryName</td>
 					<td style="white-space: nowrap; width: 1%;">
-						<a asp-controller="Recipe" asp-action="EditCategory" asp-route-id="@Model.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveCategory" asp-route-id="@Model.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="EditCategory" asp-route-id="@Model.Recipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveCategory" asp-route-id="@Model.Recipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
 					</td>
 				</tr>
 			}
@@ -87,7 +87,7 @@
 	</tbody>
 </table>
 
-
+<hr/>
 
 
 <h4>Ingredients</h4>
@@ -104,7 +104,7 @@
     <tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddIngredient"
-			asp-route-id="@Model.Id"
+			  asp-route-id="@Model.Recipe.Id"
 			method="post">
 			@* class="row g-2 align-items-center mb-3"> *@
 			<tr>
@@ -138,23 +138,25 @@
 			</tr>
 		</form>
 
-		@if (Model.HasIngredients())
+		@if (Model.Recipe.HasIngredients())
 		{
-			@foreach (RecipeIngredientViewModel ingredient in Model.RecipeIngredients)
+			@foreach (RecipeIngredientViewModel ingredient in Model.Recipe.RecipeIngredients)
 			{
 				<tr>
 					<td>@ingredient.IngredientName</td>
 					<td>@ingredient.FormattedQuantity</td>
 					<td>@ingredient.UnitName </td>
 					<td style="white-space: nowrap; width: 1%;">
-						<a asp-controller="Recipe" asp-action="EditIngredient" asp-route-id="@Model.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveIngredient" asp-route-id="@Model.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="EditIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
 					</td>
 				</tr>
 			}
 		}
 	</tbody>
 </table>
+
+<hr/>
 
 <h4>Steps</h4>
 
@@ -169,11 +171,11 @@
     <tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddInstruction"
-			asp-route-id="@Model.Id"
+			  asp-route-id="@Model.Recipe.Id"
 			method="post"
 			class="row g-2 align-items-center mb-3">
 			<tr>
-				<input type="hidden" name="RecipeId" value="@Model.Id" />
+			<input type="hidden" name="RecipeId" value="@Model.Recipe.Id" />
 				<td>
 					<input asp-for="NewInstruction.StepNumber" class="form-control" type="number" />
 					<span asp-validation-for="NewInstruction.StepNumber" class="text-danger"></span>
@@ -188,16 +190,16 @@
 			</tr>	
 		</form>
 
-		@if (Model.HasInstructions())
+		@if (Model.Recipe.HasInstructions())
 		{
-			@foreach (RecipeInstructionViewModel step in Model.RecipeInstructions.OrderBy(s => s.StepNumber).ThenBy(s => s.Id))
+			@foreach (RecipeInstructionViewModel step in Model.Recipe.RecipeInstructions.OrderBy(s => s.StepNumber).ThenBy(s => s.Id))
 			{
 				<tr>
 					<td>@step.StepNumber</td>
 					<td>@step.Description</td>
 					<td style="white-space: nowrap; width: 1%;">
-						<a asp-controller="Recipe" asp-action="EditInstruction" asp-route-id="@Model.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveInstruction" asp-route-id="@Model.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="EditInstruction" asp-route-id="@Model.Recipe.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveInstruction" asp-route-id="@Model.Recipe.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
 					</td>
 				</tr>
 			}

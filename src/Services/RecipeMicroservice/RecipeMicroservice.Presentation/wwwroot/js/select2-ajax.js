@@ -10,8 +10,8 @@
         const rawPayload = $select.attr('data-ajax-payload');
         const payloadMap = rawPayload ? JSON.parse(rawPayload) : {};
 
-
         $select.select2({
+            theme: 'bootstrap-5',
             placeholder: $select.data('placeholder'),
             ajax: {
                 url: listUrl,

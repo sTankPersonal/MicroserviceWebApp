@@ -86,8 +86,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
             {
                 return NotFound();
             }
-            EditRecipeViewModel viewModel = EditRecipeViewModel.FromDto(recipe);
-            viewModel.NewInstruction.StepNumber = viewModel.RecipeInstructions.Count + 1;
+            EditAndAttachElementsRecipeViewModel viewModel = EditAndAttachElementsRecipeViewModel.FromDto(recipe);
+            viewModel.NewInstruction.StepNumber = viewModel.Recipe.RecipeInstructions.Count + 1;
             return View("Edit", viewModel);
         }
 
@@ -123,15 +123,15 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // POST: /Recipe/Edit/{id}
         [HttpPost("Edit/{id}")]
         [ActionName("Edit")]
-        public async Task<IActionResult> EditRecipe(Guid id, EditRecipeViewModel model)
+        public async Task<IActionResult> EditRecipe(Guid id, EditRecipeViewModel recipe)
         {
             UpdateRecipeDto updateRecipeDto = new()
             {
-                Id = model.Id,
-                Name = model.Name,
-                PrepTimeInMinutes = model.PrepTimeInMinutes,
-                CookTimeInMinutes = model.CookTimeInMinutes,
-                Servings = model.Servings
+                Id = recipe.Id,
+                Name = recipe.Name,
+                PrepTimeInMinutes = recipe.PrepTimeInMinutes,
+                CookTimeInMinutes = recipe.CookTimeInMinutes,
+                Servings = recipe.Servings
             };
             await _recipeService.UpdateAsync(id, updateRecipeDto);
             return RedirectToAction("Details", new { id });

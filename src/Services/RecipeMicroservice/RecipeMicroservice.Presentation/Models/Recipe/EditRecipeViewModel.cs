@@ -26,10 +26,6 @@ namespace RecipeMicroservice.Presentation.Models.Recipe
         public ICollection<RecipeIngredientViewModel> RecipeIngredients { get; set; } = [];
         public ICollection<RecipeInstructionViewModel> RecipeInstructions { get; set; } = [];
 
-        public CreateRecipeCategoryViewModel NewCategory { get; set; } = new CreateRecipeCategoryViewModel();
-        public CreateRecipeIngredientViewModel NewIngredient { get; set; } = new CreateRecipeIngredientViewModel();
-        public CreateRecipeInstructionViewModel NewInstruction { get; set; } = new CreateRecipeInstructionViewModel();
-
         public static EditRecipeViewModel FromDto(RecipeDto dto)
         {
             return new EditRecipeViewModel
