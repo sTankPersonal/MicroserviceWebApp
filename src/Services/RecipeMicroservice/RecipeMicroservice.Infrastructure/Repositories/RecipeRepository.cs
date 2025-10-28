@@ -35,15 +35,15 @@ namespace RecipeMicroservice.Infrastructure.Repositories
             {
                 recipes = recipes.Where(r => EF.Functions.ILike(r.Name, $"%{query.SearchName}%"));
             }
-            if (!string.IsNullOrWhiteSpace(query.SearchCategories))
+            if (query.SearchCategoryId.HasValue)
             {
                 recipes = recipes.Where(r => r.RecipeCategories.Any(rc =>
-                    EF.Functions.ILike(rc.Category.Name, $"%{query.SearchCategories}%")));
+                    rc.CategoryId == query.SearchCategoryId.Value));
             }
-            if (!string.IsNullOrWhiteSpace(query.SearchIngredients))
+            if (query.SearchIngredientId.HasValue)
             {
                 recipes = recipes.Where(r => r.RecipeIngredients.Any(ri =>
-                    EF.Functions.ILike(ri.Ingredient.Name, $"%{query.SearchIngredients}%")));
+                    ri.IngredientId == query.SearchIngredientId.Value));
             }
 
             int totalItems = await recipes.CountAsync();
@@ -59,7 +59,10 @@ namespace RecipeMicroservice.Infrastructure.Repositories
 
         public async Task<PagedResult<Recipe>> GetAllAsync(PagedQuery query)
         {
-            IQueryable<Recipe> recipes = _dbContext.Recipes.AsQueryable();
+            IQueryable<Recipe> recipes = _dbContext.Recipes
+                .Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category)
+                .Include(r => r.RecipeIngredients).ThenInclude(ri => ri.Ingredient)
+                .AsSplitQuery();
 
             int totalItems = await recipes.CountAsync();
             List<Recipe> items = await recipes

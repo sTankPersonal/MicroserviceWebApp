@@ -8,7 +8,6 @@
 
 <h2>Recipe List</h2>
 
-
 <form asp-controller="Recipe" asp-action="List" method="get">
 	<div class="row g-2 align-items-end">
 		<div class="col">
@@ -19,26 +18,36 @@
 			<span asp-validation-for="SearchName" class="text-danger"></span>
 		</div>
 		<div class="col">
-			<select asp-for="SearchIngredient"
+			<select asp-for="SearchIngredientId"
 				class="form-select select2-field"
 				data-placeholder="Ingredient"
-				data-ajax-url="/api/Ingredient/AjaxList"
+				data-ajax-base-url="/api/Ingredient/Ajax"
 				data-ajax-text-field="text"
 				data-ajax-id-field="id"
 				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+				@if (Model.SearchIngredientId.HasValue)
+				{
+					<option value="@Model.SearchIngredientId" selected>
+						Loading...
+					</option>
+				}
 			</select>
-			<span asp-validation-for="SearchIngredient" class="text-danger"></span>
 		</div>
 		<div class="col">
-			<select asp-for="SearchCategory"
+			<select asp-for="SearchCategoryId"
 				class="form-select select2-field"
 				data-placeholder="Category"
-				data-ajax-url="/api/Category/AjaxList"
+                data-ajax-base-url="/api/Category/Ajax"
 				data-ajax-text-field="text"
 				data-ajax-id-field="id"
 				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+				@if (Model.SearchCategoryId.HasValue)
+				{
+					<option value="@Model.SearchCategoryId" selected>
+						Loading...
+					</option>
+				}
 			</select>
-			<span asp-validation-for="SearchCategory" class="text-danger"></span>
 		</div>
 		<div class="col-auto">
 			<button type="submit" class="btn btn-primary">Search</button>
@@ -103,8 +112,8 @@ else
                        asp-controller="Recipe"
                        asp-route-PageNumber="@(Model.PageNumber - 1)"
                        asp-route-SearchName="@Model.SearchName"
-                       asp-route-SearchIngredient="@Model.SearchIngredient"
-                       asp-route-SearchCategory="@Model.SearchCategory"
+                       asp-route-SearchIngredientId="@Model.SearchIngredientId"
+                       asp-route-SearchCategoryId="@Model.SearchCategoryId"
                        class="page-link">
                         Previous
                     </a>
@@ -120,8 +129,8 @@ else
                        asp-controller="Recipe"
                        asp-route-PageNumber="@(Model.PageNumber + 1)"
                        asp-route-SearchName="@Model.SearchName"
-                       asp-route-SearchIngredient="@Model.SearchIngredient"
-                       asp-route-SearchCategory="@Model.SearchCategory"
+                       asp-route-SearchIngredientId="@Model.SearchIngredientId"
+                       asp-route-SearchCategoryId="@Model.SearchCategoryId"
                        class="page-link">
                         Next
                     </a>
@@ -130,11 +139,6 @@ else
         </ul>
     </nav>
 }
-
-
-
-
-
 
 @section Scripts {
     <script src="~/js/select2-ajax.js"></script>
