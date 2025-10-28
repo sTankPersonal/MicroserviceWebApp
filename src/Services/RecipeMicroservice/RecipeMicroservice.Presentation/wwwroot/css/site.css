@@ -1,3 +1,4 @@
+/* === Global font settings === */
 html {
     font-size: 14px;
 }
@@ -8,10 +9,13 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+/* === Bootstrap focus styles === */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+/* === Page layout === */
 html, body {
     height: 100%;
     margin: 0;
@@ -28,29 +32,86 @@ main {
     flex: 1;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px;
+/* === Select2 Bootstrap 5 Theme Fix === */
+.select2-container--bootstrap-5 {
+    width: 100%; /* match Bootstrap form-control width */
+    font-size: 1rem; /* inherit Bootstrap font size */
 }
 
-.select2-container .select2-selection--single {
-    height: 38px;
-}
+    /* Selection box */
+    .select2-container--bootstrap-5 .select2-selection {
+        height: var(--bs-form-control-height, calc(1.5em + .75rem + 2px));
+        padding: var(--bs-form-control-padding-y, .375rem) var(--bs-form-control-padding-x, .75rem);
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .375rem);
+        background-color: var(--bs-body-bg, #fff);
+        color: var(--bs-body-color, #212529);
+        display: flex;
+        align-items: center;
+        box-shadow: none;
+    }
 
-.select2-container--default .select2-selection--single {
-    height: var(--bs-form-control-height, calc(1.5em + .75rem + 2px));
-    padding: var(--bs-form-control-padding-y, .375rem) var(--bs-form-control-padding-x, .75rem);
-    border: 1px solid var(--bs-border-color, #ced4da);
-    border-radius: var(--bs-border-radius, .375rem);
-    display: flex;
-    align-items: center;
-}
+    /* Selected text (normal) */
+    .select2-container--bootstrap-5 .select2-selection__rendered,
+    .select2-container--bootstrap-5 .select2-selection__rendered * {
+        color: var(--bs-body-color, #212529) !important;
+        line-height: var(--bs-form-control-height, calc(1.5em + .75rem + 2px));
+    }
 
-/* Bootstrap 5 theme for Select2 */
-body .select2-container--bootstrap-5 .select2-selection {
-    color: var(--bs-body-color);
-    background-color: var(--bs-body-bg);
-    border: var(--bs-border-width) solid var(--bs-border-color);
-}
+    /* Placeholder text */
+    .select2-container--bootstrap-5 .select2-selection__placeholder {
+        color: var(--bs-secondary, #6c757d) !important;
+    }
+
+    /* Dropdown arrow */
+    .select2-container--bootstrap-5 .select2-selection__arrow b {
+        border-color: var(--bs-body-color, #212529) transparent transparent transparent;
+    }
+
+    /* Dropdown menu */
+    .select2-container--bootstrap-5 .select2-dropdown {
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .375rem);
+        background-color: var(--bs-body-bg, #fff);
+        color: var(--bs-body-color, #212529);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+
+    /* Individual dropdown options */
+    .select2-container--bootstrap-5 .select2-results__option {
+        padding: var(--bs-form-control-padding-y, .375rem) var(--bs-form-control-padding-x, .75rem);
+        color: var(--bs-body-color, #212529);
+    }
+
+    /* Hover & selected option */
+    .select2-container--bootstrap-5 .select2-results__option--highlighted {
+        background-color: var(--bs-primary, #0d6efd);
+        color: var(--bs-light, #fff);
+    }
+
+    /* Disabled options */
+    .select2-container--bootstrap-5 .select2-results__option[aria-disabled="true"] {
+        color: var(--bs-secondary-text, #6c757d);
+        cursor: not-allowed;
+    }
+
+    /* Focused search input inside dropdown */
+    .select2-container--bootstrap-5 .select2-search__field {
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .375rem);
+        padding: var(--bs-form-control-padding-y, .375rem) var(--bs-form-control-padding-x, .75rem);
+        height: auto;
+        line-height: normal;
+        width: 100%;
+    }
+
+    /* Ensure responsive width */
+    .select2-container--bootstrap-5 .select2-selection--single,
+    .select2-container--bootstrap-5 .select2-selection--multiple {
+        width: 100% !important;
+    }
+
+
 
 /* ----------------------------
    Navbar improvements
