@@ -8,7 +8,6 @@
 
 <h2>Recipe List</h2>
 
-
 <form asp-controller="Recipe" asp-action="List" method="get">
 	<div class="row g-2 align-items-end">
 		<div class="col">
@@ -22,20 +21,32 @@
 			<select asp-for="SearchIngredientId"
 				class="form-select select2-field"
 				data-placeholder="Ingredient"
-				data-ajax-url="/api/Ingredient/Ajax"
+				data-ajax-base-url="/api/Ingredient/Ajax"
 				data-ajax-text-field="text"
 				data-ajax-id-field="id"
 				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+				@if (Model.SearchIngredientId.HasValue)
+				{
+					<option value="@Model.SearchIngredientId" selected>
+						Loading...
+					</option>
+				}
 			</select>
 		</div>
 		<div class="col">
 			<select asp-for="SearchCategoryId"
 				class="form-select select2-field"
 				data-placeholder="Category"
-				data-ajax-url="api/Category/Ajax"
+                data-ajax-base-url="/api/Category/Ajax"
 				data-ajax-text-field="text"
 				data-ajax-id-field="id"
 				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+				@if (Model.SearchCategoryId.HasValue)
+				{
+					<option value="@Model.SearchCategoryId" selected>
+						Loading...
+					</option>
+				}
 			</select>
 		</div>
 		<div class="col-auto">
@@ -128,11 +139,6 @@ else
         </ul>
     </nav>
 }
-
-
-
-
-
 
 @section Scripts {
     <script src="~/js/select2-ajax.js"></script>
