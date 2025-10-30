@@ -22,15 +22,17 @@
                     $.each(payloadMap, function (key, value) {
                         if (typeof value !== 'string') {
                             payload[key] = value;
-                            return;
                         }
-                        if (value === 'term') {
+                        else if (value === 'term') {
                             payload[key] = params.term || '';
-                        } else if (value === 'page') {
+                        }
+                        else if (value === 'page') {
                             payload[key] = params.page || 1;
-                        } else if (value.startsWith('#')) {
+                        }
+                        else if (value.startsWith('#')) {
                             payload[key] = $(value).val();
-                        } else {
+                        }
+                        else {
                             payload[key] = value;
                         }
                     });

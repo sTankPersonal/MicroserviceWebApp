@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RecipeMicroservice.Application.DTOs.Unit;
+using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.Unit
 {
@@ -9,5 +10,14 @@ namespace RecipeMicroservice.Presentation.Models.Unit
         [Display(Name = "Ingredient Name")]
         [StringLength(200, ErrorMessage = "Ingredient name cannot be longer than 200 characters.")]
         public string Name { get; set; } = string.Empty;
+
+        public static EditUnitViewModel FromDto(UnitDto dto)
+        {
+            return new EditUnitViewModel
+            {
+                Id = dto.Id,
+                Name = dto.Name
+            };
+        }
     }
 }

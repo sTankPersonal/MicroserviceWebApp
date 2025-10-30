@@ -21,19 +21,19 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Recipe" ? "active" : "")" asp-area="" asp-controller="Recipe" asp-action="List">Recipes</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Recipe" ? "active" : "")" asp-area="" asp-controller="Recipe" asp-action="List">Recipes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Ingredient" ? "active" : "")" asp-area="" asp-controller="Ingredient" asp-action="List">Ingredients</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Ingredient" ? "active" : "")" asp-area="" asp-controller="Ingredient" asp-action="List">Ingredients</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")" asp-area="" asp-controller="Category" asp-action="List">Categories</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")" asp-area="" asp-controller="Category" asp-action="List">Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Unit" ? "active" : "")" asp-area="" asp-controller="Unit" asp-action="List">Measurement Units</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Unit" ? "active" : "")" asp-area="" asp-controller="Unit" asp-action="List">Measurement Units</a>
                         </li>
                     </ul>
                 </div>

@@ -51,7 +51,7 @@
 	<tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddCategory"
-			  asp-route-id="@Model.Recipe.Id"
+			asp-route-id="@Model.Recipe.Id"
 			method="post"
 			class="row g-2 align-items-center mb-3">
 			<tr>
@@ -104,7 +104,7 @@
     <tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddIngredient"
-			  asp-route-id="@Model.Recipe.Id"
+			asp-route-id="@Model.Recipe.Id"
 			method="post">
 			@* class="row g-2 align-items-center mb-3"> *@
 			<tr>
@@ -148,7 +148,7 @@
 					<td>@ingredient.UnitName </td>
 					<td style="white-space: nowrap; width: 1%;">
 						<a asp-controller="Recipe" asp-action="EditIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-danger btn-sm" method = "post">Delete-WIP</a>
 					</td>
 				</tr>
 			}
@@ -209,4 +209,5 @@
 
 @section Scripts {
 	<script src="~/js/select2-ajax.js"></script>
+	<script src="~/js/delete-confirmation.js"></script>
 }
