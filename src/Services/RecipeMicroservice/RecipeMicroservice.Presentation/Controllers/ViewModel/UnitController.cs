@@ -62,7 +62,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
             {
                 return NotFound();
             }
-            return View("Edit", UnitViewModel.FromDto(unit));
+            return View("Edit", EditUnitViewModel.FromDto(unit));
         }
 
         // GET: /Unit/Delete/{id}
