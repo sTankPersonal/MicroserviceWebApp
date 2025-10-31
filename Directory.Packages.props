@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- Microsoft / ASP.NET Core packages -->
+    <PackageVersion Include="Google.Apis.Drive.v3" Version="1.72.0.3944" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10" />

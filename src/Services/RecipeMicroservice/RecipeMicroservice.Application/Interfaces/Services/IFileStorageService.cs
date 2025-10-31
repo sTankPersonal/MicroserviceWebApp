@@ -5,6 +5,6 @@ namespace RecipeMicroservice.Application.Interfaces.Services
     public interface IFileStorageService
     {
         Task<PhotoDto> UploadFileAsync(UploadPhotoDto uploadFileDto);
-        Task DeleteFile(Guid id);
+        Task DeleteFileAsycn(Guid id);
     }
 }

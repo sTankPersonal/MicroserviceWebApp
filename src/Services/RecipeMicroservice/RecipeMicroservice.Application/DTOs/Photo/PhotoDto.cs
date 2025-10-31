@@ -2,6 +2,7 @@
 {
     public class PhotoDto
     {
-        public string FileUrl { get; set; } = string.Empty;
+        public Guid Id { get; set; }
+        public string Url { get; set; } = string.Empty;
     }
 }
