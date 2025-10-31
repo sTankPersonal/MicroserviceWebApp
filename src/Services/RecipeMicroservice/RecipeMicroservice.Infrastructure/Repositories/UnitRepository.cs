@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Pagination;
 using Microsoft.EntityFrameworkCore;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;

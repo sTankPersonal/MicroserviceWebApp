@@ -1,6 +1,4 @@
-﻿
-
-namespace BuildingBlocks.SharedKernel.Repositories
+﻿namespace BuildingBlocks.SharedKernel.Pagination
 {
     public abstract record PagedQuery
     {

@@ -1,6 +1,4 @@
-﻿
-
-namespace BuildingBlocks.SharedKernel.Repositories
+﻿namespace BuildingBlocks.SharedKernel.Pagination
 {
     public class PagedResult<T>(IReadOnlyList<T> items, int totalItems, int pageNumber, int pageSize)
     {

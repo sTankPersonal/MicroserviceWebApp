@@ -1,7 +1,8 @@
-﻿
-namespace BuildingBlocks.SharedKernel.Repositories
+﻿using BuildingBlocks.SharedKernel.Pagination;
+
+namespace BuildingBlocks.SharedKernel.InfrastructureServices
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> : IInfrastructureService
     {
         Task<PagedResult<T>> GetAllAsync(PagedQuery query);
         Task<T?> GetByIdAsync(Guid id);

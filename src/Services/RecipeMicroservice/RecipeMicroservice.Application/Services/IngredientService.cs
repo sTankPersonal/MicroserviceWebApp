@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.SharedKernel.DomainServices;
-using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Application.DTOs.Ingredient;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Entities;

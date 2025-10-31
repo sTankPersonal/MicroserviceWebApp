@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 
 namespace RecipeMicroservice.Presentation.Models.RecipeIngredient

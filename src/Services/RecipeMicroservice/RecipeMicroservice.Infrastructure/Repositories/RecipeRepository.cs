@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Pagination;
 using Microsoft.EntityFrameworkCore;
 using RecipeMicroservice.Domain.Aggregates;
 using RecipeMicroservice.Domain.Entities;
@@ -187,6 +187,14 @@ namespace RecipeMicroservice.Infrastructure.Repositories
         {
             _dbContext.Attach(recipe);
             recipe.RecipeCategories.Remove(recipeCategory);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        // Photos
+        public async Task AddRecipePhotoAsync(Recipe recipe, Photo photo)
+        {
+            _dbContext.Attach(recipe);
+            recipe.Photos.Add(photo);
             await _dbContext.SaveChangesAsync();
         }
 

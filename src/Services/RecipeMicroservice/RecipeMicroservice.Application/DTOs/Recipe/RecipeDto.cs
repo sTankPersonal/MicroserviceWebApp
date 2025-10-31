@@ -1,4 +1,5 @@
-﻿using RecipeMicroservice.Application.DTOs.RecipeCategory;
+﻿using RecipeMicroservice.Application.DTOs.File;
+using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 
@@ -14,5 +15,6 @@ namespace RecipeMicroservice.Application.DTOs.Recipe
         public IEnumerable<RecipeInstructionDto> Instructions { get; set; } = [];
         public IEnumerable<RecipeIngredientDto> Ingredients { get; set; } = [];
         public IEnumerable<RecipeCategoryDto> Categories { get; set; } = [];
+        public IEnumerable<PhotoDto> Photos { get; set; } = [];
     }
 }
