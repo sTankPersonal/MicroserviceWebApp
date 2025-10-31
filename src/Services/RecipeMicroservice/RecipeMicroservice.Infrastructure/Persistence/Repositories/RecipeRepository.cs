@@ -6,7 +6,7 @@ using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Infrastructure.Persistence;
 
-namespace RecipeMicroservice.Infrastructure.Repositories
+namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
 {
     public class RecipeRepository(RecipeMicroserviceDbContext dbContext) : IRecipeRepository
     {

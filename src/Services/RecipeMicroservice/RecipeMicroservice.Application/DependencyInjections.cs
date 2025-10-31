@@ -2,7 +2,7 @@
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Application.Services;
 using RecipeMicroservice.Domain.Interfaces;
-using RecipeMicroservice.Infrastructure.Repositories;
+using RecipeMicroservice.Infrastructure.Persistence.Repositories;
 
 namespace RecipeMicroservice.Application
 {
@@ -12,15 +12,10 @@ namespace RecipeMicroservice.Application
         {
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IIngredientService, IngredientService>();
-            //services.AddScoped<IInstructionService, InstructionService>();
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IUnitService, UnitService>();
 
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IIngredientRepository, IngredientRepository>();
-            //services.AddScoped<IInstructionRepository, InstructionRepository>();
-            services.AddScoped<IRecipeRepository, RecipeRepository>();
-            services.AddScoped<IUnitRepository, UnitRepository>();
+            
 
             return services;
         }

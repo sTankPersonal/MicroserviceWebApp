@@ -4,7 +4,7 @@ using Google.Apis.Upload;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Infrastructure.Interfaces;
 
-namespace RecipeMicroservice.Infrastructure.FileStorages
+namespace RecipeMicroservice.Infrastructure.Cloud.FileStorage
 {
     public class GoogleDriveFileStorage(DriveService driveService) : IPhotoFileStorage
     {

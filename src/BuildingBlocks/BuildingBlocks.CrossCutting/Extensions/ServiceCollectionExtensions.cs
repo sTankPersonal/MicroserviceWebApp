@@ -13,7 +13,7 @@ namespace BuildingBlocks.CrossCutting.Extensions
         public static IServiceCollection AddCrossCutting(this IServiceCollection services, IConfiguration configuration)
         {
             // Configure Correlation Middleware
-            services.Configure<CorrelationOptions>(options => { configuration.GetSection("CorrelationOptions").Bind(options); });
+            services.Configure<CorrelationOptions>(configuration.GetSection("CorrelationOptions"));
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
             services.AddScoped<ICorrelationService, DefaultCorrelationService>();
 
