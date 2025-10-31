@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Application.DTOs.Ingredient;
 using RecipeMicroservice.Application.Interfaces.Services;
+using RecipeMicroservice.Application.Mappers;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
@@ -12,10 +13,7 @@ namespace RecipeMicroservice.Application.Services
         private readonly IIngredientRepository _ingredientRepository = ingredientRepository;
         public async Task<Guid> CreateAsync(CreateIngredientDto dto)
         {
-            Ingredient ingredient = new()
-            {
-                Name = dto.Name
-            };
+            Ingredient ingredient = dto.ToEntity();
             await _ingredientRepository.AddAsync(ingredient);
             return ingredient.Id;
         }
@@ -29,47 +27,18 @@ namespace RecipeMicroservice.Application.Services
         public async Task<PagedResult<IngredientDto>> GetAllAsync(FilterIngredient filter)
         {
             PagedResult<Ingredient> pagedIngredients =  await _ingredientRepository.GetAllAsync(filter);
-            List<IngredientDto> ingredientDtos = [.. pagedIngredients.Items
-                .Select(i => new IngredientDto
-                {
-                    Id = i.Id,
-                    Name = i.Name
-                })];
-            return new PagedResult<IngredientDto>(
-                ingredientDtos,
-                pagedIngredients.TotalItems,
-                pagedIngredients.PageNumber,
-                pagedIngredients.PageSize);
+            return pagedIngredients.Map(i => i.ToDto());
         }
 
         public async Task<PagedResult<IngredientDto>> GetAllAsync(PagedQuery query)
         {
             PagedResult<Ingredient> pagedIngredients =  await _ingredientRepository.GetAllAsync(query);
-            List<IngredientDto> ingredientDtos = [.. pagedIngredients.Items
-                .Select(i => new IngredientDto
-                {
-                    Id = i.Id,
-                    Name = i.Name
-                })];
-            return new PagedResult<IngredientDto>(
-                ingredientDtos,
-                pagedIngredients.TotalItems,
-                pagedIngredients.PageNumber,
-                pagedIngredients.PageSize);
+            return pagedIngredients.Map(i => i.ToDto());
         }
 
         public async Task<IngredientDto?> GetByIdAsync(Guid id)
         {
-            Ingredient? ingredient = await _ingredientRepository.GetByIdAsync(id);
-            if (ingredient == null)
-            {
-                return null;
-            }
-            return new IngredientDto
-            {
-                Id = ingredient.Id,
-                Name = ingredient.Name
-            };
+            return (await _ingredientRepository.GetByIdAsync(id) ?? null)?.ToDto();
         }
 
         public async Task UpdateAsync(Guid id, UpdateIngredientDto dto)
