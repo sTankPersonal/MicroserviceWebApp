@@ -1,5 +1,4 @@
-﻿using BuildingBlocks.CrossCutting.Correlation;
-using BuildingBlocks.CrossCutting.Exceptions;
+﻿using BuildingBlocks.CrossCutting.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 

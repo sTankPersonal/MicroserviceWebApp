@@ -2,11 +2,11 @@
 using Google.Apis.Drive.v3;
 using Google.Apis.Upload;
 using RecipeMicroservice.Domain.Entities;
-using RecipeMicroservice.Infrastructure.Interfaces;
+using RecipeMicroservice.Domain.Interfaces;
 
 namespace RecipeMicroservice.Infrastructure.Cloud.FileStorage
 {
-    public class GoogleDriveFileStorage(DriveService driveService) : IPhotoFileStorage
+    public class GoogleDriveCloudFileStorage(DriveService driveService) : IPhotoFileStorage
     {
         private readonly DriveService _driveService = driveService;
         public Task DeleteFileAsync(Photo entity)
@@ -30,7 +30,7 @@ namespace RecipeMicroservice.Infrastructure.Cloud.FileStorage
 
             if (result.Status != UploadStatus.Completed)
             {
-                throw new Exception($"File upload failed: {result.Exception}");
+                throw new System.Exception($"File upload failed: {result.Exception}");
             }
             return new Photo
             {

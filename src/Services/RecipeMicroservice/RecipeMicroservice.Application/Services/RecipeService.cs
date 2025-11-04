@@ -9,7 +9,6 @@ using RecipeMicroservice.Domain.Aggregates;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.Infrastructure.Interfaces;
 
 namespace RecipeMicroservice.Application.Services
 {
