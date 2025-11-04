@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Unit;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
+using RecipeMicroservice.Presentation.Mappers;
 using RecipeMicroservice.Presentation.Models.Unit;
 
 namespace RecipeMicroservice.Presentation.Controllers.ViewModel
@@ -25,10 +26,10 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // GET: /Unit
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllUnits(FilterIngredient filterIngredient)
+        public async Task<IActionResult> GetAllUnits(FilterIngredient filter)
         {
-            PagedResult<UnitDto> units = await _unitService.GetAllAsync(filterIngredient);
-            return View("List", ListUnitViewModel.FromPagedResult(units));
+            PagedResult<UnitDto> dtos = await _unitService.GetAllAsync(filter);
+            return View("List", dtos.ToViewModel());
         }
 
         // GET: /Unit/{id}
@@ -36,12 +37,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Details")]
         public async Task<IActionResult> GetUnitById(Guid id)
         {
-            UnitDto? unit = await _unitService.GetByIdAsync(id);
-            if (unit == null)
-            {
-                return NotFound();
-            }
-            return View("Details", UnitViewModel.FromDto(unit));
+            UnitDto? dto = await _unitService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Details", dto.ToViewModel());
         }
 
         // GET: /Unit/Create
@@ -57,12 +54,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Edit")]
         public async Task<IActionResult> EditUnit(Guid id)
         {
-            UnitDto? unit = await _unitService.GetByIdAsync(id);
-            if (unit == null)
-            {
-                return NotFound();
-            }
-            return View("Edit", EditUnitViewModel.FromDto(unit));
+            UnitDto? dto = await _unitService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Edit", dto.ToViewModel());
         }
 
         // GET: /Unit/Delete/{id}
@@ -70,36 +63,26 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteUnit(Guid id)
         {
-            UnitDto? unit = await _unitService.GetByIdAsync(id);
-            if (unit == null)
-            {
-                return NotFound();
-            }
-            return View("Delete", UnitViewModel.FromDto(unit));
+            UnitDto? dto = await _unitService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Delete", dto.ToViewModel());
         }
 
         // POST: /Unit/Create
         [HttpPost("Create")]
         [ActionName("Create")]
-        public async Task<IActionResult> CreateUnit(CreateUnitViewModel createUnitViewModel)
+        public async Task<IActionResult> CreateUnit(CreateUnitViewModel viewModel)
         {
-            CreateUnitDto dto = new ()
-            {
-                Name = createUnitViewModel.Name
-            };
-            Guid newUnitId = await _unitService.CreateAsync(dto);
-            return RedirectToAction("Details", new { id = newUnitId });
+            CreateUnitDto dto = viewModel.ToDto();
+            Guid id = await _unitService.CreateAsync(dto);
+            return RedirectToAction("Details", new { id });
         }
 
         // POST: /Unit/Edit/{id}
         [HttpPost("Edit/{id}")]
         [ActionName("Edit")]
-        public async Task<IActionResult> EditUnit(Guid id, UnitViewModel unitViewModel)
+        public async Task<IActionResult> EditUnit(Guid id, UpdateUnitViewModel viewModel)
         {
-            UpdateUnitDto dto = new ()
-            {
-                Name = unitViewModel.Name
-            };
+            UpdateUnitDto dto = viewModel.ToDto();
             await _unitService.UpdateAsync(id, dto);
             return RedirectToAction("Details", new { id });
         }

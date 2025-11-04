@@ -62,7 +62,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
             {
                 return NotFound();
             }
-            return View("Edit", EditIngredientViewModel.FromDto(ingredient));
+            return View("Edit", UpdateIngredientViewModel.FromDto(ingredient));
         }
 
         // GET: /Ingredient/Delete/{id}
@@ -94,7 +94,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // POST: /Ingredient/Edit/{id}
         [HttpPost("Edit/{id}")]
         [ActionName("Edit")]
-        public async Task<IActionResult> EditIngredient(Guid id, EditIngredientViewModel model)
+        public async Task<IActionResult> EditIngredient(Guid id, UpdateIngredientViewModel model)
         {
             UpdateIngredientDto dto = new ()
             {
