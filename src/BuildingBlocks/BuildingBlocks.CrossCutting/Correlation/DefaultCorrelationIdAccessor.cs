@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.CrossCutting.Correlation
 {
-    public class CorrelationIdAccessor : ICorrelationIdAccessor
+    public class DefaultCorrelationIdAccessor : ICorrelationIdAccessor
     {
         private string? _correlationId;
         public string? GetCorrelationId() => _correlationId;

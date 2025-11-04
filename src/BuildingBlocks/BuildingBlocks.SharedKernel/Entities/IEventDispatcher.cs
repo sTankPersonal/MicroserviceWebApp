@@ -1,6 +1,4 @@
-﻿
-
-using BuildingBlocks.SharedKernel.Events;
+﻿using BuildingBlocks.SharedKernel.Events;
 
 namespace BuildingBlocks.SharedKernel.Entities
 {

@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Pagination;
+using RecipeMicroservice.Application.DTOs.Photo;
 using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
@@ -11,9 +12,10 @@ using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Application.Services
 {
-    public class RecipeService(IRecipeRepository recipeRepository) : IRecipeService
+    public class RecipeService(IRecipeRepository recipeRepository, IPhotoFileStorage photoFileStorage) : IRecipeService
     {
         private readonly IRecipeRepository _recipeRepository = recipeRepository;
+        private readonly IPhotoFileStorage _photoFileStorage = photoFileStorage;
         public async Task<Guid> CreateAsync(CreateRecipeDto dto)
         {
             Recipe recipe = new()
@@ -30,6 +32,10 @@ namespace RecipeMicroservice.Application.Services
         public async Task DeleteAsync(Guid id)
         {
             Recipe recipe = await _recipeRepository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Recipe with id {id} not found.");
+            foreach(Photo photo in recipe.Photos)
+            {
+                await _photoFileStorage.DeleteFileAsync(photo);
+            }
             await _recipeRepository.DeleteAsync(recipe);
         }
 
@@ -67,6 +73,12 @@ namespace RecipeMicroservice.Application.Services
                             Id = rc.Id,
                             CategoryId = rc.CategoryId,
                             CategoryName = rc.Category != null ? rc.Category.Name : string.Empty
+                        })],
+                    Photos = [.. r.Photos
+                    .Select(p => new PhotoDto
+                        {
+                            Id = p.Id,
+                            Url = p.Url
                         })]
                     })];
             return new PagedResult<RecipeDto>(

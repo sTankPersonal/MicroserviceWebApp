@@ -1,7 +1,15 @@
-﻿namespace BuildingBlocks.CrossCutting.Correlation
+﻿using BuildingBlocks.CrossCutting.Utils;
+
+namespace BuildingBlocks.CrossCutting.Correlation
 {
     public class CorrelationOptions
     {
-        public string HeaderName { get; set; } = string.Empty;
+        private string _headerName = string.Empty;
+        public string HeaderName
+        {
+            get => _headerName.ThrowIfNullOrEmpty($"{nameof(CorrelationOptions)}.{nameof(HeaderName)}");
+            set => _headerName = value;
+        }
+
     }
 }

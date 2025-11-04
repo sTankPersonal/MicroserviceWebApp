@@ -79,6 +79,26 @@ namespace RecipeMicroservice.Infrastructure.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("RecipeMicroservice.Domain.Entities.Photo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RecipeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("Photo");
+                });
+
             modelBuilder.Entity("RecipeMicroservice.Domain.Entities.RecipeCategory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -170,6 +190,13 @@ namespace RecipeMicroservice.Infrastructure.Migrations
                     b.ToTable("Units");
                 });
 
+            modelBuilder.Entity("RecipeMicroservice.Domain.Entities.Photo", b =>
+                {
+                    b.HasOne("RecipeMicroservice.Domain.Aggregates.Recipe", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("RecipeId");
+                });
+
             modelBuilder.Entity("RecipeMicroservice.Domain.Entities.RecipeCategory", b =>
                 {
                     b.HasOne("RecipeMicroservice.Domain.Entities.Category", "Category")
@@ -229,6 +256,8 @@ namespace RecipeMicroservice.Infrastructure.Migrations
 
             modelBuilder.Entity("RecipeMicroservice.Domain.Aggregates.Recipe", b =>
                 {
+                    b.Navigation("Photos");
+
                     b.Navigation("RecipeCategories");
 
                     b.Navigation("RecipeIngredients");

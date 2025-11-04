@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.InfrastructureServices;
+using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Domain.Aggregates;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Specifications;
@@ -26,5 +27,8 @@ namespace RecipeMicroservice.Domain.Interfaces
         Task AddRecipeCategoryAsync(Recipe recipe, RecipeCategory category);
         Task UpdateRecipeCategoryAsync(Recipe recipe, RecipeCategory category);
         Task DeleteRecipeCategoryByIdAsync(Recipe recipe, RecipeCategory category);
+
+        // Aggregate Child - Photos
+        Task AddRecipePhotoAsync(Recipe recipe, Photo photo);
     }
 }

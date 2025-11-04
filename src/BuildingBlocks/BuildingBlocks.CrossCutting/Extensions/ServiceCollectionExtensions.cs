@@ -13,13 +13,13 @@ namespace BuildingBlocks.CrossCutting.Extensions
         public static IServiceCollection AddCrossCutting(this IServiceCollection services, IConfiguration configuration)
         {
             // Configure Correlation Middleware
-            services.Configure<CorrelationOptions>(options => { configuration.GetSection("CorrelationOptions").Bind(options); });
-            services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
-            services.AddScoped<ICorrelationService, DefaultCorrelationService>();
+            //services.Configure<CorrelationOptions>(configuration.GetSection("CorrelationOptions"));
+            //services.AddScoped<ICorrelationIdAccessor, DefaultCorrelationIdAccessor>();
+            //services.AddScoped<ICorrelationService, DefaultCorrelationService>();
 
-            // Configure Logging Middleware
-            services.AddScoped<ILoggingService, DefaultLoggingService>();
-            services.Configure<LoggingOptions>(options => { configuration.GetSection("LoggingOptions").Bind(options); });
+            //// Configure Logging Middleware
+            //services.AddScoped<ILoggingService, DefaultLoggingService>();
+            //services.Configure<LoggingOptions>(options => { configuration.GetSection("LoggingOptions").Bind(options); });
 
             // Configure Exception Middleware
             services.AddScoped<IExceptionService, DefaultExceptionService>();

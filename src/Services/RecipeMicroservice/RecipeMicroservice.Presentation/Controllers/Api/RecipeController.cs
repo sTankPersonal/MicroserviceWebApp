@@ -1,9 +1,9 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Application.DTOs.Recipe;
+using BuildingBlocks.SharedKernel.Pagination;
 
 namespace RecipeMicroservice.Presentation.Controllers.Api
 {

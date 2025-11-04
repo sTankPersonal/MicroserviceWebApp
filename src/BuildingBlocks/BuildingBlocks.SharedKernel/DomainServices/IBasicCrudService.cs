@@ -1,8 +1,8 @@
-﻿using BuildingBlocks.SharedKernel.Repositories;
+﻿using BuildingBlocks.SharedKernel.Pagination;
 
 namespace BuildingBlocks.SharedKernel.DomainServices
 {
-    public interface IBasicCrudService<TId, TDto, TCreateDto, TUpdateDto>
+    public interface IBasicCrudService<TId, TDto, TCreateDto, TUpdateDto> : IDomainService
     {
         Task<PagedResult<TDto>> GetAllAsync(PagedQuery query);
         Task<TDto?> GetByIdAsync(TId id);

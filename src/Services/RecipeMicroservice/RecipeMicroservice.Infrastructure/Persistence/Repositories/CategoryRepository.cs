@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
-using BuildingBlocks.SharedKernel.Repositories;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Infrastructure.Persistence;
+using BuildingBlocks.SharedKernel.Pagination;
 
-namespace RecipeMicroservice.Infrastructure.Repositories
+namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
 {
     public class CategoryRepository(RecipeMicroserviceDbContext dbContext) : ICategoryRepository
     {
