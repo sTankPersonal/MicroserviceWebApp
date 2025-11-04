@@ -5,24 +5,21 @@ namespace RecipeMicroservice.Application.Mappers
 {
     public static class UnitMapper
     {
-        public static Unit ToEntity(this CreateUnitDto dto)
+        public static Unit ToEntity(this CreateUnitDto dto) => new()
         {
-            return new Unit
-            {
-                Name = dto.Name
-            };
-        }
-        public static UnitDto ToDto(this Unit unit)
+            Name = dto.Name
+        };
+        public static Unit ToEntity(this UpdateUnitDto dto, Unit unit)
         {
-            return new UnitDto
-            {
-                Id = unit.Id,
-                Name = unit.Name
-            };
+            unit.Name = dto.Name;
+            return unit;
         }
-        public static IEnumerable<UnitDto> ToDtos(this IEnumerable<Unit> units)
+        public static UnitDto ToDto(this Unit unit) => new()
         {
-            return units.Select(u => u.ToDto());
-        }
+            Id = unit.Id,
+            Name = unit.Name
+        };
+        public static IEnumerable<UnitDto> ToDtos(this IEnumerable<Unit> units) =>
+            units.Select(u => u.ToDto());
     }
 }

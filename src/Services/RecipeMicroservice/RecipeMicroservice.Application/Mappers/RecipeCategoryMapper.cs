@@ -5,25 +5,21 @@ namespace RecipeMicroservice.Application.Mappers
 {
     public static class RecipeCategoryMapper
     {
-        public static RecipeCategory ToEntity(this CreateRecipeCategoryDto dto)
+        public static RecipeCategory ToEntity(this CreateRecipeCategoryDto dto) => new()
         {
-            return new RecipeCategory
-            {
-            };
-        }
-        public static RecipeCategoryDto ToDto(this RecipeCategory recipeCategory)
+        };
+        public static RecipeCategory ToEntity(this UpdateRecipeCategoryDto dto, RecipeCategory recipeCategory)
         {
-            return new RecipeCategoryDto
-            {
-                Id = recipeCategory.Id,
-                RecipeId = recipeCategory.RecipeId,
-                CategoryId = recipeCategory.CategoryId,
-                CategoryName = recipeCategory.Category != null ? recipeCategory.Category.Name : string.Empty
-            };
+            return recipeCategory;
         }
-        public static IEnumerable<RecipeCategoryDto> ToDtos(this IEnumerable<RecipeCategory> recipeCategories)
+        public static RecipeCategoryDto ToDto(this RecipeCategory recipeCategory) => new()
         {
-            return recipeCategories.Select(rc => rc.ToDto());
-        }
+            Id = recipeCategory.Id,
+            RecipeId = recipeCategory.RecipeId,
+            CategoryId = recipeCategory.CategoryId,
+            CategoryName = recipeCategory.Category != null ? recipeCategory.Category.Name : string.Empty
+        };
+        public static IEnumerable<RecipeCategoryDto> ToDtos(this IEnumerable<RecipeCategory> recipeCategories) => 
+            recipeCategories.Select(rc => rc.ToDto());
     }
 }

@@ -2,7 +2,6 @@
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.Infrastructure.Persistence;
 using BuildingBlocks.SharedKernel.Pagination;
 
 namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
@@ -22,14 +21,6 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<PagedResult<Category>> GetAllAsync(PagedQuery query)
-        {
-            IQueryable<Category> categories = _dbContext.Categories.AsQueryable();
-            int totalItems = await categories.CountAsync();
-            List<Category> items = await categories.OrderBy(c => c.Name).ThenBy(c => c.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
-            return new PagedResult<Category>(items, totalItems, query.PageNumber, query.PageSize);
-        }
-
         public async Task<PagedResult<Category>> GetAllAsync(FilterCategory query)
         {
             IQueryable<Category> categories = _dbContext.Categories.AsQueryable();
@@ -40,6 +31,11 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
             int totalItems = await categories.CountAsync();
             List<Category> items = await categories.OrderBy(c => c.Name).ThenBy(c => c.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
             return new PagedResult<Category>(items, totalItems, query.PageNumber, query.PageSize);
+        }
+
+        public Task<PagedResult<Category>> GetAllAsync<TFilterQuery>(TFilterQuery query) where TFilterQuery : PagedQuery
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Category?> GetByIdAsync(Guid id)

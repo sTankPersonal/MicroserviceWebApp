@@ -15,6 +15,14 @@ namespace RecipeMicroservice.Application.Mappers
                 Servings = dto.Servings
             };
         }
+        public static Recipe ToEntity(this UpdateRecipeDto dto, Recipe recipe)
+        {
+            recipe.Name = dto.Name;
+            recipe.PrepTimeInMinutes = dto.PrepTimeInMinutes;
+            recipe.CookTimeInMinutes = dto.CookTimeInMinutes;
+            recipe.Servings = dto.Servings;
+            return recipe;
+        }
         public static RecipeDto ToDto(this Recipe recipe)
         {
             return new RecipeDto

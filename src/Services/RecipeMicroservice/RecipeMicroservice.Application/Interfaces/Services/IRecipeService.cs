@@ -4,18 +4,12 @@ using RecipeMicroservice.Application.DTOs.Recipe;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Domain.Specifications;
-using BuildingBlocks.SharedKernel.Pagination;
 
 namespace RecipeMicroservice.Application.Interfaces.Services
 {
-    public interface IRecipeService : IBasicCrudService<Guid, RecipeDto, CreateRecipeDto, UpdateRecipeDto>
+    public interface IRecipeService : IBasicCrudService<Guid, RecipeDto, CreateRecipeDto, UpdateRecipeDto, FilterRecipe>
     {
-        public Task<PagedResult<RecipeDto>> GetAllAsync(FilterRecipe filter);
 
-        //Aggregate Child - RecipeInstructions
-        //public Task<RecipeInstructionDto?> GetInstructionByIdAsync(Guid recipeId, Guid instructionId);
-        //public Task<PagedResult<RecipeInstructionDto>> GetAllInstructionsAsync(Guid recipeId, PagedQuery query);
-        //public Task<PagedResult<RecipeInstructionDto>> GetAllInstructionsAsync(Guid recipeId, FilterInstruction filter);
         public Task<Guid> CreateRecipeInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto);
         public Task UpdateRecipeInstructionAsync(Guid recipeId, Guid recipeInstructionId, UpdateRecipeInstructionDto dto);
         public Task DeleteRecipeInstructionAsync(Guid recipeId,  Guid recipeInstructionId);

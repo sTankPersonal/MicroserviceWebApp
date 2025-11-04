@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.CrossCutting.Utils
+﻿namespace BuildingBlocks.SharedKernel.Utils
 {
     public static class StringValidation
     {
