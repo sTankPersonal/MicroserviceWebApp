@@ -1,0 +1,40 @@
+{
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5149"
+    },
+    "https": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DatabaseOptions__ConnectionString": "Host=ep-frosty-mud-a5cchhre-pooler.us-east-2.aws.neon.tech; Database=webDB; Username=webDB_owner; Password=npg_QIFa92hidreb; SSL Mode=VerifyFull; Channel Binding=Require;",
+        "GoogleOptions__ServiceAccountJson": "{\"type\":\"service_account\",\"project_id\":\"serious-arcana-477118-e2\",\"private_key_id\":\"07d1a464a2b270f76854cd5df77ba30dedde5cc7\",\"private_key\":\"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDszhR9cG59w9HE\\nBEV6eAxix7TNIwaGxkkb4bpr7rVj6jSvN1qtkgFNp9IOBo9swKDG/kHfw8rWxxt5\\nA8EFsNJl7/dPZf4cSFNkbppK5ZfbgiUOoJ6leV7IJtfynY48SCGa3gQk9p2P2Q\\u002BD\\nfauBcZGxrut6ZzRQe8YIcj2cWgAeZiRFpeqHKpX9mTwkjxypR2d8DAu1v\\u002BQiQ/GZ\\nQC2FkhIFxCYq5i1qNztSiIHKcC7degJ5MEqb5xKcYmfhcd\\u002BDJ0KYpXJXenRVfmoi\\n7n2Nme67KAH8c2TVOBIRHI2/qBMLEOyR\\u002BsLBTZyW8mCmhlma\\u002B\\u002B11MnjXqIekf9gv\\ntZG8b9xtAgMBAAECggEAIRWobookdcpuZpODiC546d17A49u3FTxu\\u002B/YADe\\u002Bp1yp\\nIF3R0R7tXbB3vDaVwpz7GYebzoE9Yq/jb7ni4EJUcveJjFH0pHZFExVngH/\\u002BrSV2\\nu0oc6tjqhs5JLNVvHORQWvcaicuG4fpynMK/ESZmiPZRDK3vSjCwz1dJXQHaCGT6\\nFjr04tw54iQrC8W\\u002BQVyztLa3T8eNEUjpsnG3U0fa6K3J/364kOGtl7aJ/guIMMfG\\n6L2r1k2euKNgZlBHm9dPvKsp9bpWWnZJarL8a\\u002BVYjMhLt689OLZhXVR9ilgnvqnf\\ncE23HvsbmU6ATDuUvQaVko8EM2e7xFla4Dc53rWQZQKBgQD7F7eD4c5yYjNZnsRC\\nRQnHA9hlyh6XSQbVkR/gvkC9PFK0hINy4zBSrVfxULaMSEaNKLwm4aUcd1bkMKW5\\nmc0TmPxUtha5xt2PsUJv16dzlMi2UO3EsWg\\u002B74Y5ecY\\u002BbxNf2/fRx1uJXOqHYxZY\\n\\u002B7OqSoo4YdfKh8U76YCPafsRUwKBgQDxbuDY1bKRHuMBKGW07ID1gjCb9mqsSS1L\\nbjhZ1d6vf4wUPbJ5hmoVf7ZAvUSq5X/jO9dUnAyktlDs\\u002B5Y8hHqslxHNyHx9FzeS\\nvUx1hme1iJiFxzr4CMvOSwkYJcZ7/CuHmVJLjXywGec49uiK\\u002B4vsr6QHBWUaFQvT\\nDrmDQE7jPwKBgFPj8KRXZSpCNPXUXa3mcwXS\\u002BxHHHcFd3LKt8gCcj/SpmthFDcXs\\nsdBtqdwuI09rNmcjHPnAmfGQza8fsb7469OIYYXL8HvRPWUszA2h94heRVDkaQw2\\nWaXtUOMTFHD3m3mDfKDSAns6WAEz0duY/MYAcX208uvvwK3rrdA8kG2RAoGASOEG\\ngI3pbEMdlTDjmry1pOaa08mLo9wnDxkDa6LSqLlgyI9jO6nmhfzaQCqh\\u002BtByTV63\\n/nNooaPjQ9YiILyA525m0m6NnZkPjn0UAnoC/lpwaBme5FaLZwdhhGeKxcx2O2V9\\n4Q6hr\\u002Brx0FFAGwwZzeWrJu9q\\u002BHeX7SsJtuQHrDMCgYEA1YcGwwbUt7Lkq6kimV9/\\n594A2i1TCiEz6/vPV4RIG6g6Vm3nbK\\u002BbDq51FW/X9jWiVqZoMahmPJl1GlqFX7nD\\noAlJ/ORP5CnuxMgRKf3VOj44ixjPVXLadROC\\u002Bp/j\\u002BUk1evLZbdB6fRcwIgS9NvfZ\\nWmXEdzkXX5Tp\\u002BJDWOHspEZ8=\\n-----END PRIVATE KEY-----\\n\",\"client_email\":\"recipe-microservice-service-ac@serious-arcana-477118-e2.iam.gserviceaccount.com\",\"client_id\":\"105801243579444115065\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_x509_cert_url\":\"https://www.googleapis.com/robot/v1/metadata/x509/recipe-microservice-service-ac%40serious-arcana-477118-e2.iam.gserviceaccount.com\",\"universe_domain\":\"googleapis.com\"}"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7098;http://localhost:5149"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:41847",
+      "sslPort": 44396
+    }
+  }
+}

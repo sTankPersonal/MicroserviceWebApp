@@ -1,0 +1,148 @@
+﻿@using MovieMicroservice.Presentation.Models.Movie
+@using MovieMicroservice.Presentation.Models.Recipe
+@using RecipeMicroservice.Presentation
+@using RecipeMicroservice.Presentation.Models
+@using RecipeMicroservice.Presentation.Models.Recipe
+@model ListMovieViewModel
+@{
+	ViewData["Title"] = "Recipe List";
+}
+
+<h2>Recipe List</h2>
+
+<form asp-controller="Recipe" asp-action="List" method="get">
+	<div class="row g-2 align-items-end">
+		<div class="col">
+			<input asp-for="SearchName"
+				class="form-control"
+				type="text"
+				placeholder="Recipe Name" />
+			<span asp-validation-for="SearchName" class="text-danger"></span>
+		</div>
+		<div class="col">
+			<select asp-for="SearchIngredientId"
+				class="form-select select2-field"
+				data-placeholder="Ingredient"
+				data-ajax-base-url="/api/Ingredient/Ajax"
+				data-ajax-text-field="text"
+				data-ajax-id-field="id"
+				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+				@if (Model.SearchIngredientId.HasValue)
+				{
+					<option value="@Model.SearchIngredientId" selected>
+						Loading...
+					</option>
+				}
+			</select>
+		</div>
+		<div class="col">
+			<select asp-for="SearchCategoryId"
+				class="form-select select2-field"
+				data-placeholder="Category"
+                data-ajax-base-url="/api/Category/Ajax"
+				data-ajax-text-field="text"
+				data-ajax-id-field="id"
+				data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+				@if (Model.SearchCategoryId.HasValue)
+				{
+					<option value="@Model.SearchCategoryId" selected>
+						Loading...
+					</option>
+				}
+			</select>
+		</div>
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary">Search</button>
+			<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+		</div>
+	</div>
+</form>
+
+
+<br />
+<a asp-controller="Recipe" asp-action="Create" class="btn btn-primary mb-3">New Recipe</a>
+
+
+
+@if (Model.Items.Count == 0)
+{
+    <p>No Recipes.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Recipe</th>
+                <th>Categories</th>
+                <th>Prep Time</th>
+                <th>Cook Time</th>
+                <th>Servings</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (MovieViewModel recipe in Model.Items)
+            {
+                <tr>
+                    <td>@recipe.Name</td>
+                    <td>
+                        @if (recipe.HasCategories())
+                        {
+                            @string.Join(", ", recipe.Categories.Select(c => c.CategoryName))
+                        }
+                    </td>
+                    <td>@(recipe.PrepTimeInMinutes / 60)h @(recipe.PrepTimeInMinutes % 60)min</td>
+                    <td>@(recipe.CookTimeInMinutes / 60)h @(recipe.CookTimeInMinutes % 60)min</td>
+                    <td>@(recipe.Servings)</td>
+                    <td style="white-space: nowrap; width: 1%;">
+                        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-sm btn-info">View</a>
+                        <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a asp-action="List"
+                       asp-controller="Recipe"
+                       asp-route-PageNumber="@(Model.PageNumber - 1)"
+                       asp-route-SearchName="@Model.SearchName"
+                       asp-route-SearchIngredientId="@Model.SearchIngredientId"
+                       asp-route-SearchCategoryId="@Model.SearchCategoryId"
+                       class="page-link">
+                        Previous
+                    </a>
+                </li>
+            }
+            <li class="page-item active">
+                <span class="page-link">@Model.PageNumber</span>
+            </li>
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a asp-action="List"
+                       asp-controller="Recipe"
+                       asp-route-PageNumber="@(Model.PageNumber + 1)"
+                       asp-route-SearchName="@Model.SearchName"
+                       asp-route-SearchIngredientId="@Model.SearchIngredientId"
+                       asp-route-SearchCategoryId="@Model.SearchCategoryId"
+                       class="page-link">
+                        Next
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+
+@section Scripts {
+    <script src="~/js/select2-ajax.js"></script>
+}
+

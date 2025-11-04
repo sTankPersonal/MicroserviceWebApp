@@ -1,0 +1,76 @@
+﻿@using MovieMicroservice.Presentation.Models.Movie
+@using MovieMicroservice.Presentation.Models.MovieCategory
+
+@model UpdateMovieViewModel
+@{
+	ViewData["Title"] = "Edit Recipe";
+}
+
+<h2>Edit Recipe - @Model.Name</h2>
+
+@* <form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Recipe.Id" method="post">
+	<input type="hidden" asp-for="Recipe.Id" />
+	<div class="mb-3">
+		<label asp-for="Recipe.Name" class="form-label"></label>
+		<input asp-for="Recipe.Name" class="form-control" />
+		<span asp-validation-for="Recipe.Name" class="text-danger"></span>
+	</div>
+	<button type="submit" class="btn btn-primary">Save</button>
+	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<hr />
+
+<h4>Categories</h4>
+
+<table class="table table-striped mb-3">
+	<thead>
+		<tr>
+			<th>Category</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<form asp-controller="Recipe"
+			asp-action="AddCategory"
+			asp-route-id="@Model.Recipe.Id"
+			method="post"
+			class="row g-2 align-items-center mb-3">
+			<tr>
+				<td>
+					<select asp-for="NewCategory.CategoryId"
+						class="form-select select2-field"
+						data-placeholder="New Category"
+						data-ajax-base-url= "/api/Category/Ajax"
+						data-ajax-text-field="text"
+						data-ajax-id-field="id"
+						data-ajax-payload='{"SearchName":"term","PageNumber":"page","PageSize":10}'>
+					</select>
+				</td>
+			<td style="white-space: nowrap; width: 1%;">
+					<button type="submit" class="btn btn-primary">Add Category</button>
+				</td>
+			</tr>
+		</form>
+
+		@if (Model.Recipe.HasCategories())
+		{
+			@foreach (MovieCategoryViewModel category in Model.Recipe.RecipeCategories)
+			{
+				<tr>
+					<td>@category.CategoryName</td>
+					<td style="white-space: nowrap; width: 1%;">
+						<a asp-controller="Recipe" asp-action="EditCategory" asp-route-id="@Model.Recipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveCategory" asp-route-id="@Model.Recipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>
+
+
+@section Scripts {
+	<script src="~/js/select2-ajax.js"></script>
+	<script src="~/js/delete-confirmation.js"></script>
+} *@
