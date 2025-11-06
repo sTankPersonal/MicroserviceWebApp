@@ -4,7 +4,7 @@ using RecipeMicroservice.Domain.Entities;
 
 namespace RecipeMicroservice.Infrastructure.Persistence.Configurations
 {
-    public class InstructionConfiguration : IEntityTypeConfiguration<RecipeInstruction>
+    public class RecipeInstructionConfiguration : IEntityTypeConfiguration<RecipeInstruction>
     {
         public void Configure(EntityTypeBuilder<RecipeInstruction> builder)
         {
@@ -19,6 +19,7 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Configurations
             builder.HasOne(i => i.Recipe)
                 .WithMany(r => r.RecipeInstructions)
                 .HasForeignKey(i => i.RecipeId)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

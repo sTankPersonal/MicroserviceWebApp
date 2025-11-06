@@ -2,10 +2,11 @@
 {
     public class RecipeCategoryDto
     {
-        public Guid Id { get; set; }
-		public Guid RecipeId { get; set; }
-        public Guid CategoryId { get; set; }
-        //Display Properties
+        public required Guid Id { get; set; }
+        public required Guid CategoryId { get; set; }
+
+        //Optional Display Fields
+        public string RecipeName { get; set; } = string.Empty;
         public string CategoryName { get; set; } = string.Empty;
     }
 }

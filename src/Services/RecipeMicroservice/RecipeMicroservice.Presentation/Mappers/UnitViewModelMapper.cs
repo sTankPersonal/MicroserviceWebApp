@@ -4,11 +4,6 @@ using RecipeMicroservice.Presentation.Models.Unit;
 
 namespace RecipeMicroservice.Presentation.Mappers
 {
-    /* CreateDto <-> CreateViewModel
-     * PagedResult<Dto> <-> ListViewModel
-     * Dto <-> ViewModel
-     * UpdateDto <-> EditViewModel
-     */
     public static class UnitViewModelMapper
     {
         public static CreateUnitViewModel ToViewModel(this CreateUnitDto dto) => new()
@@ -22,16 +17,18 @@ namespace RecipeMicroservice.Presentation.Mappers
 
         public static ListUnitViewModel ToViewModel(this PagedResult<UnitDto> dtoPagedResult) => new()
         {
-            Items = [..dtoPagedResult.Items.Select(item => item.ToViewModel())],
+            Items = [..dtoPagedResult.Items.Select(ToViewModel)],
             PageNumber = dtoPagedResult.PageNumber,
             PageSize = dtoPagedResult.PageSize,
             TotalItems = dtoPagedResult.TotalItems
         };
-        public static PagedResult<UnitDto> ToDto(this ListUnitViewModel viewModel) => new(
-            [..viewModel.Items.Select(item => item.ToDto())],
-            viewModel.TotalItems,
-            viewModel.PageNumber,
-            viewModel.PageSize);
+        public static PagedResult<UnitDto> ToDto(this ListUnitViewModel viewModel) => new()
+        {
+            Items = [.. viewModel.Items.Select(ToDto)],
+            TotalItems = viewModel.TotalItems,
+            PageNumber = viewModel.PageNumber,
+            PageSize = viewModel.PageSize
+        };
 
         public static UnitViewModel ToViewModel(this UnitDto dto) => new()
         {

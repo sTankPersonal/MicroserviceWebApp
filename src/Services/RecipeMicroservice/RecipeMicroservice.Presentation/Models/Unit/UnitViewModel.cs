@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.Unit
 {
-    public class UnitViewModel
+    public class UnitViewModel : IInfoViewModel<Guid>
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
         [Required(ErrorMessage = "Please enter a name for the Ingredient.")]
         [Display(Name = "Ingredient Name")]

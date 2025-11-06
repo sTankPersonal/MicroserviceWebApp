@@ -8,6 +8,6 @@ namespace RecipeMicroservice.Domain.Entities
         public int StepNumber { get; set; }
         public string Description { get; set; } = string.Empty;
         public Guid RecipeId { get; set; }
-        public required Recipe Recipe { get; set; }
+        public Recipe? Recipe { get; set; }
     }
 }

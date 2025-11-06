@@ -6,6 +6,7 @@ using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Domain.Specifications;
+using RecipeMicroservice.Presentation.Mappers;
 using RecipeMicroservice.Presentation.Models.Recipe;
 using RecipeMicroservice.Presentation.Models.RecipeCategory;
 using RecipeMicroservice.Presentation.Models.RecipeIngredient;
@@ -46,26 +47,17 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Details")]
         public async Task<IActionResult> GetRecipeById(Guid id)
         {
-            RecipeDto? recipe = await _recipeService.GetByIdAsync(id);
-			if (recipe == null)
-            {
-                return NotFound();
-            }
-            return View("Details", RecipeViewModel.FromDto(recipe));
+            RecipeDto? dto = await _recipeService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Details", dto.ToViewModel());
         }
 
         // GET: /Recipe
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllRecipes(ListRecipeViewModel listRecipeViewModel)
+        public async Task<IActionResult> GetAllRecipes(FilterViewModel filter)
         {
-            FilterRecipe filterRecipe = new(listRecipeViewModel.SearchName, listRecipeViewModel.SearchCategoryId, listRecipeViewModel.SearchIngredientId);
-            PagedResult<RecipeDto> recipes = await _recipeService.GetAllAsync(filterRecipe);
-            ListRecipeViewModel newListRecipeViewModel = ListRecipeViewModel.FromPagedResult(recipes);
-            newListRecipeViewModel.SearchName = filterRecipe.SearchName;
-            newListRecipeViewModel.SearchCategoryId = filterRecipe.SearchCategoryId;
-            newListRecipeViewModel.SearchIngredientId = filterRecipe.SearchIngredientId;
-            return View("List", newListRecipeViewModel);
+            PagedResult<RecipeDto> dtos = await _recipeService.GetAllAsync(filter);
+            return View("List", dtos.ToViewModel());
         }
 
         // GET: /Recipe/Create
@@ -86,7 +78,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
             {
                 return NotFound();
             }
-            EditAndAttachElementsRecipeViewModel viewModel = EditAndAttachElementsRecipeViewModel.FromDto(recipe);
+            UpdateAndAttachElementsRecipeViewModel viewModel = UpdateAndAttachElementsRecipeViewModel.FromDto(recipe);
             viewModel.NewInstruction.StepNumber = viewModel.Recipe.RecipeInstructions.Count + 1;
             return View("Edit", viewModel);
         }
@@ -123,7 +115,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // POST: /Recipe/Edit/{id}
         [HttpPost("Edit/{id}")]
         [ActionName("Edit")]
-        public async Task<IActionResult> EditRecipe(Guid id, EditRecipeViewModel recipe)
+        public async Task<IActionResult> EditRecipe(Guid id, UpdateRecipeViewModel recipe)
         {
             UpdateRecipeDto updateRecipeDto = new()
             {

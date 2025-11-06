@@ -17,7 +17,7 @@ namespace RecipeMicroservice.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new RecipeConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new IngredientConfiguration());
-            modelBuilder.ApplyConfiguration(new InstructionConfiguration());
+            modelBuilder.ApplyConfiguration(new RecipeInstructionConfiguration());
             modelBuilder.ApplyConfiguration(new RecipeCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new RecipeIngredientConfiguration());
             modelBuilder.ApplyConfiguration(new UnitConfiguration());

@@ -1,4 +1,5 @@
-﻿using RecipeMicroservice.Application.DTOs.Photo;
+﻿using BuildingBlocks.SharedKernel.Pagination;
+using RecipeMicroservice.Application.DTOs.Photo;
 using RecipeMicroservice.Application.DTOs.RecipeCategory;
 using RecipeMicroservice.Application.DTOs.RecipeIngredient;
 using RecipeMicroservice.Application.DTOs.RecipeInstruction;
@@ -12,9 +13,9 @@ namespace RecipeMicroservice.Application.DTOs.Recipe
         public int PrepTimeInMinutes { get; set; } = 0;
         public int CookTimeInMinutes { get; set; } = 0;
         public int Servings { get; set; } = 0;
-        public IEnumerable<RecipeInstructionDto> Instructions { get; set; } = [];
-        public IEnumerable<RecipeIngredientDto> Ingredients { get; set; } = [];
-        public IEnumerable<RecipeCategoryDto> Categories { get; set; } = [];
-        public IEnumerable<PhotoDto> Photos { get; set; } = [];
+        public PagedResult<RecipeInstructionDto> Instructions { get; set; } = new();
+        public PagedResult<RecipeIngredientDto> Ingredients { get; set; } = new();
+        public PagedResult<RecipeCategoryDto> Categories { get; set; } = new();
+        public PagedResult<PhotoDto> Photos { get; set; } = new();
     }
 }

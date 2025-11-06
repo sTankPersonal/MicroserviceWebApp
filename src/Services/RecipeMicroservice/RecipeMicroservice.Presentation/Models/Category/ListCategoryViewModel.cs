@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.SharedKernel.Pagination;
-using RecipeMicroservice.Application.DTOs.Category;
-
-namespace RecipeMicroservice.Presentation.Models.Category
+﻿namespace RecipeMicroservice.Presentation.Models.Category
 {
     public class ListCategoryViewModel : BaseListViewModel<CategoryViewModel>
     {

@@ -14,12 +14,12 @@ namespace RecipeMicroservice.Application.Interfaces.Services
         public Task UpdateRecipeInstructionAsync(Guid recipeId, Guid recipeInstructionId, UpdateRecipeInstructionDto dto);
         public Task DeleteRecipeInstructionAsync(Guid recipeId,  Guid recipeInstructionId);
         //Aggregate Child - RecipeIngredients
-        public Task<Guid> CreateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, CreateRecipeIngredientDto dto);
+        public Task<Guid> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientDto dto);
         public Task UpdateRecipeIngredientAsync(Guid recipeId, Guid recipeIngredientId, UpdateRecipeIngredientDto dto);
         public Task DeleteRecipeIngredientAsync(Guid recipeId,  Guid recipeIngredientId);
 
         //Aggregate Child - RecipeCategories
-        public Task<Guid> CreateRecipeCategoryAsync(Guid recipeId, Guid categoryId, CreateRecipeCategoryDto dto);
+        public Task<Guid> CreateRecipeCategoryAsync(Guid recipeId,  CreateRecipeCategoryDto dto);
         public Task UpdateRecipeCategoryAsync(Guid recipeId, Guid recipeCategoryId, UpdateRecipeCategoryDto dto);
         public Task DeleteRecipeCategoryAsync(Guid recipeId,  Guid recipeCategoryId);
     }

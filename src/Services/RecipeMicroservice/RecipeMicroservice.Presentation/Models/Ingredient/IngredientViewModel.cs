@@ -1,16 +1,10 @@
-﻿namespace RecipeMicroservice.Presentation.Models.Ingredient
+﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
+
+namespace RecipeMicroservice.Presentation.Models.Ingredient
 {
-    public class IngredientViewModel
+    public class IngredientViewModel : IInfoViewModel<Guid>
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
         public string Name { get; set; } = string.Empty;
-        public static IngredientViewModel FromDto(Application.DTOs.Ingredient.IngredientDto dto)
-        {
-            return new IngredientViewModel
-            {
-                Id = dto.Id,
-                Name = dto.Name
-            };
-        }
     }
 }

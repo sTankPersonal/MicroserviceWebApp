@@ -2,10 +2,10 @@
 
 namespace RecipeMicroservice.Domain.Specifications
 {
-    public record FilterRecipe(string? SearchName = null, Guid? SearchCategoryId = null, Guid? SearchIngredientId = null, int PageNumber = 1, int PageSize = 10) : PagedQuery(PageNumber, PageSize)
+    public record FilterRecipe : PagedQuery
     {
-        public string? SearchName { get; } = SearchName;
-        public Guid? SearchCategoryId { get; } = SearchCategoryId;
-        public Guid? SearchIngredientId { get; } = SearchIngredientId;
+        public string? SearchName { get; init; } = string.Empty;
+        public Guid? SearchCategoryId { get; init; }
+        public Guid? SearchIngredientId { get; init; }
     }
 }

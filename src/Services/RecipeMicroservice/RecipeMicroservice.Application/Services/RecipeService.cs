@@ -21,18 +21,23 @@ namespace RecipeMicroservice.Application.Services
         protected override void ToEntity(UpdateRecipeDto dto, Recipe entity) => _ = dto.ToEntity(entity);
         protected override RecipeDto ToDto(Recipe entity) => entity.ToDto();
 
-        public Task<Guid> CreateRecipeInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto)
-            => AddChildAsync<RecipeInstruction, Guid, CreateRecipeInstructionDto>(recipeId, d => d.ToEntity(), _recipeRepository.AddRecipeInstructionAsync, dto);
-        
 
+
+        // Aggregate Child: RecipeInstruction
+        public Task<Guid> CreateRecipeInstructionAsync(Guid recipeId, CreateRecipeInstructionDto dto)
+            => AddChildAsync<RecipeInstruction, Guid, CreateRecipeInstructionDto>(recipeId, d => d.ToEntity(recipeId), _recipeRepository.AddRecipeInstructionAsync, dto);
+        
         public Task UpdateRecipeInstructionAsync(Guid recipeId, Guid instructionId, UpdateRecipeInstructionDto dto)
             => UpdateChildAsync(recipeId, instructionId, r => r.RecipeInstructions, (d, i) => d.ToEntity(i), _recipeRepository.UpdateRecipeInstructionAsync, dto);
 
         public Task DeleteRecipeInstructionAsync(Guid recipeId, Guid instructionId)
             => DeleteChildAsync(recipeId, instructionId, r => r.RecipeInstructions, _recipeRepository.DeleteRecipeInstructionByIdAsync);
 
-        public Task<Guid> CreateRecipeIngredientAsync(Guid recipeId, Guid categoryId, CreateRecipeIngredientDto dto)
-            => AddChildAsync<RecipeIngredient, Guid, CreateRecipeIngredientDto>(recipeId, d => d.ToEntity(), _recipeRepository.AddRecipeIngredientAsync, dto);
+
+
+        // Aggregate Child: RecipeIngredient
+        public Task<Guid> CreateRecipeIngredientAsync(Guid recipeId, CreateRecipeIngredientDto dto)
+            => AddChildAsync<RecipeIngredient, Guid, CreateRecipeIngredientDto>(recipeId, d => d.ToEntity(recipeId), _recipeRepository.AddRecipeIngredientAsync, dto);
 
         public Task UpdateRecipeIngredientAsync(Guid recipeId, Guid ingredientId, UpdateRecipeIngredientDto dto)
             => UpdateChildAsync(recipeId, ingredientId, r => r.RecipeIngredients, (d, i) => d.ToEntity(i), _recipeRepository.UpdateRecipeIngredientAsync, dto);
@@ -40,8 +45,11 @@ namespace RecipeMicroservice.Application.Services
         public Task DeleteRecipeIngredientAsync(Guid recipeId, Guid ingredientId)
             => DeleteChildAsync(recipeId, ingredientId, r => r.RecipeIngredients, _recipeRepository.DeleteRecipeIngredientByIdAsync);
 
+
+
+        // Aggregate Child: RecipeCategory
         public Task<Guid> CreateRecipeCategoryAsync(Guid recipeId, CreateRecipeCategoryDto dto)
-            => AddChildAsync<RecipeCategory, Guid, CreateRecipeCategoryDto>(recipeId, d => d.ToEntity(), _recipeRepository.AddRecipeCategoryAsync, dto);
+            => AddChildAsync<RecipeCategory, Guid, CreateRecipeCategoryDto>(recipeId, d => d.ToEntity(recipeId), _recipeRepository.AddRecipeCategoryAsync, dto);
 
         public Task UpdateRecipeCategoryAsync(Guid recipeId, Guid categoryId, UpdateRecipeCategoryDto dto)
             => UpdateChildAsync(recipeId, categoryId, r => r.RecipeCategories, (d, c) => d.ToEntity(c), _recipeRepository.UpdateRecipeCategoryAsync, dto);

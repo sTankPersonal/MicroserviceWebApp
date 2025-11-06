@@ -1,19 +1,12 @@
-﻿namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
+﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
+
+namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
 {
-    public class RecipeInstructionViewModel
+    public class RecipeInstructionViewModel : RecipeAggregateViewModels, IInfoViewModel<Guid>
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init;  }
         public int StepNumber { get; set; }
         public string Description { get; set; } = string.Empty;
 
-        public static RecipeInstructionViewModel FromDto(Application.DTOs.RecipeInstruction.RecipeInstructionDto dto)
-        {
-            return new RecipeInstructionViewModel
-            {
-                Id = dto.Id,
-                StepNumber = dto.StepNumber,
-                Description = dto.Description
-            };
-        }
     }
 }

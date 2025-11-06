@@ -1,9 +1,8 @@
-﻿using Microsoft.Identity.Client;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
 {
-    public class CreateRecipeInstructionViewModel
+    public class CreateRecipeInstructionViewModel : RecipeAggregateViewModels
     {
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a positive number for step number.")]
         [Display(Name = "Step Number")]

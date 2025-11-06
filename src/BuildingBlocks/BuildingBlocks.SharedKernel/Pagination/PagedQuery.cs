@@ -1,17 +1,20 @@
-﻿namespace BuildingBlocks.SharedKernel.Pagination
+﻿using BuildingBlocks.SharedKernel.Utils;
+
+namespace BuildingBlocks.SharedKernel.Pagination
 {
     public abstract record PagedQuery
     {
-        public int PageNumber { get; }
-        public int PageSize { get; }
-        public PagedQuery(int pageNumber = 1, int pageSize = 10)
+        private int pageNumber;
+        private int pageSize;
+        public int PageNumber
         {
-            if (pageNumber <= 0)
-                throw new ArgumentOutOfRangeException(nameof(pageNumber), pageNumber, "Page number must be greater than zero.");
-            if (pageSize <= 0)
-                throw new ArgumentOutOfRangeException(nameof(pageSize), pageSize, "Page size must be greater than zero.");
-            PageNumber = pageNumber;
-            PageSize = pageSize;
+            get => pageNumber;
+            init => pageNumber = value.ThrowIfNegativeOrZero(nameof(PageNumber));
+        }
+        public int PageSize
+        {             
+            get => pageSize;
+            init => pageSize = value.ThrowIfNegativeOrZero(nameof(PageSize));
         }
         public int Skip => (PageNumber - 1) * PageSize;
         public int Take => PageSize;

@@ -4,11 +4,6 @@ using RecipeMicroservice.Presentation.Models.Ingredient;
 
 namespace RecipeMicroservice.Presentation.Mappers
 {
-    /* CreateIngredientViewModelMapper <-> CreateIngredientDto
-     * IngredientViewModel <-> IngredientDto
-     * ListIngredientViewModel <-> PagedResult<IngredientDto>
-     * UpdateIngredientViewModel <-> UpdateIngredientDto
-     */
     public static class IngredientViewModelMapper
     {
         public static CreateIngredientViewModel ToViewModel(this CreateIngredientDto dto) => new()
@@ -33,16 +28,18 @@ namespace RecipeMicroservice.Presentation.Mappers
 
         public static ListIngredientViewModel ToViewModel(this PagedResult<IngredientDto> pagedResult) => new()
         {
-            Items = [.. pagedResult.Items.Select(item => item.ToViewModel())],
+            Items = pagedResult.Items.Select(ToViewModel),
             PageNumber = pagedResult.PageNumber,
             PageSize = pagedResult.PageSize,
             TotalItems = pagedResult.TotalItems
         };
-        public static PagedResult<IngredientDto> ToDto(this ListIngredientViewModel viewModel) => new(
-            [.. viewModel.Items.Select(item => item.ToDto())],
-            viewModel.TotalItems,
-            viewModel.PageNumber,
-            viewModel.PageSize);
+        public static PagedResult<IngredientDto> ToDto(this ListIngredientViewModel viewModel) => new()
+        {
+            Items = viewModel.Items.Select(ToDto),
+            TotalItems = viewModel.TotalItems,
+            PageNumber = viewModel.PageNumber,
+            PageSize = viewModel.PageSize
+        };
 
         public static UpdateIngredientViewModel ToViewModel(this UpdateIngredientDto dto) => new()
         {

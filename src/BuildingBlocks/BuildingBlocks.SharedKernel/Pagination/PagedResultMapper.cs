@@ -8,11 +8,13 @@
             ArgumentNullException.ThrowIfNull(mapFunc);
 
             IEnumerable<TDestination> mappedItems = source.Items.Select(mapFunc);
-            return new PagedResult<TDestination>(
-                mappedItems,
-                source.TotalItems,
-                source.PageNumber,
-                source.PageSize);
+            return new PagedResult<TDestination>()
+            {
+                Items = mappedItems,
+                TotalItems = source.TotalItems,
+                PageNumber = source.PageNumber,
+                PageSize = source.PageSize
+            };
         }
     }
 }

@@ -54,25 +54,7 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
                 .Take(query.Take)
                 .ToListAsync();
 
-            return new PagedResult<Recipe>(items, totalItems, query.PageNumber, query.PageSize);
-        }
-
-        public async Task<PagedResult<Recipe>> GetAllAsync(PagedQuery query)
-        {
-            IQueryable<Recipe> recipes = _dbContext.Recipes
-                .Include(r => r.RecipeCategories).ThenInclude(rc => rc.Category)
-                .Include(r => r.RecipeIngredients).ThenInclude(ri => ri.Ingredient)
-                .AsSplitQuery();
-
-            int totalItems = await recipes.CountAsync();
-            List<Recipe> items = await recipes
-                .OrderBy(r => r.Name)
-                .ThenBy(r => r.Id)
-                .Skip(query.Skip)
-                .Take(query.Take)
-                .ToListAsync();
-
-            return new PagedResult<Recipe>(items, totalItems, query.PageNumber, query.PageSize);
+            return new PagedResult<Recipe>() { Items = items, TotalItems = totalItems, PageNumber = query.PageNumber, PageSize = query.PageSize };
         }
 
         public async Task<Recipe?> GetByIdAsync(Guid id)
@@ -92,41 +74,6 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        // Instruction related methods
-        //public async Task<PagedResult<RecipeInstruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query)
-        //{
-        //    IQueryable<RecipeInstruction> instructions = recipe.RecipeInstructions.AsQueryable();
-
-        //    int totalItems = await instructions.CountAsync();
-        //    List<RecipeInstruction> items = await instructions
-        //        .OrderBy(i => i.StepNumber)
-        //        .ThenBy(i => i.Id)
-        //        .Skip(query.Skip)
-        //        .Take(query.Take)
-        //        .ToListAsync();
-        //    return new PagedResult<RecipeInstruction>(items, totalItems, query.PageNumber, query.PageSize);
-        //}
-        //public async Task<PagedResult<RecipeInstruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter)
-        //{
-        //    IQueryable<RecipeInstruction> instructions = recipe.RecipeInstructions.AsQueryable()
-        //        .Where(i => string.IsNullOrWhiteSpace(filter.searchDescription) || i.Description.Contains(filter.searchDescription));
-        //    int totalItems = await instructions.CountAsync();
-        //    List<RecipeInstruction> items = await instructions
-        //        .OrderBy(i => i.StepNumber)
-        //        .ThenBy(i => i.Id)
-        //        .Skip(filter.Skip)
-        //        .Take(filter.Take)
-        //        .ToListAsync();
-        //    return new PagedResult<RecipeInstruction>(items, totalItems, filter.pageNumber, filter.pageSize);
-        //}
-        //public async Task<RecipeInstruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId)
-        //{
-        //    return await _dbContext.Recipes
-        //        .Include(r => r.RecipeInstructions)
-        //        .Where(r => r.Id == recipe.Id)
-        //        .SelectMany(r => r.RecipeInstructions)
-        //        .FirstOrDefaultAsync(i => i.Id == instructionId);
-        //}
         // Instructions
         public async Task AddRecipeInstructionAsync(Recipe recipe, RecipeInstruction recipeInstruction)
         {

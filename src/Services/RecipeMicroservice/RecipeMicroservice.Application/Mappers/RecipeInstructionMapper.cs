@@ -5,8 +5,9 @@ namespace RecipeMicroservice.Application.Mappers
 {
     public static class RecipeInstructionMapper
     {
-        public static RecipeInstruction ToEntity(this CreateRecipeInstructionDto dto) => new()
+        public static RecipeInstruction ToEntity(this CreateRecipeInstructionDto dto, Guid recipeId) => new()
         {
+            RecipeId = recipeId,
             StepNumber = dto.StepNumber,
             Description = dto.Description
         };
@@ -20,7 +21,8 @@ namespace RecipeMicroservice.Application.Mappers
         {
             Id = entity.Id,
             StepNumber = entity.StepNumber,
-            Description = entity.Description
+            Description = entity.Description,
+            RecipeName = entity.Recipe != null ? entity.Recipe.Name : string.Empty
         };
         public static IEnumerable<RecipeInstructionDto> ToDtos(this IEnumerable<RecipeInstruction> entities) =>
             entities.Select(e => e.ToDto());

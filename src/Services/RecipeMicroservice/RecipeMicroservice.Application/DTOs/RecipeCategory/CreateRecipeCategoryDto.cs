@@ -2,5 +2,6 @@
 {
     public class CreateRecipeCategoryDto
     {
+        public Guid CategoryId { get; set; }
     }
 }

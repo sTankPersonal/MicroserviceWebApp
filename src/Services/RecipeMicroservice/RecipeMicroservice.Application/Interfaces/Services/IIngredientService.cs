@@ -5,8 +5,7 @@ using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Application.Interfaces.Services
 {
-    public interface IIngredientService : IBasicCrudService<Guid, IngredientDto, CreateIngredientDto, UpdateIngredientDto>
+    public interface IIngredientService : IBasicCrudService<Guid, IngredientDto, CreateIngredientDto, UpdateIngredientDto, FilterIngredient>
     {
-        public Task<PagedResult<IngredientDto>> GetAllAsync(FilterIngredient filter);
     }
 }

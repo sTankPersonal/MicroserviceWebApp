@@ -31,17 +31,8 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
             }
             int totalItems = await ingredients.CountAsync();
             List<Ingredient> items = await ingredients.OrderBy(i => i.Name).ThenBy(i => i.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
-            return new PagedResult<Ingredient>(items, totalItems, query.PageNumber, query.PageSize);
+            return new PagedResult<Ingredient>() { Items = items, TotalItems = totalItems, PageNumber = query.PageNumber, PageSize = query.PageSize };
         }
-
-        public async Task<PagedResult<Ingredient>> GetAllAsync(PagedQuery query)
-        {
-            IQueryable<Ingredient> ingredients = _dbContext.Ingredients.AsQueryable();
-            int totalItems = await ingredients.CountAsync();
-            List<Ingredient> items = await ingredients.OrderBy(i => i.Name).ThenBy(i => i.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
-            return new PagedResult<Ingredient>(items, totalItems, query.PageNumber, query.PageSize);
-        }
-
         public async Task<Ingredient?> GetByIdAsync(Guid id)
         {
             return await _dbContext.Ingredients.FirstOrDefaultAsync(i => i.Id == id);

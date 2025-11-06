@@ -26,7 +26,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // GET: /Unit
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllUnits(FilterIngredient filter)
+        public async Task<IActionResult> GetAllUnits(FilterUnit filter)
         {
             PagedResult<UnitDto> dtos = await _unitService.GetAllAsync(filter);
             return View("List", dtos.ToViewModel());
