@@ -1,8 +1,6 @@
-﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
-
-namespace RecipeMicroservice.Presentation.Models.RecipeCategory
+﻿namespace RecipeMicroservice.Presentation.Models.RecipeCategory
 {
-    public class RecipeCategoryViewModel : RecipeAggregateViewModels, IInfoViewModel<Guid>
+    public class RecipeCategoryViewModel : RecipeAggregateViewModels
     {
         public Guid Id { get; init; }
         public Guid CategoryId { get; init; }

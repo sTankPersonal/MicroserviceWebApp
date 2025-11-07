@@ -54,10 +54,10 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // GET: /Recipe
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllRecipes(FilterViewModel filter)
+        public async Task<IActionResult> GetAllRecipes(FilterRecipeViewModel filter)
         {
-            PagedResult<RecipeDto> dtos = await _recipeService.GetAllAsync(filter);
-            return View("List", dtos.ToViewModel());
+            PagedResult<RecipeDto> dtos = await _recipeService.GetAllAsync(filter.ToFilter());
+            return View("List", dtos.ToViewModel(filter));
         }
 
         // GET: /Recipe/Create
@@ -73,14 +73,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Edit")]
         public async Task<IActionResult> EditRecipe(Guid id)
         {
-            RecipeDto? recipe = await _recipeService.GetByIdAsync(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-            UpdateAndAttachElementsRecipeViewModel viewModel = UpdateAndAttachElementsRecipeViewModel.FromDto(recipe);
-            viewModel.NewInstruction.StepNumber = viewModel.Recipe.RecipeInstructions.Count + 1;
-            return View("Edit", viewModel);
+            RecipeDto? dto = await _recipeService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Edit", dto.ToViewModel());
         }
 
         // GET: /Recipe/Delete/{id}
@@ -88,12 +82,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
-            RecipeDto? recipe = await _recipeService.GetByIdAsync(id);
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-            return View("Delete", RecipeViewModel.FromDto(recipe));
+            RecipeDto? dto = await _recipeService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Delete", dto.ToViewModel());
         }
 
         // POST: /Recipe/Create

@@ -2,7 +2,7 @@
 
 namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
 {
-    public class CreateRecipeInstructionViewModel : RecipeAggregateViewModels
+    public class CreateRecipeInstructionViewModel
     {
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a positive number for step number.")]
         [Display(Name = "Step Number")]

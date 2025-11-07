@@ -1,9 +1,8 @@
 ﻿using BuildingBlocks.SharedKernel.Utils;
-using RecipeMicroservice.Application.Interfaces.ViewModels;
 
 namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
 {
-    public class RecipeIngredientViewModel : RecipeAggregateViewModels, IInfoViewModel<Guid>
+    public class RecipeIngredientViewModel : RecipeAggregateViewModels
     {
         public Guid Id { get; init; }
         public Guid IngredientId { get; init; }

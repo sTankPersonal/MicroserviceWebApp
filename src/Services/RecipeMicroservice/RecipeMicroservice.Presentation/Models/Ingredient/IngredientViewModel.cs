@@ -1,10 +1,7 @@
-﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
-
-namespace RecipeMicroservice.Presentation.Models.Ingredient
+﻿namespace RecipeMicroservice.Presentation.Models.Ingredient
 {
-    public class IngredientViewModel : IInfoViewModel<Guid>
+    public class IngredientViewModel : BaseIdViewModel<Guid>
     {
-        public Guid Id { get; init; }
         public string Name { get; set; } = string.Empty;
     }
 }

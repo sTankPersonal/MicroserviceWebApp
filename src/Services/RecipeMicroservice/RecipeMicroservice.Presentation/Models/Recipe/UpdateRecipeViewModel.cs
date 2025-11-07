@@ -1,15 +1,12 @@
-﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
-using RecipeMicroservice.Presentation.Models.RecipeCategory;
+﻿using RecipeMicroservice.Presentation.Models.RecipeCategory;
 using RecipeMicroservice.Presentation.Models.RecipeIngredient;
 using RecipeMicroservice.Presentation.Models.RecipeInstruction;
 using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.Recipe
 {
-    public class UpdateRecipeViewModel : IInfoViewModel<Guid>
+    public class UpdateRecipeViewModel : BaseIdViewModel<Guid>
     {
-        public Guid Id { get; init;  }
-
         [Required(ErrorMessage = "Please enter a name for the recipe.")]
         [Display(Name = "Recipe Name")]
         [StringLength(200, ErrorMessage = "Recipe name cannot be longer than 200 characters.")]

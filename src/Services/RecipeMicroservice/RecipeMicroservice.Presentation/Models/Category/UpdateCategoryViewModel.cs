@@ -1,12 +1,9 @@
-﻿using RecipeMicroservice.Application.Interfaces.ViewModels;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.Category
 {
-    public class UpdateCategoryViewModel : IInfoViewModel<Guid>
+    public class UpdateCategoryViewModel : BaseIdViewModel<Guid>
     {
-        public Guid Id { get; init; }
-
         [Required(ErrorMessage = "Please enter a name for the Category.")]
         [Display(Name = "Category Name")]
         [StringLength(200, ErrorMessage = "Category name cannot be longer than 200 characters.")]

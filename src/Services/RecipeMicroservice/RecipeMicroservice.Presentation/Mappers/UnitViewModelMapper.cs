@@ -6,50 +6,36 @@ namespace RecipeMicroservice.Presentation.Mappers
 {
     public static class UnitViewModelMapper
     {
-        public static CreateUnitViewModel ToViewModel(this CreateUnitDto dto) => new()
+        // Map from DTO to ViewModel
+        public static UnitViewModel ToViewModel(this UnitDto unitDto) => new()
         {
-            Name = dto.Name
-        };
-        public static CreateUnitDto ToDto(this CreateUnitViewModel viewModel) => new()
-        {
-            Name = viewModel.Name
+            Id = unitDto.Id,
+            Name = unitDto.Name
         };
 
-        public static ListUnitViewModel ToViewModel(this PagedResult<UnitDto> dtoPagedResult) => new()
+        public static ListUnitViewModel ToListViewModel(this PagedResult<UnitDto> pagedUnitDtos) => new()
         {
-            Items = [..dtoPagedResult.Items.Select(ToViewModel)],
-            PageNumber = dtoPagedResult.PageNumber,
-            PageSize = dtoPagedResult.PageSize,
-            TotalItems = dtoPagedResult.TotalItems
-        };
-        public static PagedResult<UnitDto> ToDto(this ListUnitViewModel viewModel) => new()
-        {
-            Items = [.. viewModel.Items.Select(ToDto)],
-            TotalItems = viewModel.TotalItems,
-            PageNumber = viewModel.PageNumber,
-            PageSize = viewModel.PageSize
+            Items = [..pagedUnitDtos.Items.Select(u => u.ToViewModel())],
+            PageNumber = pagedUnitDtos.PageNumber,
+            PageSize = pagedUnitDtos.PageSize,
+            TotalItems = pagedUnitDtos.TotalItems
         };
 
-        public static UnitViewModel ToViewModel(this UnitDto dto) => new()
+        public static UpdateUnitViewModel ToUpdateViewModel(this UnitDto unitDto) => new()
         {
-            Id = dto.Id,
-            Name = dto.Name
-        };
-        public static UnitDto ToDto(this UnitViewModel viewModel) => new()
-        {
-            Id = viewModel.Id,
-            Name = viewModel.Name
+            Id = unitDto.Id,
+            Name = unitDto.Name
         };
 
-        public static UpdateUnitViewModel ToViewModel(this UpdateUnitDto dto) => new()
+        // Map from ViewModel to DTO
+        public static CreateUnitDto ToCreateDto(this CreateUnitViewModel createUnitViewModel) => new()
         {
-            Id = dto.Id,
-            Name = dto.Name
+            Name = createUnitViewModel.Name
         };
-        public static UpdateUnitDto ToDto(this UpdateUnitViewModel viewModel) => new()
+        public static UpdateUnitDto ToUpdateDto(this UpdateUnitViewModel updateUnitViewModel) => new()
         {
-            Id = viewModel.Id,
-            Name = viewModel.Name
+            Id = updateUnitViewModel.Id,
+            Name = updateUnitViewModel.Name
         };
     }
 }

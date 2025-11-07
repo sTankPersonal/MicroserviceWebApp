@@ -2,7 +2,7 @@
 
 namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
 {
-    public class CreateRecipeIngredientViewModel : RecipeAggregateViewModels
+    public class CreateRecipeIngredientViewModel
     {
         [Required]
         public Guid IngredientId { get; set; }

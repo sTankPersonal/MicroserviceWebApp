@@ -1,7 +1,15 @@
-﻿namespace RecipeMicroservice.Presentation.Models.Recipe
+﻿using RecipeMicroservice.Presentation.Interfaces.Models;
+
+namespace RecipeMicroservice.Presentation.Models.Recipe
 {
-    public class ListRecipeViewModel : BaseListViewModel<RecipeViewModel>
+    public class ListRecipeViewModel : BaseListViewModel<RecipeViewModel>, IHasFilter<ListRecipeViewModel, FilterRecipeViewModel>
     {
-        public FilterViewModel Filter { get; init; } = new FilterViewModel();
+        public FilterRecipeViewModel Filter { get; set; } = new FilterRecipeViewModel();
+
+        public ListRecipeViewModel WithFilter(FilterRecipeViewModel filter)
+        {
+            Filter = filter;
+            return this;
+        }
     }
 }

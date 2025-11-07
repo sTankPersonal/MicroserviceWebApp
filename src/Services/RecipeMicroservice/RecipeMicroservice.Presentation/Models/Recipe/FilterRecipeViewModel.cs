@@ -2,7 +2,7 @@
 
 namespace RecipeMicroservice.Presentation.Models.Recipe
 {
-    public class FilterViewModel
+    public class FilterRecipeViewModel
     {
         [Display(Name = "Search Recipe Name")]
         public string? SearchName { get; set; } = null;

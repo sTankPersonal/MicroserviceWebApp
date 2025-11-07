@@ -1,55 +1,51 @@
 ﻿using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Application.DTOs.Ingredient;
+using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Presentation.Models.Ingredient;
 
 namespace RecipeMicroservice.Presentation.Mappers
 {
     public static class IngredientViewModelMapper
     {
-        public static CreateIngredientViewModel ToViewModel(this CreateIngredientDto dto) => new()
+        // Map from DTO to ViewModel
+        public static IngredientViewModel ToViewModel(this IngredientDto ingredientDto) => new()
         {
-            Name = dto.Name
+            Id = ingredientDto.Id,
+            Name = ingredientDto.Name
         };
-        public static CreateIngredientDto ToDto(this CreateIngredientViewModel viewModel) => new()
+        public static ListIngredientViewModel ToListViewModel(this PagedResult<IngredientDto> pagedIngredientDtos) => new()
         {
-            Name = viewModel.Name
+            Items = pagedIngredientDtos.Items.Select(i => i.ToViewModel()),
+            PageNumber = pagedIngredientDtos.PageNumber,
+            PageSize = pagedIngredientDtos.PageSize,
+            TotalItems = pagedIngredientDtos.TotalItems
         };
-
-        public static IngredientViewModel ToViewModel(this IngredientDto dto) => new()
+        public static UpdateIngredientViewModel ToUpdateViewModel(this IngredientDto ingredientDto) => new()
         {
-            Id = dto.Id,
-            Name = dto.Name
-        };
-        public static IngredientDto ToDto(this IngredientViewModel viewModel) => new()
-        {
-            Id = viewModel.Id,
-            Name = viewModel.Name
-        };
-
-        public static ListIngredientViewModel ToViewModel(this PagedResult<IngredientDto> pagedResult) => new()
-        {
-            Items = pagedResult.Items.Select(ToViewModel),
-            PageNumber = pagedResult.PageNumber,
-            PageSize = pagedResult.PageSize,
-            TotalItems = pagedResult.TotalItems
-        };
-        public static PagedResult<IngredientDto> ToDto(this ListIngredientViewModel viewModel) => new()
-        {
-            Items = viewModel.Items.Select(ToDto),
-            TotalItems = viewModel.TotalItems,
-            PageNumber = viewModel.PageNumber,
-            PageSize = viewModel.PageSize
+            Id = ingredientDto.Id,
+            Name = ingredientDto.Name
         };
 
-        public static UpdateIngredientViewModel ToViewModel(this UpdateIngredientDto dto) => new()
+        // Map from ViewModel to DTO
+        public static CreateIngredientDto ToCreateDto(this CreateIngredientViewModel createIngredientViewModel) => new()
         {
-            Id = dto.Id,
-            Name = dto.Name
+            Name = createIngredientViewModel.Name
         };
-        public static UpdateIngredientDto ToDto(this UpdateIngredientViewModel viewModel) => new()
+        public static UpdateIngredientDto ToUpdateDto(this UpdateIngredientViewModel updateIngredientViewModel) => new()
         {
-            Id = viewModel.Id,
-            Name = viewModel.Name
+            Id = updateIngredientViewModel.Id,
+            Name = updateIngredientViewModel.Name
+        };
+
+        // Map from FilterViewModel to Filter
+        public static FilterIngredient ToFilter(this FilterIngredientViewModel filterViewModel) => new()
+        {
+            SearchName = filterViewModel.SearchName
+        };
+        // Map from Filter to FilterViewModel
+        public static FilterIngredientViewModel ToFilterViewModel(this FilterIngredient filter) => new()
+        {
+            SearchName = filter.SearchName
         };
     }
 }

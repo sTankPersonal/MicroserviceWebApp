@@ -6,76 +6,47 @@ namespace RecipeMicroservice.Presentation.Mappers
 {
     public static class RecipeIngredientViewModelMapper
     {
-        //Create
-        public static CreateRecipeIngredientViewModel ToViewModel(this CreateRecipeIngredientDto dto, Guid recipeId) => new()
-        {
+        // Map from Dto to ViewModel
+        public static RecipeIngredientViewModel ToViewModel(this RecipeIngredientDto dto, Guid recipeId) => new()
+        { 
+            Id = dto.Id,
             RecipeId = recipeId,
             IngredientId = dto.IngredientId,
             UnitId = dto.UnitId,
+            Quantity = dto.Quantity,
+            IngredientName = dto.IngredientName,
+            UnitName = dto.UnitName
+        };
+        public static ListRecipeIngredientViewModel ToListViewModel(this PagedResult<RecipeIngredientDto> pagedDtos, Guid recipeId) => new()
+        {
+            Items = pagedDtos.Items.Select(i => i.ToViewModel(recipeId)),
+            PageNumber = pagedDtos.PageNumber,
+            PageSize = pagedDtos.PageSize,
+            TotalItems = pagedDtos.TotalItems
+        };
+        public static UpdateRecipeIngredientViewModel ToUpdateViewModel(this RecipeIngredientDto dto, Guid recipeId) => new()
+        {
+            Id = dto.Id,
+            RecipeId = recipeId,
+            UnitId = dto.UnitId,
+            IngredientId = dto.IngredientId,
             Quantity = dto.Quantity
         };
-        public static CreateRecipeIngredientDto ToDto(this CreateRecipeIngredientViewModel viewModel) => new()
+
+        // Map from ViewModel to Dto
+        public static CreateRecipeIngredientDto ToCreateDto(this CreateRecipeIngredientViewModel viewModel, Guid recipeId) => new()
         {
             IngredientId = viewModel.IngredientId,
             UnitId = viewModel.UnitId,
             Quantity = viewModel.Quantity
         };
 
-        //Update
-        public static UpdateRecipeIngredientViewModel ToViewModel(this UpdateRecipeIngredientDto dto, Guid recipeId) => new()
-        {
-            Id = dto.Id,
-            RecipeId = recipeId,
-            IngredientId = dto.IngredientId,
-            UnitId = dto.UnitId,
-            Quantity = dto.Quantity,
-            IngredientName = dto.IngredientName,
-            UnitName = dto.UnitName
-        };
-        public static UpdateRecipeIngredientDto ToDto(this UpdateRecipeIngredientViewModel viewModel) => new()
+        public static UpdateRecipeIngredientDto ToUpdateDto(this UpdateRecipeIngredientViewModel viewModel, Guid recipeId) => new()
         {
             Id = viewModel.Id,
             IngredientId = viewModel.IngredientId,
             UnitId = viewModel.UnitId,
             Quantity = viewModel.Quantity
-        };
-
-        //General
-        public static RecipeIngredientViewModel ToViewModel(this RecipeIngredientDto dto, Guid recipeId) => new()
-        {
-            Id = dto.Id,
-            RecipeId = recipeId,
-            IngredientId = dto.IngredientId,
-            UnitId = dto.UnitId,
-            Quantity = dto.Quantity,
-            IngredientName = dto.IngredientName,
-            UnitName = dto.UnitName
-        };
-        public static RecipeIngredientDto ToDto(this RecipeIngredientViewModel viewModel) => new()
-        {
-            Id = viewModel.Id,
-            RecipeId = viewModel.RecipeId,
-            IngredientId = viewModel.IngredientId,
-            UnitId = viewModel.UnitId,
-            Quantity = viewModel.Quantity,
-            IngredientName = viewModel.IngredientName,
-            UnitName = viewModel.UnitName
-        };
-
-        //List
-        public static ListRecipeIngredientViewModel ToViewModel(this PagedResult<RecipeIngredientDto> pagedResult, Guid recipeId) => new()
-        {
-            Items = [.. pagedResult.Items.Select(item => item.ToViewModel(recipeId))],
-            PageNumber = pagedResult.PageNumber,
-            PageSize = pagedResult.PageSize,
-            TotalItems = pagedResult.TotalItems
-        };
-        public static PagedResult<RecipeIngredientDto> ToDto(this ListRecipeIngredientViewModel viewModel) => new()
-        {
-            Items = [.. viewModel.Items.Select(item => item.ToDto())],
-            PageNumber = viewModel.PageNumber,
-            PageSize = viewModel.PageSize,
-            TotalItems = viewModel.TotalItems
         };
     }
 }

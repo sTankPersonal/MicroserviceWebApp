@@ -1,62 +1,50 @@
 ﻿using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Application.DTOs.Category;
+using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Presentation.Models.Category;
 
 namespace RecipeMicroservice.Presentation.Mappers
 {
     public static class CategoryViewModelMapper
     {
-        // Category
-        public static CategoryViewModel ToViewModel(this CategoryDto dto) => new()
+        // Map from DTO to ViewModel
+        public static CategoryViewModel ToViewModel(this CategoryDto categoryDto) => new()
         {
-            Id = dto.Id,
-            Name = dto.Name
+            Id = categoryDto.Id,
+            Name = categoryDto.Name
+        };
+        public static ListCategoryViewModel ToListViewModel(this PagedResult<CategoryDto> pagedCategoryDtos) => new()
+        {
+            Items = pagedCategoryDtos.Items.Select(c => c.ToViewModel()),
+            PageNumber = pagedCategoryDtos.PageNumber,
+            PageSize = pagedCategoryDtos.PageSize,
+            TotalItems = pagedCategoryDtos.TotalItems
+        };
+        public static UpdateCategoryViewModel ToUpdateViewModel(this CategoryDto categoryDto) => new()
+        {
+            Id = categoryDto.Id,
+            Name = categoryDto.Name
         };
 
-        public static CategoryDto ToDto(this CategoryViewModel vm) => new()
+        // Map from ViewModel to DTO
+        public static CreateCategoryDto ToCreateDto(this CreateCategoryViewModel createCategoryViewModel) => new()
         {
-            Id = vm.Id,
-            Name = vm.Name
+            Name = createCategoryViewModel.Name
         };
-
-        // CreateCategory
-        public static CreateCategoryViewModel ToViewModel(this CreateCategoryDto dto) => new()
+        public static UpdateCategoryDto ToUpdateDto(this UpdateCategoryViewModel updateCategoryViewModel) => new()
         {
-            Name = dto.Name
+            Id = updateCategoryViewModel.Id,
+            Name = updateCategoryViewModel.Name
         };
-
-        public static CreateCategoryDto ToDto(this CreateCategoryViewModel vm) => new()
+        // Map from FilterViewModel to Filter
+        public static FilterCategory ToFilter(this FilterCategoryViewModel filterViewModel) => new()
         {
-            Name = vm.Name
+            SearchName = filterViewModel.SearchName
         };
-
-        // ListCategory
-        public static ListCategoryViewModel ToViewModel(this PagedResult<CategoryDto> paged) => new()
+        // Map from Filter to FilterViewModel
+        public static FilterCategoryViewModel ToFilterViewModel(this FilterCategory filter) => new()
         {
-            Items = paged.Items.Select(ToViewModel),
-            PageNumber = paged.PageNumber,
-            PageSize = paged.PageSize,
-            TotalItems = paged.TotalItems
-        };
-
-        public static PagedResult<CategoryDto> ToDto(this ListCategoryViewModel vm) => new()
-        {
-            Items = vm.Items.Select(ToDto),
-            TotalItems = vm.TotalItems,
-            PageNumber = vm.PageNumber,
-            PageSize = vm.PageSize
-        };
-
-        // UpdateCategory
-        public static UpdateCategoryViewModel ToViewModel(this UpdateCategoryDto dto) => new()
-        {
-            Id = dto.Id,
-            Name = dto.Name
-        };
-        public static UpdateCategoryDto ToDto(this UpdateCategoryViewModel vm) => new()
-        {
-            Id = vm.Id,
-            Name = vm.Name
+            SearchName = filter.SearchName
         };
     }
 }

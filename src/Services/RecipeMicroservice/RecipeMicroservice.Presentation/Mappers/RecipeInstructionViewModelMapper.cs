@@ -4,59 +4,39 @@ using RecipeMicroservice.Presentation.Models.RecipeInstruction;
 
 namespace RecipeMicroservice.Presentation.Mappers
 {
-    /* CreateRecipeInstructionViewModel <-> CreateRecipeInstructionDto
-     * ListRecipeInstructionViewModel <-> PagedResult<RecipeInstructionDto>
-     * RecipeInstructionViewModel <-> RecipeInstructionDto
-     * UpdateRecipeInstructionViewModel <-> UpdateRecipeInstructionDto
-     */
     public static class RecipeInstructionViewModelMapper
     {
-        public static CreateRecipeInstructionViewModel ToViewModel(this CreateRecipeInstructionDto dto, Guid recipeId) => new()
-        {
-            RecipeId = recipeId,
-            StepNumber = dto.StepNumber,
-            Description = dto.Description
-        };
-        public static CreateRecipeInstructionDto ToDto(this CreateRecipeInstructionViewModel viewModel) => new()
-        {
-            StepNumber = viewModel.StepNumber,
-            Description = viewModel.Description
-        };
-        public static ListRecipeInstructionViewModel ToViewModel(this PagedResult<RecipeInstructionDto> pagedResult, Guid recipeId) => new()
-        {
-            Items = [.. pagedResult.Items.Select(item => item.ToViewModel(recipeId))],
-            PageNumber = pagedResult.PageNumber,
-            PageSize = pagedResult.PageSize,
-            TotalItems = pagedResult.TotalItems
-        };
-        public static PagedResult<RecipeInstructionDto> ToDto(this ListRecipeInstructionViewModel viewModel) => new()
-        {
-            Items = [.. viewModel.Items.Select(ToDto)],
-            TotalItems = viewModel.TotalItems,
-            PageNumber = viewModel.PageNumber,
-            PageSize = viewModel.PageSize
-        };
+        // Map from Dto to ViewModel
         public static RecipeInstructionViewModel ToViewModel(this RecipeInstructionDto dto, Guid recipeId) => new()
         {
             Id = dto.Id,
             RecipeId = recipeId,
             StepNumber = dto.StepNumber,
-            Description = dto.Description
+            Description = dto.Description,
+            RecipeName = dto.RecipeName
         };
-        public static RecipeInstructionDto ToDto(this RecipeInstructionViewModel viewModel) => new()
+        public static ListRecipeInstructionViewModel ToListViewModel(this PagedResult<RecipeInstructionDto> pagedDtos, Guid recipeId) => new()
         {
-            Id = viewModel.Id,
-            StepNumber = viewModel.StepNumber,
-            Description = viewModel.Description
+            Items = pagedDtos.Items.Select(i => i.ToViewModel(recipeId)),
+            PageNumber = pagedDtos.PageNumber,
+            PageSize = pagedDtos.PageSize,
+            TotalItems = pagedDtos.TotalItems
         };
-        public static UpdateRecipeInstructionViewModel ToViewModel(this UpdateRecipeInstructionDto dto, Guid recipeId) => new()
+        public static UpdateRecipeInstructionViewModel ToUpdateViewModel(this RecipeInstructionDto dto, Guid recipeId) => new()
         {
             Id = dto.Id,
             RecipeId = recipeId,
             StepNumber = dto.StepNumber,
             Description = dto.Description
         };
-        public static UpdateRecipeInstructionDto ToDto(this UpdateRecipeInstructionViewModel viewModel) => new()
+
+        // Map from ViewModel to Dto
+        public static CreateRecipeInstructionDto ToCreateDto(this CreateRecipeInstructionViewModel viewModel) => new()
+        {
+            StepNumber = viewModel.StepNumber,
+            Description = viewModel.Description
+        };
+        public static UpdateRecipeInstructionDto ToUpdateDto(this UpdateRecipeInstructionViewModel viewModel) => new()
         {
             Id = viewModel.Id,
             StepNumber = viewModel.StepNumber,

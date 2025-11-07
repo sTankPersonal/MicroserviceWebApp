@@ -6,14 +6,7 @@ namespace RecipeMicroservice.Presentation.Mappers
 {
     public static class RecipeCategoryViewModelMapper
     {
-        public static CreateRecipeCategoryViewModel ToViewModel(this CreateRecipeCategoryDto dto) => new()
-        {
-            CategoryId = dto.CategoryId
-        };
-        public static CreateRecipeCategoryDto ToDto(this CreateRecipeCategoryViewModel viewModel) => new()
-        {
-            CategoryId = viewModel.CategoryId
-        };
+        // Map from Dto to ViewModel
         public static RecipeCategoryViewModel ToViewModel(this RecipeCategoryDto dto, Guid recipeId) => new()
         {
             Id = dto.Id,
@@ -21,38 +14,30 @@ namespace RecipeMicroservice.Presentation.Mappers
             CategoryId = dto.CategoryId,
             CategoryName = dto.CategoryName
         };
-        public static RecipeCategoryDto ToDto(this RecipeCategoryViewModel viewModel) => new()
+        public static ListRecipeCategoryViewModel ToListViewModel(this PagedResult<RecipeCategoryDto> pagedDtos, Guid recipeId) => new()
         {
-            Id = viewModel.Id,
-            CategoryId = viewModel.CategoryId,
-            CategoryName = viewModel.CategoryName
+            Items = pagedDtos.Items.Select(i => i.ToViewModel(recipeId)),
+            PageNumber = pagedDtos.PageNumber,
+            PageSize = pagedDtos.PageSize,
+            TotalItems = pagedDtos.TotalItems
         };
-        public static ListRecipeCategoryViewModel ToViewModel(this PagedResult<RecipeCategoryDto> pagedResult, Guid recipeId) => new()
-        {
-            Items = pagedResult.Items.Select(dto => dto.ToViewModel(recipeId)),
-            PageNumber = pagedResult.PageNumber,
-            PageSize = pagedResult.PageSize,
-            TotalItems = pagedResult.TotalItems
-        };
-        public static PagedResult<RecipeCategoryDto> ToDto(this ListRecipeCategoryViewModel viewModel) => new()
-        {
-            Items = viewModel.Items.Select(ToDto),
-            TotalItems = viewModel.TotalItems,
-            PageNumber = viewModel.PageNumber,
-            PageSize = viewModel.PageSize
-        };
-        public static UpdateRecipeCategoryViewModel ToViewModel(this UpdateRecipeCategoryDto dto, Guid recipeId) => new()
+        public static UpdateRecipeCategoryViewModel ToUpdateViewModel(this RecipeCategoryDto dto, Guid recipeId) => new()
         {
             Id = dto.Id,
             RecipeId = recipeId,
             CategoryId = dto.CategoryId,
             CategoryName = dto.CategoryName
         };
-        public static UpdateRecipeCategoryDto ToDto(this UpdateRecipeCategoryViewModel viewModel) => new()
+
+        // Map from ViewModel to Dto
+        public static CreateRecipeCategoryDto ToCreateDto(this CreateRecipeCategoryViewModel viewModel) => new()
+        {
+            CategoryId = viewModel.CategoryId
+        };
+        public static UpdateRecipeCategoryDto ToUpdateDto(this UpdateRecipeCategoryViewModel viewModel) => new()
         {
             Id = viewModel.Id,
-            CategoryId = viewModel.CategoryId,
-            CategoryName = viewModel.CategoryName
+            CategoryId = viewModel.CategoryId
         };
     }
 }
