@@ -2,18 +2,22 @@
 
 namespace RecipeMicroservice.Presentation.Models.RecipeCategory
 {
-    public class UpdateRecipeCategoryViewModel : BaseIdViewModel<Guid>, IHasAggregate<UpdateRecipeCategoryViewModel, Guid>
+    public class UpdateRecipeCategoryViewModel : IHasEntity<UpdateRecipeCategoryViewModel, Guid>, IHasRecipeAggregate<UpdateRecipeCategoryViewModel>
     {
+        // Properties
         public Guid CategoryId { get; set; }
         // Display Properties
         public string CategoryName { get; set; } = string.Empty;
 
-        public Guid AggregateId { get; set; }
+        // IHasEntity
+        public required Guid Id { get; set; }
+        public UpdateRecipeCategoryViewModel WithId(Guid entityId) => (Id = entityId, this).Item2;
 
-        public UpdateRecipeCategoryViewModel WithAggregateId(Guid aggregateId)
-        {
-            AggregateId = aggregateId;
-            return this;
-        }
+        // IHasRecipeAggregate
+        public required Guid AggregateId { get; set; }
+        public string RecipeName { get; set; } = string.Empty;
+        public UpdateRecipeCategoryViewModel WithAggregateId(Guid aggregateId) => (AggregateId = aggregateId, this).Item2;
+
+        
     }
 }

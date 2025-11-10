@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Unit;
 using RecipeMicroservice.Application.Interfaces.Services;
+using RecipeMicroservice.Presentation.Mappers;
 using RecipeMicroservice.Presentation.Models.Unit;
 
 namespace RecipeMicroservice.Presentation.Controllers.ViewModel
@@ -26,8 +27,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("List")]
         public async Task<IActionResult> GetAllUnits(FilterUnitViewModel filter)
         {
-            PagedResult<UnitDto> dtos = await _unitService.GetAllAsync(FilterUnitViewModel.ToDto(filter));
-            return View("List", ListUnitViewModel.FromDto(dtos).WithFilter(filter));
+            PagedResult<UnitDto> dtos = await _unitService.GetAllAsync(filter.ToFilter());
+            return View("List", dtos.ToListViewModel().WithFilter(filter));
         }
 
         // GET: /Unit/{id}
@@ -36,7 +37,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> GetUnitById(Guid id)
         {
             UnitDto? dto = await _unitService.GetByIdAsync(id);
-            return dto == null ? NotFound() : View("Details", UnitViewModel.FromDto(dto));
+            return dto == null ? NotFound() : View("Details", dto.ToViewModel());
         }
 
         // GET: /Unit/Create
@@ -53,7 +54,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> EditUnit(Guid id)
         {
             UnitDto? dto = await _unitService.GetByIdAsync(id);
-            return dto == null ? NotFound() : View("Edit", UpdateUnitViewModel.FromDto(dto));
+            return dto == null ? NotFound() : View("Edit", dto.ToUpdateViewModel());
         }
 
         // GET: /Unit/Delete/{id}
@@ -62,7 +63,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> DeleteUnit(Guid id)
         {
             UnitDto? dto = await _unitService.GetByIdAsync(id);
-            return dto == null ? NotFound() : View("Delete", UnitViewModel.FromDto(dto));
+            return dto == null ? NotFound() : View("Delete", dto.ToViewModel());
         }
 
         // POST: /Unit/Create
@@ -70,7 +71,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Create")]
         public async Task<IActionResult> CreateUnit(CreateUnitViewModel viewModel)
         {
-            CreateUnitDto dto = CreateUnitViewModel.ToDto(viewModel);
+            CreateUnitDto dto = viewModel.ToCreateDto();
             Guid id = await _unitService.CreateAsync(dto);
             return RedirectToAction("Details", new { id });
         }
@@ -80,7 +81,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Edit")]
         public async Task<IActionResult> EditUnit(Guid id, UpdateUnitViewModel viewModel)
         {
-            UpdateUnitDto dto = UpdateUnitViewModel.ToDto(viewModel);
+            UpdateUnitDto dto = viewModel.ToUpdateDto();
             await _unitService.UpdateAsync(id, dto);
             return RedirectToAction("Details", new { id });
         }

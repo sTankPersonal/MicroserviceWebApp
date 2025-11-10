@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Ingredient;
 using RecipeMicroservice.Application.Interfaces.Services;
-using RecipeMicroservice.Domain.Specifications;
+using RecipeMicroservice.Presentation.Mappers;
 using RecipeMicroservice.Presentation.Models.Ingredient;
 
 namespace RecipeMicroservice.Presentation.Controllers.ViewModel
@@ -25,10 +25,10 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // GET: /Ingredient
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllIngredients(FilterIngredient filterIngredient)
+        public async Task<IActionResult> GetAllIngredients(FilterIngredientViewModel filter)
         {
-            PagedResult<IngredientDto> ingredients = await _ingredientService.GetAllAsync(filterIngredient);
-            return View("List", ListIngredientViewModel.FromPagedResult(ingredients));
+            PagedResult<IngredientDto> dtos = await _ingredientService.GetAllAsync(filter.ToFilter());
+            return View("List", dtos.ToListViewModel().WithFilter(filter));
         }
 
         // GET: /Ingredient/{id}
@@ -36,12 +36,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Details")]
         public async Task<IActionResult> GetIngredientById(Guid id)
         {
-            IngredientDto? ingredient = await _ingredientService.GetByIdAsync(id);
-            if (ingredient == null)
-            {
-                return NotFound();
-            }
-            return View("Details", IngredientViewModel.FromDto(ingredient));
+            IngredientDto? dto = await _ingredientService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Details", dto.ToViewModel());
         }
 
         // GET: /Ingredient/Create
@@ -57,12 +53,8 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Edit")]
         public async Task<IActionResult> EditIngredient(Guid id)
         {
-            IngredientDto? ingredient = await _ingredientService.GetByIdAsync(id);
-            if (ingredient == null)
-            {
-                return NotFound();
-            }
-            return View("Edit", UpdateIngredientViewModel.FromDto(ingredient));
+            IngredientDto? dto = await _ingredientService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Edit", dto.ToUpdateViewModel());
         }
 
         // GET: /Ingredient/Delete/{id}
@@ -70,36 +62,26 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteIngredient(Guid id)
         {
-            IngredientDto? ingredient = await _ingredientService.GetByIdAsync(id);
-            if (ingredient == null)
-            {
-                return NotFound();
-            }
-            return View("Delete", IngredientViewModel.FromDto(ingredient));
+            IngredientDto? dto = await _ingredientService.GetByIdAsync(id);
+            return dto == null ? NotFound() : View("Delete", dto.ToViewModel());
         }
 
         // POST: /Ingredient/Create
         [HttpPost("Create")]
         [ActionName("Create")]
-        public async Task<IActionResult> CreateIngredient(CreateIngredientViewModel model)
+        public async Task<IActionResult> CreateIngredient(CreateIngredientViewModel viewModel)
         {
-            CreateIngredientDto dto = new ()
-            {
-                Name = model.Name
-            };
-            Guid newIngredientId = await _ingredientService.CreateAsync(dto);
-            return RedirectToAction("Details", new { id = newIngredientId });
+            CreateIngredientDto dto = viewModel.ToCreateDto();
+            Guid id = await _ingredientService.CreateAsync(dto);
+            return RedirectToAction("Details", new { id });
         }
 
         // POST: /Ingredient/Edit/{id}
         [HttpPost("Edit/{id}")]
         [ActionName("Edit")]
-        public async Task<IActionResult> EditIngredient(Guid id, UpdateIngredientViewModel model)
+        public async Task<IActionResult> EditIngredient(Guid id, UpdateIngredientViewModel viewModel)
         {
-            UpdateIngredientDto dto = new ()
-            {
-                Name = model.Name
-            };
+            UpdateIngredientDto dto = viewModel.ToUpdateDto();
             await _ingredientService.UpdateAsync(id, dto);
             return RedirectToAction("Details", new { id });
         }

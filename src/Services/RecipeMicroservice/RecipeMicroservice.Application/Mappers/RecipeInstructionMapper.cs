@@ -20,6 +20,7 @@ namespace RecipeMicroservice.Application.Mappers
         public static RecipeInstructionDto ToDto(this RecipeInstruction entity) => new()
         {
             Id = entity.Id,
+            RecipeId = entity.RecipeId,
             StepNumber = entity.StepNumber,
             Description = entity.Description,
             RecipeName = entity.Recipe != null ? entity.Recipe.Name : string.Empty

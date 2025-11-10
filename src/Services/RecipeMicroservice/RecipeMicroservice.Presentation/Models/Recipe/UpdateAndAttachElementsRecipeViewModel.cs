@@ -1,8 +1,8 @@
 ﻿namespace RecipeMicroservice.Presentation.Models.Recipe
 {
-    public class UpdateAndAttachElementsRecipeViewModel : BaseIdViewModel<Guid>
+    public class UpdateAndAttachElementsRecipeViewModel
     {
-        public required UpdateRecipeViewModel Edit { get; init; }
+        public required UpdateRecipeViewModel UpdateRecipe { get; init; }
         public required AttachElementsRecipeViewModel AttachElements { get; init; }
     }
 }

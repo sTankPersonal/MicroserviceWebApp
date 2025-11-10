@@ -4,7 +4,6 @@ using RecipeMicroservice.Domain.Aggregates;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Interfaces;
 using RecipeMicroservice.Domain.Specifications;
-using RecipeMicroservice.Infrastructure.Persistence;
 
 namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
 {

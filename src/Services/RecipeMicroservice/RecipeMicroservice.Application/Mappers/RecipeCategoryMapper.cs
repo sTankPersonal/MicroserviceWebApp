@@ -23,6 +23,7 @@ namespace RecipeMicroservice.Application.Mappers
         public static RecipeCategoryDto ToDto(this RecipeCategory recipeCategory) => new()
         {
             Id = recipeCategory.Id,
+            RecipeId = recipeCategory.RecipeId,
             CategoryId = recipeCategory.CategoryId,
             RecipeName = recipeCategory.Recipe != null ? recipeCategory.Recipe.Name : string.Empty,
             CategoryName = recipeCategory.Category != null ? recipeCategory.Category.Name : string.Empty

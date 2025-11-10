@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.SharedKernel.Utils;
-using BuildingBlocks.SharedKernel.Pagination;
-using RecipeMicroservice.Application.DTOs.Category;
+﻿using RecipeMicroservice.Application.DTOs.Category;
 using RecipeMicroservice.Application.Interfaces.Services;
 using RecipeMicroservice.Application.Mappers;
 using RecipeMicroservice.Domain.Entities;

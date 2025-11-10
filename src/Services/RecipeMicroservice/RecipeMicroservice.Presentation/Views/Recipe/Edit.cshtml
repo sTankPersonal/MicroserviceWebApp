@@ -9,29 +9,29 @@
 	ViewData["Title"] = "Edit Recipe";
 }
 
-<h2>Edit Recipe - @Model.Recipe.Name</h2>
+<h2>Edit Recipe - @Model.UpdateRecipe.Name</h2>
 
-<form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Recipe.Id" method="post">
-	<input type="hidden" asp-for="Recipe.Id" />
+<form asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.UpdateRecipe.Id" method="post">
+	<input type="hidden" asp-for="UpdateRecipe.Id" />
 	<div class="mb-3">
-		<label asp-for="Recipe.Name" class="form-label"></label>
-		<input asp-for="Recipe.Name" class="form-control" />
-		<span asp-validation-for="Recipe.Name" class="text-danger"></span>
+		<label asp-for="UpdateRecipe.Name" class="form-label"></label>
+		<input asp-for="UpdateRecipe.Name" class="form-control" />
+		<span asp-validation-for="UpdateRecipe.Name" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
-		<label asp-for="Recipe.PrepTimeInMinutes" class="form-label"></label>
-		<input asp-for="Recipe.PrepTimeInMinutes" class="form-control" type="number" />
-		<span asp-validation-for="Recipe.PrepTimeInMinutes" class="text-danger"></span>
+		<label asp-for="UpdateRecipe.PrepTimeInMinutes" class="form-label"></label>
+		<input asp-for="UpdateRecipe.PrepTimeInMinutes" class="form-control" type="number" />
+		<span asp-validation-for="UpdateRecipe.PrepTimeInMinutes" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
-		<label asp-for="Recipe.CookTimeInMinutes" class="form-label"></label>
-		<input asp-for="Recipe.CookTimeInMinutes" class="form-control" type="number" />
-		<span asp-validation-for="Recipe.CookTimeInMinutes" class="text-danger"></span>
+		<label asp-for="UpdateRecipe.CookTimeInMinutes" class="form-label"></label>
+		<input asp-for="UpdateRecipe.CookTimeInMinutes" class="form-control" type="number" />
+		<span asp-validation-for="UpdateRecipe.CookTimeInMinutes" class="text-danger"></span>
 	</div>
 	<div class="mb-3">
-		<label asp-for="Recipe.Servings" class="form-label"></label>
-		<input asp-for="Recipe.Servings" class="form-control" typeof="number">
-		<span asp-validation-for="Recipe.Servings" class="text-danger"></span>
+		<label asp-for="UpdateRecipe.Servings" class="form-label"></label>
+		<input asp-for="UpdateRecipe.Servings" class="form-control" typeof="number">
+		<span asp-validation-for="UpdateRecipe.Servings" class="text-danger"></span>
 	</div>
 	<button type="submit" class="btn btn-primary">Save</button>
 	<a asp-action="Index" class="btn btn-secondary">Cancel</a>
@@ -51,12 +51,12 @@
 	<tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddCategory"
-			asp-route-id="@Model.Recipe.Id"
+			  asp-route-id="@Model.UpdateRecipe.Id"
 			method="post"
 			class="row g-2 align-items-center mb-3">
 			<tr>
 				<td>
-					<select asp-for="NewCategory.CategoryId"
+					<select asp-for="AttachElements.NewCategory.CategoryId"
 						class="form-select select2-field"
 						data-placeholder="New Category"
 						data-ajax-base-url= "/api/Category/Ajax"
@@ -71,15 +71,21 @@
 			</tr>
 		</form>
 
-		@if (Model.Recipe.HasCategories())
+		@if (Model.UpdateRecipe.RecipeCategories.IsEmpty)
 		{
-			@foreach (RecipeCategoryViewModel category in Model.Recipe.RecipeCategories)
+			<tr>
+				<td colspan="4">No categories added yet.</td>
+			</tr>
+		}
+		else
+		{
+			@foreach (RecipeCategoryViewModel category in Model.UpdateRecipe.RecipeCategories.Items)
 			{
 				<tr>
 					<td>@category.CategoryName</td>
 					<td style="white-space: nowrap; width: 1%;">
-						<a asp-controller="Recipe" asp-action="EditCategory" asp-route-id="@Model.Recipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveCategory" asp-route-id="@Model.Recipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="EditCategory" asp-route-id="@Model.UpdateRecipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveCategory" asp-route-id="@Model.UpdateRecipe.Id" asp-route-recipeCategoryId="@category.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
 					</td>
 				</tr>
 			}
@@ -104,12 +110,12 @@
     <tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddIngredient"
-			asp-route-id="@Model.Recipe.Id"
+			asp-route-id="@Model.UpdateRecipe.Id"
 			method="post">
 			@* class="row g-2 align-items-center mb-3"> *@
 			<tr>
 				<td>
-					<select asp-for="NewIngredient.IngredientId"
+					<select asp-for="AttachElements.NewIngredient.IngredientId"
 						class="form-select select2-field"
 						data-placeholder="New Ingredient"
 						data-ajax-base-url="/api/Ingredient/Ajax"
@@ -119,11 +125,11 @@
 					</select>
 				</td>
 				<td>
-					<input asp-for="NewIngredient.Quantity" class="form-control" type="number" step="any"/>
-					<span asp-validation-for="NewIngredient.Quantity" class="text-danger"></span>
+				<input asp-for="AttachElements.NewIngredient.Quantity" class="form-control" type="number" step="any" />
+				<span asp-validation-for="AttachElements.NewIngredient.Quantity" class="text-danger"></span>
 				</td>
 				<td>
-					<select asp-for="NewIngredient.UnitId"
+				<select asp-for="AttachElements.NewIngredient.UnitId"
 						class="form-select select2-field"
 						data-placeholder="Unit"
 						data-ajax-base-url="/api/Unit/Ajax"
@@ -138,17 +144,23 @@
 			</tr>
 		</form>
 
-		@if (Model.Recipe.HasIngredients())
+		@if (Model.UpdateRecipe.RecipeIngredients.IsEmpty)
 		{
-			@foreach (RecipeIngredientViewModel ingredient in Model.Recipe.RecipeIngredients)
+			<tr>
+				<td colspan="4">No ingredients added yet.</td>
+			</tr>
+		}
+		else
+		{
+			@foreach (RecipeIngredientViewModel ingredient in Model.UpdateRecipe.RecipeIngredients.Items)
 			{
 				<tr>
 					<td>@ingredient.IngredientName</td>
 					<td>@ingredient.FormattedQuantity</td>
 					<td>@ingredient.UnitName </td>
 					<td style="white-space: nowrap; width: 1%;">
-						<a asp-controller="Recipe" asp-action="EditIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveIngredient" asp-route-id="@Model.Recipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-danger btn-sm" method = "post">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="EditIngredient" asp-route-id="@Model.UpdateRecipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveIngredient" asp-route-id="@Model.UpdateRecipe.Id" asp-route-recipeIngredientId="@ingredient.Id" class="btn btn-danger btn-sm" method="post">Delete-WIP</a>
 					</td>
 				</tr>
 			}
@@ -171,18 +183,18 @@
     <tbody>
 		<form asp-controller="Recipe"
 			asp-action="AddInstruction"
-			  asp-route-id="@Model.Recipe.Id"
+			  asp-route-id="@Model.UpdateRecipe.Id"
 			method="post"
 			class="row g-2 align-items-center mb-3">
 			<tr>
-			<input type="hidden" name="RecipeId" value="@Model.Recipe.Id" />
+			<input type="hidden" name="RecipeId" value="@Model.UpdateRecipe.Id" />
 				<td>
-					<input asp-for="NewInstruction.StepNumber" class="form-control" type="number" />
-					<span asp-validation-for="NewInstruction.StepNumber" class="text-danger"></span>
+					<input asp-for="AttachElements.NewInstruction.StepNumber" class="form-control" type="number" />
+					<span asp-validation-for="AttachElements.NewInstruction.StepNumber" class="text-danger"></span>
 				</td>
 				<td>
-					<input asp-for="NewInstruction.Description" class="form-control" />
-					<span asp-validation-for="NewInstruction.Description" class="text-danger"></span>
+					<input asp-for="AttachElements.NewInstruction.Description" class="form-control" />
+					<span asp-validation-for="AttachElements.NewInstruction.Description" class="text-danger"></span>
 				</td>
 				<td style="white-space: nowrap; width: 1%;">
 					<button type="submit" class="btn btn-primary">Add Step</button>
@@ -190,16 +202,22 @@
 			</tr>	
 		</form>
 
-		@if (Model.Recipe.HasInstructions())
+		@if (Model.UpdateRecipe.RecipeInstructions.IsEmpty)
 		{
-			@foreach (RecipeInstructionViewModel step in Model.Recipe.RecipeInstructions.OrderBy(s => s.StepNumber).ThenBy(s => s.Id))
+			<tr>
+				<td colspan="4">No instructions added yet.</td>
+			</tr>
+		}
+		else
+		{
+			@foreach (RecipeInstructionViewModel step in Model.UpdateRecipe.RecipeInstructions.Items.OrderBy(s => s.StepNumber).ThenBy(s => s.Id))
 			{
 				<tr>
 					<td>@step.StepNumber</td>
 					<td>@step.Description</td>
 					<td style="white-space: nowrap; width: 1%;">
-						<a asp-controller="Recipe" asp-action="EditInstruction" asp-route-id="@Model.Recipe.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
-						<a asp-controller="Recipe" asp-action="RemoveInstruction" asp-route-id="@Model.Recipe.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
+						<a asp-controller="Recipe" asp-action="EditInstruction" asp-route-id="@Model.UpdateRecipe.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-warning btn-sm">Edit-WIP</a>
+						<a asp-controller="Recipe" asp-action="RemoveInstruction" asp-route-id="@Model.UpdateRecipe.Id" asp-route-recipeInstructionId="@step.Id" class="btn btn-danger btn-sm">Delete-WIP</a>
 					</td>
 				</tr>
 			}

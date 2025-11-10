@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Category;
 using RecipeMicroservice.Application.Interfaces.Services;
-using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Presentation.Mappers;
 using RecipeMicroservice.Presentation.Models.Category;
 
@@ -26,10 +25,20 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // GET: /Category
         [HttpGet("")]
         [ActionName("List")]
-        public async Task<IActionResult> GetAllCategories(FilterCategory filter)
+        public async Task<IActionResult> GetAllCategories(FilterCategoryViewModel Filter)
         {
-            PagedResult<CategoryDto> dtos = await _categoryService.GetAllAsync(filter);
-            return View("List", dtos.ToViewModel());
+            PagedResult<CategoryDto> dtos = await _categoryService.GetAllAsync(Filter.ToFilter());
+            Console.WriteLine("Dtos:");
+            foreach (var i in dtos.items)
+            {
+                Console.WriteLine(i.Name);
+            }
+            Console.WriteLine("View Model:");
+            foreach (var i in dtos.ToListViewModel().WithFilter(Filter).Items)
+            {
+                Console.WriteLine(i.Name);
+            }
+            return View("List", dtos.ToListViewModel().WithFilter(Filter));
         }
 
         // GET: /Category/{id}
@@ -72,7 +81,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Create")]
         public async Task<IActionResult> CreateCategory(CreateCategoryViewModel viewModel)
         {
-            CreateCategoryDto dto = viewModel.ToDto();
+            CreateCategoryDto dto = viewModel.ToCreateDto();
             Guid id = await _categoryService.CreateAsync(dto);
             return RedirectToAction("Details", new { id });
         }
@@ -82,7 +91,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         [ActionName("Edit")]
         public async Task<IActionResult> EditCategory(Guid id, UpdateCategoryViewModel viewModel)
         {
-            UpdateCategoryDto dto = viewModel.ToDto();
+            UpdateCategoryDto dto = viewModel.ToUpdateDto();
             await _categoryService.UpdateAsync(id, dto);
             return RedirectToAction("Details", new { id });
         }

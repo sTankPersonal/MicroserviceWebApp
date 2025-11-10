@@ -1,11 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using RecipeMicroservice.Application.DTOs.Recipe;
-using RecipeMicroservice.Application.DTOs.RecipeCategory;
-using RecipeMicroservice.Application.DTOs.RecipeIngredient;
-using RecipeMicroservice.Application.DTOs.RecipeInstruction;
 using RecipeMicroservice.Application.Interfaces.Services;
-using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Presentation.Mappers;
 using RecipeMicroservice.Presentation.Models.Recipe;
 using RecipeMicroservice.Presentation.Models.RecipeCategory;
@@ -57,7 +53,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> GetAllRecipes(FilterRecipeViewModel filter)
         {
             PagedResult<RecipeDto> dtos = await _recipeService.GetAllAsync(filter.ToFilter());
-            return View("List", dtos.ToViewModel(filter));
+            return View("List", dtos.ToListViewModel().WithFilter(filter));
         }
 
         // GET: /Recipe/Create
@@ -74,7 +70,7 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         public async Task<IActionResult> EditRecipe(Guid id)
         {
             RecipeDto? dto = await _recipeService.GetByIdAsync(id);
-            return dto == null ? NotFound() : View("Edit", dto.ToViewModel());
+            return dto == null ? NotFound() : View("Edit", dto.ToUpdateAndAttachElementsViewModel());
         }
 
         // GET: /Recipe/Delete/{id}
@@ -89,32 +85,19 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // POST: /Recipe/Create
         [HttpPost("Create")]
         [ActionName("Create")]
-        public async Task<IActionResult> CreateRecipe(CreateRecipeViewModel model)
+        public async Task<IActionResult> CreateRecipe(CreateRecipeViewModel viewModel)
         {
-            CreateRecipeDto createRecipeDto = new()
-            {
-                Name = model.Name,
-                PrepTimeInMinutes = model.PrepTimeInMinutes,
-                CookTimeInMinutes = model.CookTimeInMinutes,
-                Servings = model.Servings,
-            };
-            Guid newRecipeId = await _recipeService.CreateAsync(createRecipeDto);
-            return RedirectToAction("Details", new { id = newRecipeId });
+            CreateRecipeDto createRecipeDto = viewModel.ToCreateDto();
+            Guid id = await _recipeService.CreateAsync(createRecipeDto);
+            return RedirectToAction("Details", new { id });
         }
 
         // POST: /Recipe/Edit/{id}
         [HttpPost("Edit/{id}")]
         [ActionName("Edit")]
-        public async Task<IActionResult> EditRecipe(Guid id, UpdateRecipeViewModel recipe)
+        public async Task<IActionResult> EditRecipe(Guid id, UpdateRecipeViewModel updateRecipe)
         {
-            UpdateRecipeDto updateRecipeDto = new()
-            {
-                Id = recipe.Id,
-                Name = recipe.Name,
-                PrepTimeInMinutes = recipe.PrepTimeInMinutes,
-                CookTimeInMinutes = recipe.CookTimeInMinutes,
-                Servings = recipe.Servings
-            };
+            UpdateRecipeDto updateRecipeDto = updateRecipe.ToUpdateDto();
             await _recipeService.UpdateAsync(id, updateRecipeDto);
             return RedirectToAction("Details", new { id });
         }
@@ -132,33 +115,25 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
         // POST: /Recipe/{id}/Instruction/Add
         [HttpPost("{id}/Instruction/Add")]
         [ActionName("AddInstruction")]
-        public async Task<IActionResult> AddInstruction(Guid id, CreateRecipeInstructionViewModel NewInstruction)
+        public async Task<IActionResult> AddInstruction(Guid id, [Bind(Prefix = "AttachElements.NewInstruction")] CreateRecipeInstructionViewModel NewInstruction)
         {
-            await _recipeService.CreateRecipeInstructionAsync(id, new CreateRecipeInstructionDto
-            {
-                Description = NewInstruction.Description,
-                StepNumber = NewInstruction.StepNumber
-            });
+            await _recipeService.CreateRecipeInstructionAsync(id, NewInstruction.ToCreateDto());
             return RedirectToAction("Edit", new { id });
         }
         // POST: /Recipe/{id}/Ingredient/Add
         [HttpPost("{id}/Ingredient/Add")]
         [ActionName("AddIngredient")]
-        public async Task<IActionResult> AddIngredient(Guid id, CreateRecipeIngredientViewModel NewIngredient)
+        public async Task<IActionResult> AddIngredient(Guid id, [Bind(Prefix = "AttachElements.NewIngredient")] CreateRecipeIngredientViewModel NewIngredient)
         {
-            await _recipeService.CreateRecipeIngredientAsync(id, NewIngredient.IngredientId, new CreateRecipeIngredientDto
-            {
-                UnitId = NewIngredient.UnitId,
-                Quantity = NewIngredient.Quantity
-            });
+            await _recipeService.CreateRecipeIngredientAsync(id, NewIngredient.ToCreateDto());
             return RedirectToAction("Edit", new { id });
         }
         // POST: /Recipe/{id}/Category/Add
         [HttpPost("{id}/Category/Add")]
         [ActionName("AddCategory")]
-        public async Task<IActionResult> AddCategory(Guid id, CreateRecipeCategoryViewModel NewCategory)
+        public async Task<IActionResult> AddCategory(Guid id, [Bind(Prefix = "AttachElements.NewCategory")] CreateRecipeCategoryViewModel NewCategory)
         {
-            await _recipeService.CreateRecipeCategoryAsync(id, NewCategory.CategoryId, new CreateRecipeCategoryDto { });
+            await _recipeService.CreateRecipeCategoryAsync(id, NewCategory.ToCreateDto());
             return RedirectToAction("Edit", new { id });
         }
 

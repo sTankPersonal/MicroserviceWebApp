@@ -4,8 +4,8 @@ namespace BuildingBlocks.SharedKernel.Pagination
 {
     public abstract record PagedQuery
     {
-        private int pageNumber;
-        private int pageSize;
+        private int pageNumber = 1;
+        private int pageSize = 10;
         public int PageNumber
         {
             get => pageNumber;

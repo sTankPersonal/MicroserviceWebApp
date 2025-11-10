@@ -30,13 +30,7 @@ namespace RecipeMicroservice.Infrastructure.Persistence.Repositories
             }
             int totalItems = await categories.CountAsync();
             List<Category> items = await categories.OrderBy(c => c.Name).ThenBy(c => c.Id).Skip(query.Skip).Take(query.Take).ToListAsync();
-            return new PagedResult<Category>()
-            {
-                Items = items,
-                TotalItems = totalItems,
-                PageNumber = query.PageNumber,
-                PageSize = query.PageSize
-            };
+            return new PagedResult<Category>(){ Items = items, TotalItems = totalItems, PageNumber = query.PageNumber, PageSize = query.PageSize };
         }
         public async Task<Category?> GetByIdAsync(Guid id)
         {

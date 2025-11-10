@@ -4,6 +4,6 @@ namespace RecipeMicroservice.Domain.Specifications
 {
     public record FilterIngredient : PagedQuery
     {
-        public string SearchName { get; init; } = string.Empty;
+        public string? SearchName { get; init; } = string.Empty;
     }
 }

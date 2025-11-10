@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Application.DTOs.Unit;
+using RecipeMicroservice.Domain.Specifications;
 using RecipeMicroservice.Presentation.Models.Unit;
 
 namespace RecipeMicroservice.Presentation.Mappers
@@ -36,6 +37,17 @@ namespace RecipeMicroservice.Presentation.Mappers
         {
             Id = updateUnitViewModel.Id,
             Name = updateUnitViewModel.Name
+        };
+
+        //Map from FilterViewModel to Filter
+        public static FilterUnit ToFilter(this FilterUnitViewModel filterViewModel) => new()
+        {
+            SearchName = filterViewModel.SearchName
+        };
+        // Map from Filter to FilterViewModel
+        public static FilterUnitViewModel ToFilterViewModel(this FilterUnit filter) => new()
+        {
+            SearchName = filter.SearchName
         };
     }
 }

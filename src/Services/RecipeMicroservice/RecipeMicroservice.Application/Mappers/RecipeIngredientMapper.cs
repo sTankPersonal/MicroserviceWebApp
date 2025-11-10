@@ -22,6 +22,7 @@ namespace RecipeMicroservice.Application.Mappers
         public static RecipeIngredientDto ToDto(this RecipeIngredient recipeIngredient) => new()
         {
             Id = recipeIngredient.Id,
+            RecipeId = recipeIngredient.RecipeId,
             IngredientId = recipeIngredient.IngredientId,
             UnitId = recipeIngredient.UnitId,
             Quantity = recipeIngredient.Quantity,
