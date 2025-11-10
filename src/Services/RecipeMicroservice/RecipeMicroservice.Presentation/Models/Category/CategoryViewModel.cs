@@ -1,16 +1,13 @@
-﻿using RecipeMicroservice.Application.DTOs.Category;
+﻿using RecipeMicroservice.Presentation.Interfaces.Models;
 
 namespace RecipeMicroservice.Presentation.Models.Category
 {
-    public class CategoryViewModel
+    public class CategoryViewModel : IHasEntity<CategoryViewModel, Guid>
     {
-        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        public static CategoryViewModel FromDto(CategoryDto dto) => new()
-        {
-            Id = dto.Id,
-            Name = dto.Name,
-        };
+        // IHasEntity
+        public required Guid Id { get; set; }
+        public CategoryViewModel WithId(Guid id) => (Id = id, this).Item2;
     }
 }

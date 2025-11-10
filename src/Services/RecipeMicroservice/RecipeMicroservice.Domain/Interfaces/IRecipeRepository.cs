@@ -1,19 +1,12 @@
 ﻿using BuildingBlocks.SharedKernel.InfrastructureServices;
-using BuildingBlocks.SharedKernel.Pagination;
 using RecipeMicroservice.Domain.Aggregates;
 using RecipeMicroservice.Domain.Entities;
 using RecipeMicroservice.Domain.Specifications;
 
 namespace RecipeMicroservice.Domain.Interfaces
 {
-    public interface IRecipeRepository : IRepository<Recipe>
+    public interface IRecipeRepository : IRepository<Recipe, Guid, FilterRecipe>
     {
-        Task<PagedResult<Recipe>> GetAllAsync(FilterRecipe query);
-
-        //Aggregate Child - Instructions
-        //Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, PagedQuery query);
-        //Task<PagedResult<Instruction>> GetAllInstructionsAsync(Recipe recipe, FilterInstruction filter);
-        //Task<Instruction?> GetInstructionByIdAsync(Recipe recipe, Guid instructionId);
         Task AddRecipeInstructionAsync(Recipe recipe, RecipeInstruction instruction);
         Task UpdateRecipeInstructionAsync(Recipe recipe, RecipeInstruction instruction);
         Task DeleteRecipeInstructionByIdAsync(Recipe recipe, RecipeInstruction instruction);

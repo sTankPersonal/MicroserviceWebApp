@@ -1,4 +1,4 @@
-﻿using BuildingBlocks.CrossCutting.Utils;
+﻿using BuildingBlocks.SharedKernel.Utils;
 
 namespace BuildingBlocks.CrossCutting.Persistence
 {

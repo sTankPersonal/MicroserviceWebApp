@@ -1,21 +1,15 @@
-﻿using BuildingBlocks.SharedKernel.Pagination;
-using RecipeMicroservice.Application.DTOs.Unit;
+﻿using RecipeMicroservice.Presentation.Interfaces.Models;
 
 namespace RecipeMicroservice.Presentation.Models.Unit
 {
-    public class ListUnitViewModel : BaseListViewModel<UnitViewModel>
+    public class ListUnitViewModel : BaseListViewModel<UnitViewModel>, IHasFilter<ListUnitViewModel, FilterUnitViewModel>
     {
-        public string? SearchName { get; set; }
+        public FilterUnitViewModel Filter { get; set; } = new();
 
-        public static ListUnitViewModel FromPagedResult(PagedResult<UnitDto> pagedResult)
+        public ListUnitViewModel WithFilter(FilterUnitViewModel filter)
         {
-            return new ListUnitViewModel
-            {
-                Items = [.. pagedResult.Items.Select(UnitViewModel.FromDto)],
-                PageNumber = pagedResult.PageNumber,
-                PageSize = pagedResult.PageSize,
-                TotalItems = pagedResult.TotalItems
-            };
+            Filter = filter;
+            return this;
         }
     }
 }

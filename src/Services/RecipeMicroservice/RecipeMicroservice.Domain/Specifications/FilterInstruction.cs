@@ -2,8 +2,8 @@
 
 namespace RecipeMicroservice.Domain.Specifications
 {
-    public record FilterInstruction(string? searchDescription = null, int pageNumber = 1, int pageSize = 10) : PagedQuery(pageNumber, pageSize)
+    public record FilterInstruction : PagedQuery
     {
-        public string? SearchDescription{ get; } = searchDescription;
+        public string? SearchDescription{ get; init; } = string.Empty;
     }
 }

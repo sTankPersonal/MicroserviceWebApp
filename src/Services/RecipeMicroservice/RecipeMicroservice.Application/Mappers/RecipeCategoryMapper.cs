@@ -5,25 +5,32 @@ namespace RecipeMicroservice.Application.Mappers
 {
     public static class RecipeCategoryMapper
     {
-        public static RecipeCategory ToEntity(this CreateRecipeCategoryDto dto)
+        // Map CreateRecipeCategoryDto to RecipeCategory entity
+        public static RecipeCategory ToEntity(this CreateRecipeCategoryDto dto, Guid recipeId) => new()
         {
-            return new RecipeCategory
-            {
-            };
-        }
-        public static RecipeCategoryDto ToDto(this RecipeCategory recipeCategory)
+            RecipeId = recipeId,
+            CategoryId = dto.CategoryId
+        };
+
+        // Map UpdateRecipeCategoryDto to existing RecipeCategory entity
+        public static RecipeCategory ToEntity(this UpdateRecipeCategoryDto dto, RecipeCategory recipeCategory)
         {
-            return new RecipeCategoryDto
-            {
-                Id = recipeCategory.Id,
-                RecipeId = recipeCategory.RecipeId,
-                CategoryId = recipeCategory.CategoryId,
-                CategoryName = recipeCategory.Category != null ? recipeCategory.Category.Name : string.Empty
-            };
+            recipeCategory.CategoryId = dto.CategoryId;
+            return recipeCategory;
         }
-        public static IEnumerable<RecipeCategoryDto> ToDtos(this IEnumerable<RecipeCategory> recipeCategories)
+
+        // Map RecipeCategory entity to RecipeCategoryDto
+        public static RecipeCategoryDto ToDto(this RecipeCategory recipeCategory) => new()
         {
-            return recipeCategories.Select(rc => rc.ToDto());
-        }
+            Id = recipeCategory.Id,
+            RecipeId = recipeCategory.RecipeId,
+            CategoryId = recipeCategory.CategoryId,
+            RecipeName = recipeCategory.Recipe != null ? recipeCategory.Recipe.Name : string.Empty,
+            CategoryName = recipeCategory.Category != null ? recipeCategory.Category.Name : string.Empty
+        };
+
+        // Map IEnumerable<RecipeCategory> to IEnumerable<RecipeCategoryDto>
+        public static IEnumerable<RecipeCategoryDto> ToDtos(this IEnumerable<RecipeCategory> recipeCategories) => 
+            recipeCategories.Select(rc => rc.ToDto());
     }
 }

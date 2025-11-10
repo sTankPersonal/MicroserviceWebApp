@@ -11,11 +11,11 @@
 <form asp-controller="Ingredient" asp-action="List" method="get">
 	<div class="row g-2 align-items-end">
 		<div class="col">
-			<input asp-for="SearchName"
+			<input asp-for="Filter.SearchName"
 				class="form-control"
 				type="text"
 				placeholder="Ingredient Name" />
-			<span asp-validation-for="SearchName" class="text-danger"></span>
+			<span asp-validation-for="Filter.SearchName" class="text-danger"></span>
 		</div>
 		<div class="col-auto">
 			<button type="submit" class="btn btn-primary">Search</button>
@@ -27,7 +27,7 @@
 <br />
 <a asp-controller="Ingredient" asp-action="Create" class="btn btn-primary mb-3">New Ingredient</a>
 
-@if (Model.Items.Count == 0)
+@if (Model.IsEmpty)
 {
 	<p>No Ingredients.</p>
 }
@@ -67,7 +67,7 @@ else
 				<li class="page-item">
 					<a asp-action="List"
 					   asp-route-PageNumber="@(Model.PageNumber - 1)"
-					   asp-route-SearchName="@Model.SearchName"
+					   asp-route-SearchName="@Model.Filter.SearchName"
 					   class="page-link">
 						Previous
 					</a>
@@ -79,7 +79,7 @@ else
 			@if (Model.HasNextPage)
 			{
 				<li class="page-item">
-					<a asp-action="List" asp-route-PageNumber="@(Model.PageNumber + 1)" asp-route-SearchName="@Model.SearchName" class="page-link">Next</a>
+					<a asp-action="List" asp-route-PageNumber="@(Model.PageNumber + 1)" asp-route-SearchName="@Model.Filter.SearchName" class="page-link">Next</a>
 				</li>
 			}
 		</ul>

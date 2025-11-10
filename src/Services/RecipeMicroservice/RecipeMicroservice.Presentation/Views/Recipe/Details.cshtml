@@ -23,10 +23,14 @@
 </p>
 
 <h4>Categories</h4>
-@if (Model.HasCategories())
+@if (Model.Categories.IsEmpty)
+{
+    <p>No categories listed.</p>
+}
+else
 {
     <ul>
-        @foreach (RecipeCategoryViewModel category in Model.Categories)
+        @foreach (RecipeCategoryViewModel category in Model.Categories.Items)
         {
             <li>
                 @category.CategoryName
@@ -34,16 +38,17 @@
         }
     </ul>
 }
-else
-{
-    <p>No categories listed.</p>
-}
+
 
 <h4>Ingredients</h4>
-@if (Model.HasIngredients())
+@if (Model.Ingredients.IsEmpty)
+{
+    <p>No ingredients listed.</p>
+}
+else
 {
     <ul>
-        @foreach (RecipeIngredientViewModel ingredient in Model.Ingredients)
+        @foreach (RecipeIngredientViewModel ingredient in Model.Ingredients.Items)
         {
             <li>
                 <input type="checkbox" class="strike-toggle" />
@@ -52,16 +57,17 @@ else
         }
     </ul>
 }
-else
-{
-    <p>No ingredients listed.</p>
-}
+
 
 <h4>Steps</h4>
-@if (Model.HasInstructions())
+@if (Model.Instructions.IsEmpty)
+{
+    <p>No instructions listed.</p>
+}
+else
 {
     <ol>
-        @foreach (var step in Model.Instructions.OrderBy(s => s.StepNumber))
+        @foreach (var step in Model.Instructions.Items.OrderBy(s => s.StepNumber))
         {
             <li>
                 <input type="checkbox" class="strike-toggle" />
@@ -70,10 +76,7 @@ else
         }
     </ol>
 }
-else
-{
-    <p>No instructions listed.</p>
-}
+
 
 <a asp-controller="Recipe" asp-action="Index" class="btn btn-secondary">Back to List</a>
 <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>

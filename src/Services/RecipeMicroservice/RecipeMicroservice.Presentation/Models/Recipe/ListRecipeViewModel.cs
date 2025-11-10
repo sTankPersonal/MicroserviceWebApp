@@ -1,27 +1,15 @@
-﻿using BuildingBlocks.SharedKernel.Pagination;
-using RecipeMicroservice.Application.DTOs.Recipe;
-using System.ComponentModel.DataAnnotations;
+﻿using RecipeMicroservice.Presentation.Interfaces.Models;
 
 namespace RecipeMicroservice.Presentation.Models.Recipe
 {
-    public class ListRecipeViewModel : BaseListViewModel<RecipeViewModel>
+    public class ListRecipeViewModel : BaseListViewModel<RecipeViewModel>, IHasFilter<ListRecipeViewModel, FilterRecipeViewModel>
     {
-        [Display(Name = "Search Recipe Name")]
-        public string? SearchName { get; set; } = null;
-        [Display(Name = "Search Categories")]
-        public Guid? SearchCategoryId { get; set; } = null;
-        [Display(Name = "Search Ingredients")]
-        public Guid? SearchIngredientId { get; set; } = null;
+        public FilterRecipeViewModel Filter { get; set; } = new FilterRecipeViewModel();
 
-        public static ListRecipeViewModel FromPagedResult(PagedResult<RecipeDto> pagedResult)
+        public ListRecipeViewModel WithFilter(FilterRecipeViewModel filter)
         {
-            return new ListRecipeViewModel
-            {
-                Items = [.. pagedResult.Items.Select(RecipeViewModel.FromDto)],
-                PageNumber = pagedResult.PageNumber,
-                PageSize = pagedResult.PageSize,
-                TotalItems = pagedResult.TotalItems
-            };
+            Filter = filter;
+            return this;
         }
     }
 }

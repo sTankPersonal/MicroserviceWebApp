@@ -2,7 +2,8 @@
 {
     public class CreateRecipeInstructionDto
     {
-        public int StepNumber { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public required Guid RecipeId { get; set; }
+        public required int StepNumber { get; set; }
+        public required string Description { get; set; }
     }
 }

@@ -1,23 +1,17 @@
-﻿using RecipeMicroservice.Application.DTOs.Unit;
+﻿using RecipeMicroservice.Presentation.Interfaces.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.Unit
 {
-    public class EditUnitViewModel
+    public class UpdateUnitViewModel : IHasEntity<UpdateUnitViewModel, Guid>
     {
-        public Guid Id { get; set; }
         [Required(ErrorMessage = "Please enter a name for the Ingredient.")]
         [Display(Name = "Ingredient Name")]
         [StringLength(200, ErrorMessage = "Ingredient name cannot be longer than 200 characters.")]
         public string Name { get; set; } = string.Empty;
 
-        public static EditUnitViewModel FromDto(UnitDto dto)
-        {
-            return new EditUnitViewModel
-            {
-                Id = dto.Id,
-                Name = dto.Name
-            };
-        }
+        // IHasEntity
+        public required Guid Id { get; set; }
+        public UpdateUnitViewModel WithId(Guid id) => (Id = id, this).Item2;
     }
 }

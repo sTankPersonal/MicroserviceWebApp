@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.CrossCutting.Correlation;
-using BuildingBlocks.CrossCutting.Logging;
-using BuildingBlocks.CrossCutting.Exceptions;
+﻿using BuildingBlocks.CrossCutting.Exceptions;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;

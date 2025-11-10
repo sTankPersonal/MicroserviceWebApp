@@ -1,79 +1,27 @@
-﻿using RecipeMicroservice.Application.DTOs.RecipeIngredient;
+﻿using BuildingBlocks.SharedKernel.Utils;
+using RecipeMicroservice.Presentation.Interfaces.Models;
 
 namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
 {
-    public class RecipeIngredientViewModel
+    public class RecipeIngredientViewModel : IHasEntity<RecipeIngredientViewModel, Guid>, IHasRecipeAggregate<RecipeIngredientViewModel>
     {
-        public Guid Id { get; set; }
-        public Guid RecipeId { get; set; }
-        public Guid IngredientId { get; set; }
-        public Guid UnitId { get; set; }
+        // Properties
+        public Guid IngredientId { get; init; }
+        public Guid UnitId { get; init; }
         public decimal Quantity { get; set; } = 0;
 
         //Display Properties
         public string IngredientName { get; set; } = string.Empty;
         public string UnitName { get; set; } = string.Empty;
+        public string FormattedQuantity => DecimalFormatting.FormatAmount(Quantity);
 
-        public static RecipeIngredientViewModel FromDto(RecipeIngredientDto dto)
-        {
-            return new RecipeIngredientViewModel
-            {
-                Id = dto.Id,
-                RecipeId = dto.RecipeId,
-                IngredientId = dto.IngredientId,
-                UnitId = dto.UnitId,
-                IngredientName = dto.IngredientName,
-                Quantity = dto.Quantity,
-                UnitName = dto.UnitName
-            };
-        }
+        // IHasEntity
+        public required Guid Id { get; set; }
+        public RecipeIngredientViewModel WithId(Guid entityId) => (Id = entityId, this).Item2;
 
-        // Read-only property for display
-        public string FormattedQuantity => FormatAmount(Quantity);
-
-        private static string FormatAmount(decimal amount)
-        {
-            int wholeNumber = (int)Math.Floor(amount);
-            decimal fraction = amount - wholeNumber;
-
-            string fractionString = DecimalToFraction(fraction);
-
-            if (wholeNumber == 0 && string.IsNullOrEmpty(fractionString))
-                return "0";
-            else if (wholeNumber == 0)
-                return fractionString;
-            else if (string.IsNullOrEmpty(fractionString))
-                return wholeNumber.ToString();
-            else
-                return $"{wholeNumber} {fractionString}";
-        }
-
-        private static string DecimalToFraction(decimal value, int maxDenominator = 16)
-        {
-            if (value == 0)
-                return "";
-
-            int bestNumerator = 0;
-            int bestDenominator = 1;
-            decimal smallestError = decimal.MaxValue;
-
-            for (int denominator = 1; denominator <= maxDenominator; denominator++)
-            {
-                int numerator = (int)Math.Round(value * denominator);
-                decimal error = Math.Abs(value - (decimal)numerator / denominator);
-
-                if (error < smallestError)
-                {
-                    bestNumerator = numerator;
-                    bestDenominator = denominator;
-                    smallestError = error;
-                }
-
-                if (error == 0)
-                    break;
-            }
-
-            return $"{bestNumerator}/{bestDenominator}";
-        }
+        // IHasRecipeAggregate
+        public required Guid AggregateId { get; set; }
+        public string RecipeName { get; set; } = string.Empty;
+        public RecipeIngredientViewModel WithAggregateId(Guid aggregateId) => (AggregateId = aggregateId, this).Item2;
     }
 }

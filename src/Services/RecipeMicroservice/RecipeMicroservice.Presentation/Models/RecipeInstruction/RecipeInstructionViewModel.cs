@@ -1,19 +1,20 @@
-﻿namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
+﻿using RecipeMicroservice.Presentation.Interfaces.Models;
+
+namespace RecipeMicroservice.Presentation.Models.RecipeInstruction
 {
-    public class RecipeInstructionViewModel
+    public class RecipeInstructionViewModel : IHasEntity<RecipeInstructionViewModel, Guid>, IHasRecipeAggregate<RecipeInstructionViewModel>
     {
-        public Guid Id { get; set; }
+        // Properties
         public int StepNumber { get; set; }
         public string Description { get; set; } = string.Empty;
 
-        public static RecipeInstructionViewModel FromDto(Application.DTOs.RecipeInstruction.RecipeInstructionDto dto)
-        {
-            return new RecipeInstructionViewModel
-            {
-                Id = dto.Id,
-                StepNumber = dto.StepNumber,
-                Description = dto.Description
-            };
-        }
+        // IHasEntity
+        public required Guid Id { get; set; }
+        public RecipeInstructionViewModel WithId(Guid entityId) => (Id = entityId, this).Item2;
+
+        // IHasRecipeAggregate
+        public required Guid AggregateId { get; set; }
+        public string RecipeName { get; set; } = string.Empty;
+        public RecipeInstructionViewModel WithAggregateId(Guid aggregateId) => (AggregateId = aggregateId, this).Item2;
     }
 }

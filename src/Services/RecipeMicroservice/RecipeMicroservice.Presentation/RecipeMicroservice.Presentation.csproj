@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.SharedKernel\BuildingBlocks.SharedKernel.csproj" />
 		<ProjectReference Include="..\RecipeMicroservice.Application\RecipeMicroservice.Application.csproj" />
 		<ProjectReference Include="..\RecipeMicroservice.Infrastructure\RecipeMicroservice.Infrastructure.csproj" />
 	</ItemGroup>

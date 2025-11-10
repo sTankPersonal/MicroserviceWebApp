@@ -5,24 +5,21 @@ namespace RecipeMicroservice.Application.Mappers
 {
     public static class CategoryMapper 
     {
-        public static Category ToEntity(this CreateCategoryDto createCategoryDto)
+        public static Category ToEntity(this CreateCategoryDto createCategoryDto) => new()
         {
-            return new Category
-            {
-                Name = createCategoryDto.Name
-            };
-        }
-        public static CategoryDto ToDto(this Category category)
+            Name = createCategoryDto.Name
+        };
+        public static Category ToEntity(this UpdateCategoryDto updateCategoryDto, Category category)
         {
-            return new CategoryDto
-            {
-                Id = category.Id,
-                Name = category.Name
-            };
+            category.Name = updateCategoryDto.Name;
+            return category;
         }
-        public static IEnumerable<CategoryDto> ToDtos(this IEnumerable<Category> categories)
+        public static CategoryDto ToDto(this Category category) => new()
         {
-            return categories.Select(c => c.ToDto());
-        }
+            Id = category.Id,
+            Name = category.Name
+        };
+        public static IEnumerable<CategoryDto> ToDtos(this IEnumerable<Category> categories) =>
+            categories.Select(c => c.ToDto());
     }
 }
