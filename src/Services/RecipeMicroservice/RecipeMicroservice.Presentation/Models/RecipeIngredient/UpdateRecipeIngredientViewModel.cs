@@ -1,4 +1,5 @@
-﻿using RecipeMicroservice.Presentation.Interfaces.Models;
+﻿using BuildingBlocks.SharedKernel.Utils;
+using RecipeMicroservice.Presentation.Interfaces.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
@@ -14,6 +15,7 @@ namespace RecipeMicroservice.Presentation.Models.RecipeIngredient
         //Display Properties
         public string IngredientName { get; set; } = string.Empty;
         public string UnitName { get; set; } = string.Empty;
+        public string FormattedQuantity => DecimalFormatting.FormatAmount(Quantity);
 
         // IHasEntity
         public required Guid Id { get; set; }

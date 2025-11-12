@@ -38,9 +38,9 @@ namespace RecipeMicroservice.Presentation.Mappers
             PrepTimeInMinutes = dto.PrepTimeInMinutes,
             CookTimeInMinutes = dto.CookTimeInMinutes,
             Servings = dto.Servings,
-            RecipeCategories = dto.Categories.ToListViewModel(),
-            RecipeIngredients = dto.Ingredients.ToListViewModel(),
-            RecipeInstructions = dto.Instructions.ToListViewModel()
+            RecipeCategories = dto.Categories.ToListUpdateViewModel(),
+            RecipeIngredients = dto.Ingredients.ToListUpdateViewModel(),
+            RecipeInstructions = dto.Instructions.ToListUpdateViewModel()
         };
         public static AttachElementsRecipeViewModel ToAttachElementsViewModel(this RecipeDto dto) => new()
         {
@@ -49,11 +49,16 @@ namespace RecipeMicroservice.Presentation.Mappers
             NewInstruction = new CreateRecipeInstructionViewModel() { AggregateId = dto.Id }
         };
 
-        public static UpdateAndAttachElementsRecipeViewModel ToUpdateAndAttachElementsViewModel(this RecipeDto dto) => new()
+        public static UpdateAndAttachElementsRecipeViewModel ToUpdateAndAttachElementsViewModel(this RecipeDto dto)
         {
-            UpdateRecipe = dto.ToUpdateViewModel(),
-            AttachElements = dto.ToAttachElementsViewModel()
-        };
+            UpdateAndAttachElementsRecipeViewModel viewModel = new()
+            {
+                UpdateRecipe = dto.ToUpdateViewModel(),
+                AttachElements = dto.ToAttachElementsViewModel()
+            };
+            viewModel.AttachElements.NewInstruction.StepNumber = viewModel.UpdateRecipe.RecipeInstructions.Items.Count() + 1;
+            return viewModel;
+        }
 
 
         // Map from ViewModel to DTO

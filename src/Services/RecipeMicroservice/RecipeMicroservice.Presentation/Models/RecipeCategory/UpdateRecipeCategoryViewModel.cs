@@ -17,7 +17,5 @@ namespace RecipeMicroservice.Presentation.Models.RecipeCategory
         public required Guid AggregateId { get; set; }
         public string RecipeName { get; set; } = string.Empty;
         public UpdateRecipeCategoryViewModel WithAggregateId(Guid aggregateId) => (AggregateId = aggregateId, this).Item2;
-
-        
     }
 }

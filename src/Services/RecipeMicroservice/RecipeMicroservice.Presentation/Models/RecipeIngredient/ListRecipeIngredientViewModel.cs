@@ -2,6 +2,5 @@
 {
     public class ListRecipeIngredientViewModel : BaseListViewModel<RecipeIngredientViewModel>
     {
-        public string? SearchName { get; set; } = string.Empty;
     }
 }
