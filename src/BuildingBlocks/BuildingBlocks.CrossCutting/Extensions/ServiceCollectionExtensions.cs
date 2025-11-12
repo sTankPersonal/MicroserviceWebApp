@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using BuildingBlocks.CrossCutting.Validation;
+
 
 namespace BuildingBlocks.CrossCutting.Extensions
 {
@@ -22,9 +22,6 @@ namespace BuildingBlocks.CrossCutting.Extensions
             // Configure Exception Middleware
             services.AddScoped<IExceptionService, DefaultExceptionService>();
             services.Configure<ExceptionOptions>(options => { configuration.GetSection("ExceptionOptions").Bind(options); });
-
-            // DTO Validation Filter
-            services.AddScoped<IValidationFilter, DefaultValidationFilter>();
 
             return services;
         }

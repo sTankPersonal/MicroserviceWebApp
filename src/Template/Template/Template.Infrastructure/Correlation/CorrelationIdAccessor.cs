@@ -1,7 +1,6 @@
-﻿
-using BuildingBlocks.CrossCutting.Correlation;
+﻿using BuildingBlocks.CrossCutting.Correlation;
 
-namespace RecipeMicroservice.Infrastructure.Correlation
+namespace Template.Infrastructure.Correlation
 {
     public class CorrelationIdAccessor(DefaultCorrelationIdAccessor defaultCorrelationIdAccessor) : ICorrelationIdAccessor
     {

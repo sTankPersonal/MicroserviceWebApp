@@ -47,7 +47,7 @@ namespace RecipeMicroservice.Presentation.Mappers
         // Map from Filter to FilterViewModel
         public static FilterUnitViewModel ToFilterViewModel(this FilterUnit filter) => new()
         {
-            SearchName = filter.SearchName
+            SearchName = filter.SearchName ?? string.Empty
         };
     }
 }

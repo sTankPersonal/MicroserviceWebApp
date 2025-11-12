@@ -1,19 +1,18 @@
 using BuildingBlocks.CrossCutting.Middleware;
-using BuildingBlocks.CrossCutting.Validation;
 using Microsoft.EntityFrameworkCore;
 using RecipeMicroservice.Application;
 using RecipeMicroservice.Infrastructure;
 using RecipeMicroservice.Infrastructure.Persistence;
 
+
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+Console.WriteLine(builder.Configuration.GetSection("CorrelationOptions")["HeaderName"] ?? "NOT FOUND");
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add<DefaultValidationFilter>();
-});
+builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 
@@ -38,10 +37,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<RecipeMicroserviceDbContext>();
-    db.Database.Migrate();
+    scope.ServiceProvider.GetRequiredService<RecipeMicroserviceDbContext>().Database.Migrate();
 }
 
 app.UseStaticFiles();

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace BuildingBlocks.CrossCutting.Correlation
 {
-    public class DefaultCorrelationService(ICorrelationIdAccessor correlationIdAccessor, IOptions<CorrelationOptions> correlationOptions) : ICorrelationService
+    public class DefaultCorrelationService<TOptions>(ICorrelationIdAccessor correlationIdAccessor, IOptions<TOptions> baseCorrelationOptions) : ICorrelationService where TOptions : BaseCorrelationOptions
     {
         private readonly ICorrelationIdAccessor _correlationAccessor = correlationIdAccessor;
-        private readonly CorrelationOptions _options = correlationOptions.Value;
+        private readonly TOptions _options = baseCorrelationOptions.Value;
 
         public Task GetOrSetCorrelationId(HttpContext httpContext)
         {

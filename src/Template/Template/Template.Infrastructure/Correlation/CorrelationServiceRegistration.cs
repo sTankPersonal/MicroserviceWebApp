@@ -2,18 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace RecipeMicroservice.Infrastructure.Correlation
+namespace Template.Infrastructure.Correlation
 {
     public static class CorrelationServiceRegistration
     {
         public static IServiceCollection AddCorrelationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<CorrelationOptions>(configuration.GetSection("CorrelationOptions"));
-            services.AddOptions<CorrelationOptions>()
-                .Bind(configuration.GetSection("CorrelationOptions"))
-                .Validate(options => !string.IsNullOrWhiteSpace(options.HeaderName), "HeaderName cannot be null or empty.")
-                .ValidateOnStart();
-
             services.AddScoped<DefaultCorrelationService<CorrelationOptions>>();
             services.AddScoped<DefaultCorrelationIdAccessor>();
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();

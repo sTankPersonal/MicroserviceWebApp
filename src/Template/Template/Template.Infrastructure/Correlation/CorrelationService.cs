@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.CrossCutting.Correlation;
 using Microsoft.AspNetCore.Http;
 
-namespace RecipeMicroservice.Infrastructure.Correlation
+namespace Template.Infrastructure.Correlation
 {
     public class CorrelationService(DefaultCorrelationService<CorrelationOptions> defaultService) : ICorrelationService
     {

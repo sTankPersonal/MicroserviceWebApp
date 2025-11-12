@@ -2,16 +2,12 @@ using Microsoft.EntityFrameworkCore;
 
 using BuildingBlocks.CrossCutting.Extensions;
 using BuildingBlocks.CrossCutting.Middleware;
-using BuildingBlocks.CrossCutting.Validation;
 using Template.Infrastructure.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(options =>
-{
-    options.Filters.Add<DefaultValidationFilter>();
-});
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddCrossCutting(builder.Configuration);
 
