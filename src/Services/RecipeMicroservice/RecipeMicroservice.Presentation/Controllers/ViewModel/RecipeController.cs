@@ -161,5 +161,31 @@ namespace RecipeMicroservice.Presentation.Controllers.ViewModel
             await _recipeService.DeleteRecipeCategoryAsync(id, recipeCategoryId);
             return RedirectToAction("Edit", new { id });
         }
+
+        //POST: /Recipe/{id}/Instruction/Edit/{recipeInstructionId}
+        [HttpPost("{id}/Instruction/Edit/{recipeInstructionId}")]
+        [ActionName("EditInstruction")]
+        public async Task<IActionResult> EditInstruction(Guid id, Guid recipeInstructionId, [Bind(Prefix = "UpdateRecipe.RecipeInstructions")] UpdateRecipeInstructionViewModel updatedInstruction)
+        {
+            await _recipeService.UpdateRecipeInstructionAsync(id, recipeInstructionId, updatedInstruction.ToUpdateDto());
+            return RedirectToAction("Edit", new { id });
+        }
+
+        //POST: /Recipe/{id}/Ingredient/Edit/{recipeIngredientId}
+        [HttpPost("{id}/Ingredient/Edit/{recipeIngredientId}")]
+        [ActionName("EditIngredient")]
+        public async Task<IActionResult> EditIngredient(Guid id, Guid recipeIngredientId, [Bind(Prefix = "UpdateRecipe.RecipeIngredients")] UpdateRecipeIngredientViewModel updatedIngredient)
+        {
+            await _recipeService.UpdateRecipeIngredientAsync(id, recipeIngredientId, updatedIngredient.ToUpdateDto());
+            return RedirectToAction("Edit", new { id });
+        }
+        //POST: /Recipe/{id}/Category/Edit/{recipeCategoryId}
+        [HttpPost("{id}/Category/Edit/{recipeCategoryId}")]
+        [ActionName("EditCategory")]
+        public async Task<IActionResult> EditCategory(Guid id, Guid recipeCategoryId, [Bind(Prefix = "UpdateRecipe.RecipeCategories")] UpdateRecipeCategoryViewModel updatedCategory)
+        {
+            await _recipeService.UpdateRecipeCategoryAsync(id, recipeCategoryId, updatedCategory.ToUpdateDto());
+            return RedirectToAction("Edit", new { id });
+        }
     }
 }

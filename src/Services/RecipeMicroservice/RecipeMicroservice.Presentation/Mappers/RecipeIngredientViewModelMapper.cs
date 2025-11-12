@@ -24,6 +24,13 @@ namespace RecipeMicroservice.Presentation.Mappers
             PageSize = pagedDtos.PageSize,
             TotalItems = pagedDtos.TotalItems
         };
+        public static ListUpdateRecipeIngredientViewModel ToListUpdateViewModel(this PagedResult<RecipeIngredientDto> pagedDtos) => new()
+        {
+            Items = pagedDtos.Items.Select(ToUpdateViewModel),
+            PageNumber = pagedDtos.PageNumber,
+            PageSize = pagedDtos.PageSize,
+            TotalItems = pagedDtos.TotalItems
+        };
         public static UpdateRecipeIngredientViewModel ToUpdateViewModel(this RecipeIngredientDto dto) => new()
         {
             Id = dto.Id,

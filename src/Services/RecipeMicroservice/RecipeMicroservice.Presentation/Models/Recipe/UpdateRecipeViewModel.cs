@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RecipeMicroservice.Presentation.Models.Recipe
 {
-    public class UpdateRecipeViewModel : IHasEntity<UpdateRecipeViewModel, Guid>
+    public class UpdateRecipeViewModel: IHasEntity<UpdateRecipeViewModel, Guid>
     {
         [Required(ErrorMessage = "Please enter a name for the recipe.")]
         [Display(Name = "Recipe Name")]
@@ -25,9 +25,9 @@ namespace RecipeMicroservice.Presentation.Models.Recipe
         [Display(Name = "# of Servings")]
         public int Servings { get; set; } = 0;
 
-        public ListRecipeCategoryViewModel RecipeCategories { get; init; } = new();
-        public ListRecipeIngredientViewModel RecipeIngredients { get; init; } = new();
-        public ListRecipeInstructionViewModel RecipeInstructions { get; init; } = new();
+        public ListUpdateRecipeCategoryViewModel RecipeCategories { get; init; } = new();
+        public ListUpdateRecipeIngredientViewModel RecipeIngredients { get; init; } = new();
+        public ListUpdateRecipeInstructionViewModel RecipeInstructions { get; init; } = new();
 
         // IHasEntity
         public required Guid Id { get; set; }
