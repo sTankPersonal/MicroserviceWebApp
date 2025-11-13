@@ -28,3 +28,4 @@ docker-compose.override.yml
 *.log
 
 AppSecrets/
+launchSettings.json
