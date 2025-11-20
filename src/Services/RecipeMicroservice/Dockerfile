@@ -7,10 +7,13 @@ WORKDIR /app
 # Copy solution-level files first for caching
 COPY global.json .
 COPY Directory.Packages.props .
-COPY MicroserviceWebApp.sln .
+COPY DDDMicroserviceTemplate.sln .
 
 # Copy the microservice source code
 COPY src/Services/RecipeMicroservice ./src/Services/RecipeMicroservice
+
+# Copy BuildingBlocks libraries
+COPY src/BuildingBlocks ./src/BuildingBlocks
 
 WORKDIR /app/src/Services/RecipeMicroservice
 
