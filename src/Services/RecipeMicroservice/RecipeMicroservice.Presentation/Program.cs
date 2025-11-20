@@ -8,6 +8,15 @@ using RecipeMicroservice.Infrastructure.Persistence;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+// In Development this will load user-secrets if the project has a UserSecretsId.
+// Explicitly add user secrets provider so you can run this reliably in dev:
+if (builder.Environment.IsDevelopment())
+{
+    //DatabaseOptions:ConnectionString
+    //GoogleCloudOptions:ServiceAccountJson
+    builder.Configuration.AddUserSecrets<Program>(optional: true);
+}
+
 builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 Console.WriteLine(builder.Configuration.GetSection("CorrelationOptions")["HeaderName"] ?? "NOT FOUND");
 
