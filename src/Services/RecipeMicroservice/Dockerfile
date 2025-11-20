@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy solution-level files first for caching
 COPY global.json .
 COPY Directory.Packages.props .
-COPY Webservice3.sln .
+COPY MicroserviceWebApp.sln .
 
 # Copy the microservice source code
 COPY src/Services/RecipeMicroservice ./src/Services/RecipeMicroservice
@@ -18,8 +18,7 @@ WORKDIR /app/src/Services/RecipeMicroservice
 RUN dotnet restore RecipeMicroservice.Presentation/RecipeMicroservice.Presentation.csproj
 
 # Build and publish
-RUN dotnet publish RecipeMicroservice.Presentation/RecipeMicroservice.Presentation.csproj \
-    -c Release -o /app/out
+RUN dotnet publish RecipeMicroservice.Presentation/RecipeMicroservice.Presentation.csproj -c Release -o /app/out
 
 # -----------------------------------
 # STEP 2: Runtime stage
