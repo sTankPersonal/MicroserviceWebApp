@@ -4,13 +4,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 
-# Copy SDK & restore-related files first
-COPY ../../../global.json .
-COPY ../../../Directory.Packages.props .
-COPY ../../../Webservice3.sln .
+# Copy solution-level files first for caching
+COPY global.json .
+COPY Directory.Packages.props .
+COPY Webservice3.sln .
 
-# Copy the rest of the repository
-COPY ../../.. .
+# Copy the microservice source code
+COPY src/Services/RecipeMicroservice ./src/Services/RecipeMicroservice
 
 WORKDIR /app/src/Services/RecipeMicroservice
 
@@ -18,7 +18,8 @@ WORKDIR /app/src/Services/RecipeMicroservice
 RUN dotnet restore RecipeMicroservice.Presentation/RecipeMicroservice.Presentation.csproj
 
 # Build and publish
-RUN dotnet publish RecipeMicroservice.Presentation/RecipeMicroservice.Presentation.csproj -c Release -o /app/out
+RUN dotnet publish RecipeMicroservice.Presentation/RecipeMicroservice.Presentation.csproj \
+    -c Release -o /app/out
 
 # -----------------------------------
 # STEP 2: Runtime stage
@@ -26,11 +27,15 @@ RUN dotnet publish RecipeMicroservice.Presentation/RecipeMicroservice.Presentati
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
+# Copy published files from build stage
 COPY --from=build /app/out ./
 
+# Expose port
 EXPOSE 8080
 
+# Environment variables
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
+# Start the application
 ENTRYPOINT ["dotnet", "RecipeMicroservice.Presentation.dll"]
