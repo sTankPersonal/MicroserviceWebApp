@@ -12,6 +12,9 @@ COPY MicroserviceWebApp.sln .
 # Copy the microservice source code
 COPY src/Services/RecipeMicroservice ./src/Services/RecipeMicroservice
 
+# Copy BuildingBlocks libraries
+COPY src/BuildingBlocks ./src/BuildingBlocks
+
 WORKDIR /app/src/Services/RecipeMicroservice
 
 # Restore dependencies
